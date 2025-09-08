@@ -1,0 +1,69 @@
+import { Suspense } from "react";
+import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { PaymentSuccessContent } from "@/components/payment/payment-success-content";
+
+interface PaymentSuccessPageProps {
+  searchParams: {
+    session_id?: string;
+  };
+}
+
+export default async function PaymentSuccessPage({
+  searchParams,
+}: PaymentSuccessPageProps) {
+  const sessionId = (await searchParams).session_id;
+
+  if (!sessionId) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <Card className="w-full max-w-md">
+          <CardHeader>
+            <CardTitle className="text-center text-destructive">
+              Invalid Session
+            </CardTitle>
+            <CardDescription className="text-center">
+              No session ID provided. Please try again.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="text-center">
+            <Link href="/">
+              <Button variant="outline">
+                <ArrowLeft className="w-4 h-4 mr-2" />
+                Back to Home
+              </Button>
+            </Link>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
+  return (
+    <Suspense
+      fallback={
+        <div
+          className="min-h-screen flex items-center justify-center"
+          role="status"
+          aria-live="polite"
+        >
+          <div
+            className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"
+            aria-hidden="true"
+          ></div>
+          <span className="sr-only">Loading payment result…</span>
+        </div>
+      }
+    >
+      <PaymentSuccessContent sessionId={sessionId} />
+    </Suspense>
+  );
+}
