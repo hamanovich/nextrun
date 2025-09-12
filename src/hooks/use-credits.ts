@@ -1,0 +1,61 @@
+"use client";
+
+import { useQuery } from "@tanstack/react-query";
+import { useSession } from "next-auth/react";
+
+const fetchCredits = async ({
+  signal,
+}: { signal?: AbortSignal } = {}): Promise<number> => {
+  const response = await fetch("/api/credits", {
+    cache: "no-store",
+    credentials: "same-origin",
+    headers: {
+      Accept: "application/json",
+    },
+    signal,
+  });
+
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+
+  let creditsData;
+  try {
+    creditsData = await response.json();
+  } catch (jsonError) {
+    throw new Error(`Failed to parse credits response: ${jsonError}`);
+  }
+
+  const creditsValue =
+    typeof creditsData === "number"
+      ? creditsData
+      : typeof creditsData === "object" &&
+          creditsData !== null &&
+          typeof creditsData.credits === "number"
+        ? creditsData.credits
+        : 0;
+
+  return creditsValue;
+};
+
+export function useCredits() {
+  const { data: session } = useSession();
+
+  return useQuery({
+    queryKey: ["credits", session?.user?.id],
+    queryFn: ({ signal }) => fetchCredits({ signal }),
+    enabled: !!session?.user?.id,
+    staleTime: 5 * 60 * 1000, // 5 minutes
+    retry: 3,
+  });
+}
+
+export function useCreditsRefetch() {
+  const { data: session } = useSession();
+  const { refetch } = useCredits();
+
+  return {
+    refetchCredits: refetch,
+    isAuthenticated: !!session?.user?.id,
+  };
+}

@@ -48,8 +48,7 @@ export const getSessionUser = async (): Promise<{
       user: userWithStripeData,
       userId: session.user.id,
     };
-  } catch (error) {
-    console.error("Failed to get session user", error);
+  } catch {
     return null;
   }
 };
@@ -75,7 +74,6 @@ export const updateUserStripeData = async (
     if (Object.keys(updates).length === 0) return;
     await db.update(users).set(updates).where(eq(users.id, userId));
   } catch (error) {
-    console.error("Failed to update user Stripe data", error);
     throw error;
   }
 };
@@ -117,8 +115,7 @@ export async function getUserCredits(): Promise<number> {
     }
 
     return userData[0].stripeCredits;
-  } catch (error) {
-    console.error("Failed to fetch user credits:", error);
+  } catch {
     return 0;
   }
 }

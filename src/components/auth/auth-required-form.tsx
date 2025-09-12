@@ -2,8 +2,8 @@
 
 import { ReactNode } from "react";
 import Link from "next/link";
-import { useCredits } from "@/contexts/credits-context";
 import { useSession } from "next-auth/react";
+import { useCredits } from "@/hooks/use-credits";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -28,7 +28,7 @@ export function AuthRequiredForm({
   creditsRequired = 1,
 }: AuthRequiredFormProps) {
   const { data: session, status } = useSession();
-  const { credits: userCredits, isLoading: creditsLoading } = useCredits();
+  const { data: userCredits = 0, isLoading: creditsLoading } = useCredits();
 
   if (status === "loading" || creditsLoading) {
     return (

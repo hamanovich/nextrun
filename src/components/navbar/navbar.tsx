@@ -1,23 +1,21 @@
 "use client";
 
-import * as React from "react";
-import { useEffect, useRef, useState } from "react";
+import { forwardRef, useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { useCredits } from "@/contexts/credits-context";
 import { useSession } from "next-auth/react";
 import { cn } from "@/lib/utils";
-import { LoginBtn } from "../login/login-btn";
-import {
-  defaultNavigationLinks,
-  DesktopNavigation,
-  Logo,
-  MobileNavigation,
-  ThemeToggle,
-  UserMenu,
-  type NavbarProps,
-} from "./index";
+import { useCredits } from "@/hooks/use-credits";
+import { useWindowScroll } from "@/hooks/use-scroll";
+import { LoginBtn } from "@/components/login/login-btn";
+import { defaultNavigationLinks } from "./constants";
+import { DesktopNavigation } from "./desktop-navigation";
+import { Logo } from "./logo";
+import { MobileNavigation } from "./mobile-navigation";
+import { ThemeToggle } from "./theme-toggle";
+import type { NavbarProps } from "./types";
+import { UserMenu } from "./user-menu";
 
-export const Navbar = React.forwardRef<HTMLElement, NavbarProps>(
+export const Navbar = forwardRef<HTMLElement, NavbarProps>(
   (
     {
       className,
@@ -29,15 +27,23 @@ export const Navbar = React.forwardRef<HTMLElement, NavbarProps>(
     ref,
   ) => {
     const { data: session, status } = useSession();
-    const { credits } = useCredits();
+    const { data: credits = 0 } = useCredits();
     const [isMobile, setIsMobile] = useState(false);
     const containerRef = useRef<HTMLElement>(null);
+    const [{ y }] = useWindowScroll();
+    const [lastScrollY, setLastScrollY] = useState(0);
+    const [isHidden, setIsHidden] = useState(false);
+
+    useEffect(() => {
+      setIsHidden(y > lastScrollY && y > 65);
+      setLastScrollY(y);
+    }, [y]);
 
     useEffect(() => {
       const checkWidth = () => {
         if (containerRef.current) {
           const width = containerRef.current.offsetWidth;
-          setIsMobile(width < 768); // 768px is md breakpoint
+          setIsMobile(width < 640);
         }
       };
 
@@ -53,7 +59,7 @@ export const Navbar = React.forwardRef<HTMLElement, NavbarProps>(
       };
     }, []);
 
-    const combinedRef = React.useCallback(
+    const combinedRef = useCallback(
       (node: HTMLElement | null) => {
         containerRef.current = node;
         if (typeof ref === "function") {
@@ -69,7 +75,8 @@ export const Navbar = React.forwardRef<HTMLElement, NavbarProps>(
       <header
         ref={combinedRef}
         className={cn(
-          "sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 px-4 md:px-6 [&_*]:no-underline",
+          "sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 px-4 md:px-6 [&_*]:no-underline transition-transform duration-300",
+          isHidden ? "-translate-y-full" : "translate-y-0",
           className,
         )}
         {...props}

@@ -9,24 +9,18 @@ const envSchema = z.object({
   GOOGLE_CLIENT_SECRET: z
     .string()
     .min(1, { message: "GOOGLE_CLIENT_SECRET is required" }),
-  NEXTAUTH_URL: z.string().refine(
-    (url) => {
-      try {
-        new URL(url);
-        return true;
-      } catch {
-        return false;
-      }
-    },
-    { message: "NEXTAUTH_URL must be a valid URL" },
-  ),
-  NEXTAUTH_URL_INTERNAL: z.string().optional(),
+  NEXTAUTH_URL: z.url({ message: "NEXTAUTH_URL must be a valid URL" }),
+  NEXTAUTH_URL_INTERNAL: z
+    .url({ message: "NEXTAUTH_URL_INTERNAL must be a valid URL" })
+    .optional(),
   NEXTAUTH_SECRET: z
     .string()
     .min(1, { message: "NEXTAUTH_SECRET is required" }),
   NEXT_PUBLIC_DOMAIN: z
-    .string()
-    .min(1, { message: "NEXT_PUBLIC_DOMAIN is required" }),
+    .url({
+      message: "NEXT_PUBLIC_DOMAIN must be an absolute URL",
+    })
+    .transform((v) => v.replace(/\/+$/, "")),
   STRIPE_SECRET_KEY: z
     .string()
     .min(1, { message: "STRIPE_SECRET_KEY is required" }),

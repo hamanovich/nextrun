@@ -2,6 +2,7 @@
 
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
+import { env } from "@/lib/env";
 import { stripe } from "@/lib/stripe";
 import { getSessionUser, updateUserStripeData } from "./user";
 
@@ -48,7 +49,7 @@ interface PricingProduct {
 
 export const createPayment = async (priceId: string) => {
   const origin = (await headers()).get("origin");
-  const baseUrl = process.env.NEXT_PUBLIC_DOMAIN ?? origin;
+  const baseUrl = env.NEXT_PUBLIC_DOMAIN ?? origin;
 
   if (!baseUrl) throw new Error("Base URL is not configured");
 
@@ -137,7 +138,7 @@ export const listPricingProducts = async (): Promise<PricingProduct[]> => {
             description: product.description,
             images: product.images,
             credits: product.metadata.credits,
-            marketing_features: product.marketing_features,
+            marketing_features: product.marketing_features ?? [],
           },
         };
       });

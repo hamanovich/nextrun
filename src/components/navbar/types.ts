@@ -1,9 +1,9 @@
-import type { ReactNode } from "react";
+import type { ComponentType, ReactNode } from "react";
 
 export interface NavbarNavItem {
   href?: string;
   label: string;
-  icon: React.ComponentType<{
+  icon: ComponentType<{
     size?: number;
     className?: string;
     "aria-hidden"?: boolean;

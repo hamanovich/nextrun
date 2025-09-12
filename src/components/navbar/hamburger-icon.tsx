@@ -1,10 +1,10 @@
-import * as React from "react";
+import type { SVGAttributes } from "react";
 import { cn } from "@/lib/utils";
 
 export const HamburgerIcon = ({
   className,
   ...props
-}: React.SVGAttributes<SVGElement>) => (
+}: SVGAttributes<SVGElement>) => (
   <svg
     className={cn("pointer-events-none", className)}
     width={16}

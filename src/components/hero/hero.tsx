@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 
 export const Hero = () => (
   <div className="container border-b border-t border-dashed m-auto">
-    <div className="relative flex w-full max-w-5xl flex-col justify-start border border-t-0 border-dashed px-5 py-12 md:items-center md:justify-center lg:mx-auto">
+    <div className="relative flex w-full max-w-5xl flex-col items-center border border-t-0 border-dashed px-5 py-12 md:items-center md:justify-center lg:mx-auto">
       <p className="text-muted-foreground flex items-center gap-3 text-sm">
         <span className="inline-block size-2 rounded bg-green-500" />
         NEXT.JS TEMPLATE • READY TO DEPLOY
@@ -27,11 +27,16 @@ export const Hero = () => (
           the setup headaches and focus on building your next big idea.
           Everything you need to launch faster.
         </p>
-        <div className="flex flex-col space-y-3 sm:-mx-2 sm:flex-row sm:justify-center sm:space-y-0">
-          <Button size="lg" asChild className="sm:mx-2">
+        <div className="flex flex-col space-y-3 sm:flex-row sm:justify-center sm:space-y-0">
+          <Button size="lg" asChild className="mx-4 sm:mx-2 h-12 px-8">
             <Link href="/pricing">View Pricing</Link>
           </Button>
-          <Button size="lg" variant="outline" asChild className="sm:mx-2">
+          <Button
+            size="lg"
+            variant="outline"
+            asChild
+            className="mx-4 sm:mx-2 h-12 px-8"
+          >
             <Link href="/about">Learn More</Link>
           </Button>
         </div>

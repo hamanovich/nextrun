@@ -2,6 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getSessionUser } from "@/actions/user";
 import { Coins, CreditCard } from "lucide-react";
+import { auth } from "@/lib/auth";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -13,7 +14,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { SignOutButton } from "@/components/login/sign-out-button";
-import { auth } from "@/lib/auth";
 
 export default async function UserPage() {
   const session = await auth();
