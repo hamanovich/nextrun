@@ -190,7 +190,7 @@ export default function About() {
               View Pricing
             </Link>
             <Link
-              href="/user"
+              href="/profile"
               className="inline-flex h-12 items-center justify-center rounded-lg border border-input bg-background px-8 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground"
             >
               Get Started

@@ -10,7 +10,7 @@ export const ActionButtons = () => (
         Back to Home
       </Button>
     </Link>
-    <Link href="/user">
+    <Link href="/profile">
       <Button variant="outline" className="w-full">
         <CreditCard className="w-4 h-4 mr-2" />
         View Account

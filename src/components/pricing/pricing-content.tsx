@@ -1,87 +1,129 @@
+import Link from "next/link";
 import { createPaymentAction, listPricingProducts } from "@/actions/stripe";
 import { getSessionUser } from "@/actions/user";
-import { Check, CreditCard } from "lucide-react";
+import { Check } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { LoginBtn } from "@/components/login/login-btn";
+import {
+  FREE_TIER,
+  FREE_TIER_FEATURES,
+} from "@/components/pricing/pricing.constants";
+import { PricingCta } from "./pricing-cta";
+import { PricingFaq } from "./pricing-faq";
+import { PricingHero } from "./pricing-hero";
 
-export const PricingContent = async () => {
+export async function PricingContent({ isMocked }: { isMocked?: boolean }) {
   const sessionUser = await getSessionUser();
-  const products = await listPricingProducts();
+  const products = isMocked ? [] : await listPricingProducts();
 
-  const primaryProduct = products[0];
+  const pricingPlans = products.map((product, index) => ({
+    name: product.product?.name || `Plan ${index + 1}`,
+    price: (product.amount! / 100).toFixed(0),
+    period: product.interval ?? "one-time",
+    credits:
+      product.product?.credits != null ? Number(product.product.credits) : null,
+    description: product.product?.description || "Language learning credits",
+    features:
+      product.product?.marketing_features?.map(
+        (feature: { name: string }) => feature.name,
+      ) ?? FREE_TIER_FEATURES,
+    popular: index === 0,
+    productId: product.id,
+  }));
 
-  const features = primaryProduct?.product?.marketing_features?.map(
-    (feature: { name: string }) => [feature.name],
-  ) || [
-    ["Unlimited", "Integrations", "24/7 support"],
-    ["Live collaborations", "Unlimited storage", "30-day money back"],
-    ["Unlimited members", "Customization", "Unlimited users"],
-  ];
+  const allPlans = [FREE_TIER, ...pricingPlans];
 
   return (
-    <section className="py-32">
-      <div className="container mx-auto">
-        <div className="mx-auto flex max-w-5xl flex-col items-center gap-6 text-center">
-          <h2 className="text-4xl font-semibold text-pretty lg:text-6xl">
-            Pricing
-          </h2>
-          <p className="max-w-md text-muted-foreground lg:text-xl">
-            Get credits to use our language learning features
-          </p>
+    <>
+      <PricingHero currentCredits={sessionUser?.user.stripeCredits} />
 
-          {sessionUser && (
-            <div className="inline-flex items-center gap-2 bg-blue-50 text-blue-700 px-4 py-2 rounded-lg">
-              <CreditCard className="w-4 h-4" />
-              <span className="font-medium">
-                Current Credits: {sessionUser.user.stripeCredits}
-              </span>
-            </div>
-          )}
-
-          <div className="mx-auto flex w-full flex-col rounded-lg border p-6 sm:w-fit sm:min-w-80">
-            <div className="flex justify-center">
-              <span className="text-lg font-semibold">$</span>
-              <span className="text-6xl font-semibold">
-                {primaryProduct
-                  ? (primaryProduct.amount! / 100).toFixed(0)
-                  : "29"}
-              </span>
-              <span className="self-end text-muted-foreground">
-                {primaryProduct?.interval
-                  ? `/${primaryProduct.interval}`
-                  : "/mo"}
-              </span>
-            </div>
-            <div className="my-6">
-              {features.map((featureGroup, idx) => (
-                <div key={idx}>
-                  <ul className="flex flex-col gap-3">
-                    {featureGroup.map((feature) => (
+      <section className="py-12">
+        <div className="container mx-auto px-4">
+          <div
+            className={`${allPlans.length === 1 ? "flex justify-center" : "grid gap-8 md:gap-4 md:grid-cols-3 lg:gap-12"}`}
+          >
+            {allPlans.map((plan) => (
+              <Card
+                key={plan.name}
+                className={`relative ${allPlans.length === 1 ? "w-full max-w-sm" : ""} ${plan.popular ? "border-primary shadow-lg md:scale-105" : ""}`}
+              >
+                {plan.popular && (
+                  <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
+                    <Badge className="bg-primary text-primary-foreground px-4 py-1">
+                      Most Popular
+                    </Badge>
+                  </div>
+                )}
+                <CardHeader className="text-center pb-8">
+                  <CardTitle className="text-2xl">{plan.name}</CardTitle>
+                  <CardDescription className="text-base">
+                    {plan.description}
+                  </CardDescription>
+                  <div className="mt-4">
+                    <span className="text-4xl font-bold">
+                      {plan.price === "Free" ? plan.price : `$${plan.price}`}
+                    </span>
+                    <span className="text-muted-foreground">
+                      /{plan.period}
+                    </span>
+                  </div>
+                  <div className="text-sm text-muted-foreground">
+                    {plan.credits != null ? `${plan.credits} credits` : "N/A"}
+                  </div>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  <ul className="space-y-3">
+                    {plan.features.map((feature, featureIndex) => (
                       <li
-                        key={feature}
-                        className="flex items-center justify-between gap-2 text-sm font-medium"
+                        key={featureIndex}
+                        className="flex items-center gap-3"
                       >
-                        {feature} <Check className="inline size-4 shrink-0" />
+                        <Check className="w-5 h-5 text-green-500 flex-shrink-0" />
+                        <span className="text-sm">{feature}</span>
                       </li>
                     ))}
                   </ul>
-                  {idx < features.length - 1 && <Separator className="my-6" />}
-                </div>
-              ))}
-            </div>
 
-            {sessionUser && primaryProduct ? (
-              <form action={createPaymentAction}>
-                <input type="hidden" name="priceId" value={primaryProduct.id} />
-                <Button className="w-full">Purchase Credits</Button>
-              </form>
-            ) : (
-              <LoginBtn />
-            )}
+                  {plan.name === "Starter" ? (
+                    <Button asChild className="w-full" variant="outline">
+                      <Link href="/">Get Started Free</Link>
+                    </Button>
+                  ) : plan.productId ? (
+                    sessionUser ? (
+                      <form action={createPaymentAction}>
+                        <input
+                          type="hidden"
+                          name="priceId"
+                          value={plan.productId}
+                        />
+                        <Button className="w-full">Purchase Credits</Button>
+                      </form>
+                    ) : (
+                      <LoginBtn className="w-full" />
+                    )
+                  ) : (
+                    <Button className="w-full" variant="outline">
+                      Contact Sales
+                    </Button>
+                  )}
+                </CardContent>
+              </Card>
+            ))}
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+
+      <PricingFaq />
+
+      <PricingCta isLoggedIn={!!sessionUser} />
+    </>
   );
-};
+}

@@ -3,17 +3,10 @@
 import { db } from "@/db";
 import { users } from "@/db/schema";
 import { and, eq, gte, sql } from "drizzle-orm";
-import { type Session } from "next-auth";
+import { SessionUser } from "@/types/user.types";
 import { auth } from "@/lib/auth";
 
-export const getSessionUser = async (): Promise<{
-  user: Session["user"] & {
-    stripeCredits: number;
-    stripeCustomerId: string | null;
-    stripeCheckoutSessionId: string | null;
-  };
-  userId: string;
-} | null> => {
+export const getSessionUser = async (): Promise<SessionUser> => {
   try {
     const session = await auth();
 
