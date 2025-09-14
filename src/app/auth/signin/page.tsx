@@ -7,8 +7,6 @@ import { useAuthRedirect } from "@/hooks/use-auth-redirect";
 import { Button } from "@/components/ui/button";
 import { AuthLoading } from "@/components/auth/auth-loading";
 
-export { metadata } from "./metadata";
-
 export default function SignInPage() {
   const { isLoading } = useAuthRedirect();
 
