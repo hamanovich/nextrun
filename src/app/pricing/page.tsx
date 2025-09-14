@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 import { PricingContent } from "@/components/pricing/pricing-content";
 
+export { metadata } from "./metadata";
 export const dynamic = "force-dynamic";
 
 export default function PricingPage() {

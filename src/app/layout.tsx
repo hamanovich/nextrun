@@ -18,6 +18,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_DOMAIN || "https://nextrun.dev",
+  ),
   title: "NextRun",
   description: "NextRun - Next.js template",
   applicationName: "NextRun",

@@ -1,6 +1,6 @@
 {
   "name": "nextrun",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "author": "Siarhei Hamanovich <dev.hamanovich@gmail.com>",
   "license": "ISC",
@@ -29,7 +29,8 @@
     "stripe:listen": "stripe listen --forward-to localhost:3000/api/webhooks/stripe",
     "test:ui": "vitest --ui",
     "test": "vitest run",
-    "test:coverage": "vitest run --coverage"
+    "test:coverage": "vitest run --coverage",
+    "bump:version": "node scripts/bump-version.js"
   },
   "dependencies": {
     "@auth/drizzle-adapter": "^1.10.0",

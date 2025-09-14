@@ -6,6 +6,8 @@ import { SignOutButton } from "@/components/login/sign-out-button";
 import { UserInformation } from "@/components/user/user-information";
 import { UserPaymentInformation } from "@/components/user/user-payment-information";
 
+export { metadata } from "./metadata";
+
 export default async function UserPage() {
   const session = await auth();
 

@@ -11,6 +11,8 @@ import {
 } from "@/components/ui/card";
 import { PaymentSuccessContent } from "@/components/payment/payment-success-content";
 
+export { metadata } from "./metadata";
+
 interface PaymentSuccessPageProps {
   searchParams: {
     session_id?: string;
