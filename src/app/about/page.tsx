@@ -2,6 +2,8 @@ import Link from "next/link";
 import { Code, CreditCard, Shield, Target, Users, Zap } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 
+export { metadata } from "./metadata";
+
 export default function About() {
   return (
     <section className="h-full w-screen overflow-hidden py-16">
