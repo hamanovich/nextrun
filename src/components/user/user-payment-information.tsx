@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 
-interface UserPaymentInformationProps {
+export interface UserPaymentInformationProps {
   user: {
     stripeCredits?: number;
     stripeCustomerId?: string | null;

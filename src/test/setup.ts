@@ -35,6 +35,21 @@ vi.mock("next/image", () => ({
   },
 }));
 
+// Mock Next.js Link component
+vi.mock("next/link", () => ({
+  default: ({
+    href,
+    children,
+    className,
+  }: {
+    href: string;
+    children: React.ReactNode;
+    className?: string;
+  }) => {
+    return createElement("a", { href, className }, children);
+  },
+}));
+
 // Mock environment variables for testing
 process.env.NEXTAUTH_URL = "http://localhost:3000";
 process.env.NEXTAUTH_SECRET = "test-secret";

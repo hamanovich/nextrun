@@ -6,7 +6,7 @@ import { env } from "@/lib/env";
 import { stripe } from "@/lib/stripe";
 import { getSessionUser, updateUserStripeData } from "./user";
 
-interface StripeProduct {
+export interface StripeProduct {
   id: string;
   object: "product";
   active: boolean;
@@ -32,7 +32,7 @@ interface StripeProduct {
   url: null;
 }
 
-interface PricingProduct {
+export interface PricingProduct {
   id: string;
   amount: number | null;
   currency: string;

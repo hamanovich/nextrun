@@ -1,7 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
 import { cn, formatMoney } from "../utils";
 
-// Helper function to create a mock NumberFormat constructor
 const createMockNumberFormat = (shouldThrow = false) => {
   const mockConstructor = vi.fn().mockImplementation(() => {
     if (shouldThrow) {
@@ -12,7 +11,6 @@ const createMockNumberFormat = (shouldThrow = false) => {
     };
   });
 
-  // Add the required static method
   Object.assign(mockConstructor, {
     supportedLocalesOf: vi.fn(),
   });
@@ -77,7 +75,6 @@ describe("utils", () => {
     });
 
     it("should merge conflicting Tailwind classes correctly", () => {
-      // Test that tailwind-merge works correctly
       expect(cn("px-2 px-4")).toBe("px-4");
       expect(cn("text-sm text-lg")).toBe("text-lg");
       expect(cn("bg-red-500 bg-blue-500")).toBe("bg-blue-500");
@@ -137,7 +134,6 @@ describe("utils", () => {
     });
 
     it("should handle invalid currency codes gracefully", () => {
-      // Mock Intl.NumberFormat to throw an error
       const originalIntl = global.Intl;
       global.Intl = {
         ...originalIntl,
@@ -146,12 +142,10 @@ describe("utils", () => {
 
       expect(formatMoney(1000, "invalid")).toBe("10.00 INVALID");
 
-      // Restore original Intl
       global.Intl = originalIntl;
     });
 
     it("should fallback to simple format when Intl.NumberFormat fails", () => {
-      // Mock Intl.NumberFormat to throw an error
       const originalIntl = global.Intl;
       global.Intl = {
         ...originalIntl,
@@ -161,7 +155,6 @@ describe("utils", () => {
       expect(formatMoney(1234, "xyz")).toBe("12.34 XYZ");
       expect(formatMoney(0, "abc")).toBe("0.00 ABC");
 
-      // Restore original Intl
       global.Intl = originalIntl;
     });
 
@@ -175,7 +168,6 @@ describe("utils", () => {
     });
 
     it("should convert currency to uppercase in fallback", () => {
-      // Mock Intl.NumberFormat to throw an error
       const originalIntl = global.Intl;
       global.Intl = {
         ...originalIntl,
@@ -185,7 +177,6 @@ describe("utils", () => {
       expect(formatMoney(1000, "usd")).toBe("10.00 USD");
       expect(formatMoney(1000, "eur")).toBe("10.00 EUR");
 
-      // Restore original Intl
       global.Intl = originalIntl;
     });
 
@@ -194,7 +185,6 @@ describe("utils", () => {
     });
 
     it("should handle various international currencies", () => {
-      // Test with different locales/currencies that might be supported
       expect(formatMoney(1000, "jpy")).toBe("¥10");
       expect(formatMoney(1000, "cad")).toBe("CA$10.00");
     });

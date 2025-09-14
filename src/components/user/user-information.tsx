@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 
-interface UserInformationProps {
+export interface UserInformationProps {
   user: {
     id?: string;
     name?: string | null;

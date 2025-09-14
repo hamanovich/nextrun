@@ -6,156 +6,252 @@ import {
   hasStripeData,
 } from "../user.utils";
 
-describe("user.utils", () => {
+describe("User Utils", () => {
   describe("getProviderFromEmail", () => {
-    it("should return Google for Gmail addresses", () => {
+    it("returns Google for Gmail addresses", () => {
       expect(getProviderFromEmail("user@gmail.com")).toBe("Google");
       expect(getProviderFromEmail("test.user@gmail.com")).toBe("Google");
     });
 
-    it("should return Microsoft for Outlook and Hotmail addresses", () => {
+    it("returns Microsoft for Outlook addresses", () => {
       expect(getProviderFromEmail("user@outlook.com")).toBe("Microsoft");
-      expect(getProviderFromEmail("user@hotmail.com")).toBe("Microsoft");
-      expect(getProviderFromEmail("test@outlook.com")).toBe("Microsoft");
-      expect(getProviderFromEmail("test@hotmail.com")).toBe("Microsoft");
+      expect(getProviderFromEmail("test.user@outlook.com")).toBe("Microsoft");
     });
 
-    it("should return Yahoo for Yahoo addresses", () => {
+    it("returns Microsoft for Hotmail addresses", () => {
+      expect(getProviderFromEmail("user@hotmail.com")).toBe("Microsoft");
+      expect(getProviderFromEmail("test.user@hotmail.com")).toBe("Microsoft");
+    });
+
+    it("returns Yahoo for Yahoo addresses", () => {
       expect(getProviderFromEmail("user@yahoo.com")).toBe("Yahoo");
       expect(getProviderFromEmail("test.user@yahoo.com")).toBe("Yahoo");
     });
 
-    it("should return Email for other email providers", () => {
+    it("returns Email for other addresses", () => {
       expect(getProviderFromEmail("user@example.com")).toBe("Email");
       expect(getProviderFromEmail("user@company.org")).toBe("Email");
-      expect(getProviderFromEmail("user@custom.domain")).toBe("Email");
+      expect(getProviderFromEmail("user@domain.net")).toBe("Email");
     });
 
-    it("should return Unknown for null/undefined/empty values", () => {
+    it("returns Unknown for null email", () => {
       expect(getProviderFromEmail(null)).toBe("Unknown");
+    });
+
+    it("returns Unknown for undefined email", () => {
       expect(getProviderFromEmail(undefined)).toBe("Unknown");
+    });
+
+    it("returns Unknown for empty string", () => {
       expect(getProviderFromEmail("")).toBe("Unknown");
     });
   });
 
   describe("formatUserData", () => {
-    it("should format data with ellipsis for long strings", () => {
-      expect(formatUserData("12345678901234567890")).toBe("12345678…7890");
-      expect(formatUserData("abcdefghijklmnopqrstuvwxyz")).toBe(
-        "abcdefgh…wxyz",
+    it("formats data with default truncation", () => {
+      expect(formatUserData("user_1234567890")).toBe("user_123…7890");
+      expect(formatUserData("cus_abcdefghijklmnop")).toBe("cus_abcd…mnop");
+    });
+
+    it("formats data with custom noData message", () => {
+      expect(formatUserData("user_1234567890", "Not available")).toBe(
+        "user_123…7890",
       );
+      expect(formatUserData(null, "Not available")).toBe("Not available");
+      expect(formatUserData(undefined, "Not available")).toBe("Not available");
     });
 
-    it("should handle short strings", () => {
+    it("handles short data strings", () => {
+      expect(formatUserData("short")).toBe("short…hort");
+      expect(formatUserData("a")).toBe("a…a");
+    });
+
+    it("handles very short data strings", () => {
+      expect(formatUserData("ab")).toBe("ab…ab");
+      expect(formatUserData("abc")).toBe("abc…abc");
+    });
+
+    it("handles exactly 8 character strings", () => {
       expect(formatUserData("12345678")).toBe("12345678…5678");
-      expect(formatUserData("1234")).toBe("1234…1234");
     });
 
-    it("should return default message for null/undefined/empty values", () => {
+    it("handles exactly 9 character strings", () => {
+      expect(formatUserData("123456789")).toBe("12345678…6789");
+    });
+
+    it("handles null and undefined", () => {
       expect(formatUserData(null)).toBe("Not available");
       expect(formatUserData(undefined)).toBe("Not available");
-      expect(formatUserData("")).toBe("Not available");
     });
 
-    it("should use custom noData message", () => {
-      expect(formatUserData(null, "No data")).toBe("No data");
-      expect(formatUserData(undefined, "Custom message")).toBe(
-        "Custom message",
-      );
-      expect(formatUserData("", "Empty")).toBe("Empty");
+    it("handles empty string", () => {
+      expect(formatUserData("")).toBe("Not available");
     });
   });
 
   describe("getCreditsStatus", () => {
-    it("should return empty status for 0 credits", () => {
+    it("returns empty status for zero credits", () => {
       const result = getCreditsStatus(0);
-      expect(result).toEqual({
-        status: "empty",
-        color: "text-red-600",
-        bg: "bg-red-50 dark:bg-red-950/20",
-        border: "border-red-200 dark:border-red-800",
-      });
+      expect(result.status).toBe("empty");
+      expect(result.color).toBe("text-red-600");
+      expect(result.bg).toBe("bg-red-50 dark:bg-red-950/20");
+      expect(result.border).toBe("border-red-200 dark:border-red-800");
     });
 
-    it("should return low status for credits less than 10", () => {
-      const result1 = getCreditsStatus(1);
-      expect(result1).toEqual({
-        status: "low",
-        color: "text-yellow-600",
-        bg: "bg-yellow-50 dark:bg-yellow-950/20",
-        border: "border-yellow-200 dark:border-yellow-800",
-      });
-
-      const result2 = getCreditsStatus(9);
-      expect(result2).toEqual({
-        status: "low",
-        color: "text-yellow-600",
-        bg: "bg-yellow-50 dark:bg-yellow-950/20",
-        border: "border-yellow-200 dark:border-yellow-800",
-      });
+    it("returns low status for credits less than 10", () => {
+      const result = getCreditsStatus(5);
+      expect(result.status).toBe("low");
+      expect(result.color).toBe("text-yellow-600");
+      expect(result.bg).toBe("bg-yellow-50 dark:bg-yellow-950/20");
+      expect(result.border).toBe("border-yellow-200 dark:border-yellow-800");
     });
 
-    it("should return good status for 10 or more credits", () => {
-      const result1 = getCreditsStatus(10);
-      expect(result1).toEqual({
-        status: "good",
-        color: "text-green-600",
-        bg: "bg-green-50 dark:bg-green-950/20",
-        border: "border-green-200 dark:border-green-800",
-      });
+    it("returns low status for 9 credits", () => {
+      const result = getCreditsStatus(9);
+      expect(result.status).toBe("low");
+      expect(result.color).toBe("text-yellow-600");
+    });
 
-      const result2 = getCreditsStatus(100);
-      expect(result2).toEqual({
-        status: "good",
-        color: "text-green-600",
-        bg: "bg-green-50 dark:bg-green-950/20",
-        border: "border-green-200 dark:border-green-800",
-      });
+    it("returns good status for 10 or more credits", () => {
+      const result = getCreditsStatus(10);
+      expect(result.status).toBe("good");
+      expect(result.color).toBe("text-green-600");
+      expect(result.bg).toBe("bg-green-50 dark:bg-green-950/20");
+      expect(result.border).toBe("border-green-200 dark:border-green-800");
+    });
+
+    it("returns good status for high credit amounts", () => {
+      const result = getCreditsStatus(100);
+      expect(result.status).toBe("good");
+      expect(result.color).toBe("text-green-600");
+    });
+
+    it("handles negative credits as low status", () => {
+      const result = getCreditsStatus(-5);
+      expect(result.status).toBe("low");
+      expect(result.color).toBe("text-yellow-600");
+    });
+
+    it("handles very large credit amounts", () => {
+      const result = getCreditsStatus(999999);
+      expect(result.status).toBe("good");
+      expect(result.color).toBe("text-green-600");
     });
   });
 
   describe("hasStripeData", () => {
-    it("should return true for objects with stripeCredits property", () => {
-      const userWithStripeData = {
-        stripeCredits: 10,
+    it("returns true for user with stripeCredits", () => {
+      const user = {
+        stripeCredits: 50,
         stripeCustomerId: "cus_123",
         stripeCheckoutSessionId: "cs_123",
       };
-      expect(hasStripeData(userWithStripeData)).toBe(true);
+      expect(hasStripeData(user)).toBe(true);
     });
 
-    it("should return true for objects with stripeCredits even if other properties are missing", () => {
-      const userWithMinimalStripeData = {
-        stripeCredits: 5,
+    it("returns true for user with zero stripeCredits", () => {
+      const user = {
+        stripeCredits: 0,
+        stripeCustomerId: null,
+        stripeCheckoutSessionId: null,
       };
-      expect(hasStripeData(userWithMinimalStripeData)).toBe(true);
+      expect(hasStripeData(user)).toBe(true);
     });
 
-    it("should return false for null", () => {
+    it("returns true for user with negative stripeCredits", () => {
+      const user = {
+        stripeCredits: -5,
+        stripeCustomerId: "cus_123",
+        stripeCheckoutSessionId: "cs_123",
+      };
+      expect(hasStripeData(user)).toBe(true);
+    });
+
+    it("returns false for user without stripeCredits", () => {
+      const user = {
+        name: "John Doe",
+        email: "john@example.com",
+      };
+      expect(hasStripeData(user)).toBe(false);
+    });
+
+    it("returns false for null user", () => {
       expect(hasStripeData(null)).toBe(false);
     });
 
-    it("should return false for undefined", () => {
+    it("returns false for undefined user", () => {
       expect(hasStripeData(undefined)).toBe(false);
     });
 
-    it("should return false for objects without stripeCredits", () => {
-      const userWithoutStripeData = {
-        name: "John",
-        email: "john@example.com",
-      };
-      expect(hasStripeData(userWithoutStripeData)).toBe(false);
-    });
-
-    it("should return false for primitive values", () => {
+    it("returns false for non-object user", () => {
       expect(hasStripeData("string")).toBe(false);
       expect(hasStripeData(123)).toBe(false);
       expect(hasStripeData(true)).toBe(false);
     });
 
-    it("should return false for arrays", () => {
-      expect(hasStripeData([])).toBe(false);
-      expect(hasStripeData([1, 2, 3])).toBe(false);
+    it("returns false for empty object", () => {
+      expect(hasStripeData({})).toBe(false);
+    });
+
+    it("returns false for object with other properties but no stripeCredits", () => {
+      const user = {
+        id: "user_123",
+        name: "John Doe",
+        email: "john@example.com",
+        stripeCustomerId: "cus_123",
+        stripeCheckoutSessionId: "cs_123",
+      };
+      expect(hasStripeData(user)).toBe(false);
+    });
+
+    it("returns true for object with stripeCredits and other properties", () => {
+      const user = {
+        id: "user_123",
+        name: "John Doe",
+        email: "john@example.com",
+        stripeCredits: 50,
+        stripeCustomerId: "cus_123",
+        stripeCheckoutSessionId: "cs_123",
+      };
+      expect(hasStripeData(user)).toBe(true);
+    });
+  });
+
+  describe("Edge Cases", () => {
+    it("handles very long email addresses", () => {
+      const longEmail =
+        "very.long.email.address.that.might.cause.issues@gmail.com";
+      expect(getProviderFromEmail(longEmail)).toBe("Google");
+    });
+
+    it("handles email addresses with special characters", () => {
+      expect(getProviderFromEmail("user+tag@gmail.com")).toBe("Google");
+      expect(getProviderFromEmail("user.name@outlook.com")).toBe("Microsoft");
+    });
+
+    it("handles case sensitivity in email addresses", () => {
+      expect(getProviderFromEmail("USER@GMAIL.COM")).toBe("Email");
+      expect(getProviderFromEmail("User@Outlook.Com")).toBe("Email");
+    });
+
+    it("handles malformed email addresses", () => {
+      expect(getProviderFromEmail("notanemail")).toBe("Email");
+      expect(getProviderFromEmail("@gmail.com")).toBe("Google");
+      expect(getProviderFromEmail("user@")).toBe("Email");
+    });
+
+    it("handles very long data strings in formatUserData", () => {
+      const longString = "a".repeat(1000);
+      const result = formatUserData(longString);
+      expect(result).toBe("aaaaaaaa…aaaa");
+    });
+
+    it("handles special characters in formatUserData", () => {
+      expect(formatUserData("user_123!@#$%^&*()")).toBe("user_123…&*()");
+    });
+
+    it("handles unicode characters in formatUserData", () => {
+      expect(formatUserData("用户_1234567890")).toBe("用户_12345…7890");
     });
   });
 });

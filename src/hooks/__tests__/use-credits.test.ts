@@ -1,24 +1,21 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { renderHook } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { useCredits, useCreditsRefetch } from "../use-credits";
 
-// Mock next-auth/react
 const mockUseSession = vi.fn();
 vi.mock("next-auth/react", () => ({
   useSession: () => mockUseSession(),
 }));
 
-// Mock @tanstack/react-query
 const mockUseQuery = vi.fn();
 vi.mock("@tanstack/react-query", () => ({
   useQuery: (options: unknown) => mockUseQuery(options),
 }));
 
-// Mock fetch
 const mockFetch = vi.fn();
 global.fetch = mockFetch;
 
-// Mock AbortController
 const mockAbortSignal = {
   aborted: false,
   addEventListener: vi.fn(),
@@ -38,7 +35,6 @@ describe("useCredits", () => {
   beforeEach(() => {
     vi.clearAllMocks();
 
-    // Default mock implementations
     mockUseSession.mockReturnValue({
       data: { user: { id: "user-123" } },
       status: "authenticated",
@@ -228,14 +224,11 @@ describe("fetchCredits function", () => {
     };
     mockFetch.mockResolvedValue(mockResponse);
 
-    // We need to test the fetchCredits function directly
-    // Since it's not exported, we'll test it through the hook
     mockUseSession.mockReturnValue({
       data: { user: { id: "user-123" } },
       status: "authenticated",
     });
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     mockUseQuery.mockImplementation(({ queryFn: _queryFn }) => {
       return {
         data: null,
@@ -248,7 +241,6 @@ describe("fetchCredits function", () => {
 
     renderHook(() => useCredits());
 
-    // Get the queryFn and call it
     const queryFn = mockUseQuery.mock.calls[0][0].queryFn;
     const result = await queryFn({ signal: mockAbortController.signal });
 
@@ -275,7 +267,6 @@ describe("fetchCredits function", () => {
       status: "authenticated",
     });
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     mockUseQuery.mockImplementation(({ queryFn: _queryFn }) => {
       return {
         data: null,
@@ -306,7 +297,6 @@ describe("fetchCredits function", () => {
       status: "authenticated",
     });
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     mockUseQuery.mockImplementation(({ queryFn: _queryFn }) => {
       return {
         data: null,
@@ -337,7 +327,6 @@ describe("fetchCredits function", () => {
       status: "authenticated",
     });
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     mockUseQuery.mockImplementation(({ queryFn: _queryFn }) => {
       return {
         data: null,
@@ -368,7 +357,6 @@ describe("fetchCredits function", () => {
       status: "authenticated",
     });
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     mockUseQuery.mockImplementation(({ queryFn: _queryFn }) => {
       return {
         data: null,
@@ -400,7 +388,6 @@ describe("fetchCredits function", () => {
       status: "authenticated",
     });
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     mockUseQuery.mockImplementation(({ queryFn: _queryFn }) => {
       return {
         data: null,
@@ -428,7 +415,6 @@ describe("fetchCredits function", () => {
       status: "authenticated",
     });
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     mockUseQuery.mockImplementation(({ queryFn: _queryFn }) => {
       return {
         data: null,
@@ -460,7 +446,6 @@ describe("fetchCredits function", () => {
       status: "authenticated",
     });
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     mockUseQuery.mockImplementation(({ queryFn: _queryFn }) => {
       return {
         data: null,
@@ -498,7 +483,6 @@ describe("fetchCredits function", () => {
       status: "authenticated",
     });
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     mockUseQuery.mockImplementation(({ queryFn: _queryFn }) => {
       return {
         data: null,

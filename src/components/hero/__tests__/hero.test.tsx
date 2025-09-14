@@ -13,14 +13,12 @@ vi.mock("next/link", () => ({
     href: string;
     [key: string]: unknown;
   }) => {
-    // If children is already an anchor element, just return it with the href
     if (React.isValidElement(children) && children.type === "a") {
       return cloneElement(children, { href, ...props } as Record<
         string,
         unknown
       >);
     }
-    // Otherwise, create a new anchor element
     return (
       <a href={href} {...props}>
         {children}
@@ -52,7 +50,6 @@ vi.mock("@/components/ui/button", () => ({
     [key: string]: unknown;
   }) => {
     if (asChild) {
-      // When asChild is true, just return the children with the className and props
       return React.cloneElement(
         children as React.ReactElement,
         {
