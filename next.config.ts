@@ -22,6 +22,7 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   htmlLimitedBots: /.*/,
   compress: true,
+  productionBrowserSourceMaps: true,
   images: {
     qualities: [50, 75],
     minimumCacheTTL: 3600,

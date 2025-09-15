@@ -6,6 +6,7 @@ import { users } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import type Stripe from "stripe";
 import { stripe } from "@/lib/stripe";
+import "@/lib/logger";
 
 export async function POST(req: NextRequest) {
   const body = await req.text();
