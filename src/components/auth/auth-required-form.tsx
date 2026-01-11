@@ -21,12 +21,12 @@ interface AuthRequiredFormProps {
   creditsRequired?: number;
 }
 
-export function AuthRequiredForm({
+export const AuthRequiredForm = ({
   children,
   title = "Authentication Required",
   description = "Please sign in to access this feature.",
   creditsRequired = 1,
-}: AuthRequiredFormProps) {
+}: AuthRequiredFormProps) => {
   const { data: session, status } = useSession();
   const { data: userCredits = 0, isLoading: creditsLoading } = useCredits();
 
@@ -87,4 +87,4 @@ export function AuthRequiredForm({
   }
 
   return <>{children}</>;
-}
+};

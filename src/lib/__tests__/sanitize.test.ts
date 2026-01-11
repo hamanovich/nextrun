@@ -2,7 +2,6 @@ import { describe, expect, it } from "vitest";
 import {
   SANITIZE_CONFIG,
   sanitizeFormInput,
-  sanitizeHtml,
   sanitizeJsonLd,
   sanitizePreContent,
   sanitizeText,
@@ -11,36 +10,6 @@ import {
 } from "../sanitize";
 
 describe("sanitize", () => {
-  describe("sanitizeHtml", () => {
-    it("should allow safe HTML tags", () => {
-      const input = "<p>Hello <strong>world</strong>!</p>";
-      const result = sanitizeHtml(input);
-      expect(result).toBe("<p>Hello <strong>world</strong>!</p>");
-    });
-
-    it("should remove dangerous HTML tags", () => {
-      const input = "<script>alert('xss')</script><p>Safe content</p>";
-      const result = sanitizeHtml(input);
-      expect(result).toBe("<p>Safe content</p>");
-    });
-
-    it("should allow class attributes", () => {
-      const input = '<span class="highlight">Text</span>';
-      const result = sanitizeHtml(input);
-      expect(result).toBe('<span class="highlight">Text</span>');
-    });
-
-    it("should remove dangerous attributes", () => {
-      const input = '<p onclick="alert(1)">Text</p>';
-      const result = sanitizeHtml(input);
-      expect(result).toBe("<p>Text</p>");
-    });
-
-    it("should handle empty string", () => {
-      expect(sanitizeHtml("")).toBe("");
-    });
-  });
-
   describe("sanitizeText", () => {
     it("should escape HTML characters", () => {
       const input = "<script>alert('xss')</script>";
@@ -228,12 +197,6 @@ describe("sanitize", () => {
     it("should return empty string for non-string input", () => {
       expect(validateAndSanitize(123 as unknown as string, "text")).toBe("");
       expect(validateAndSanitize({} as unknown as string, "text")).toBe("");
-    });
-
-    it("should sanitize HTML type", () => {
-      const input = "<script>alert('xss')</script><p>Safe</p>";
-      const result = validateAndSanitize(input, "html");
-      expect(result).toBe("<p>Safe</p>");
     });
 
     it("should sanitize text type", () => {

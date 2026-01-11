@@ -1,7 +1,7 @@
 export const mockFeatureItems = [
   {
     icon: "Code",
-    title: "Next.js 15 + TypeScript",
+    title: "Next.js 16 + TypeScript",
     description: "Modern React framework with full TypeScript support",
   },
   {

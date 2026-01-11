@@ -8,7 +8,7 @@ import type Stripe from "stripe";
 import { stripe } from "@/lib/stripe";
 import "@/lib/logger";
 
-export async function POST(req: NextRequest) {
+export const POST = async (req: NextRequest) => {
   const body = await req.text();
   const signature = (await headers()).get("stripe-signature") ?? "";
   const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
@@ -120,4 +120,4 @@ export async function POST(req: NextRequest) {
       { status: 500 },
     );
   }
-}
+};

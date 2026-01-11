@@ -24,7 +24,9 @@ export interface UserPaymentInformationProps {
   };
 }
 
-export function UserPaymentInformation({ user }: UserPaymentInformationProps) {
+export const UserPaymentInformation = ({
+  user,
+}: UserPaymentInformationProps) => {
   if (!hasStripeData(user)) return null;
 
   const creditsStatus = getCreditsStatus(user.stripeCredits);
@@ -140,4 +142,4 @@ export function UserPaymentInformation({ user }: UserPaymentInformationProps) {
       </CardContent>
     </Card>
   );
-}
+};

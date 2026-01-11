@@ -333,10 +333,8 @@ describe("Footer Component", () => {
 
   describe("Dynamic Content", () => {
     it("should display current year in copyright", () => {
-      const mockDate = new Date("2024-01-01");
-      vi.spyOn(global, "Date").mockImplementation(
-        () => mockDate as unknown as Date,
-      );
+      vi.useFakeTimers();
+      vi.setSystemTime(new Date("2024-01-01"));
 
       render(<Footer />);
 
@@ -344,7 +342,7 @@ describe("Footer Component", () => {
         screen.getByText("© 2024 NextRun.dev. All rights reserved."),
       ).toBeInTheDocument();
 
-      vi.restoreAllMocks();
+      vi.useRealTimers();
     });
 
     it("should update year when component re-renders", () => {

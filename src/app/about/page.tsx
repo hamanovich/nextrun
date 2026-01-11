@@ -126,7 +126,7 @@ export default function About() {
                     <Code className="size-6" />
                   </div>
                   <h3 className="mb-3 text-xl font-semibold">
-                    Next.js 15 + TypeScript
+                    Next.js 16 + TypeScript
                   </h3>
                   <p className="text-muted-foreground text-sm leading-relaxed">
                     Built on the latest Next.js framework with full TypeScript

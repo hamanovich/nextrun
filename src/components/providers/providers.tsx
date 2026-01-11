@@ -10,7 +10,7 @@ interface ProvidersProps {
   children: ReactNode;
 }
 
-export function Providers({ children }: ProvidersProps) {
+export const Providers = ({ children }: ProvidersProps) => {
   const queryClient = getQueryClient();
 
   return (
@@ -27,4 +27,4 @@ export function Providers({ children }: ProvidersProps) {
       </SessionProvider>
     </ThemeProvider>
   );
-}
+};

@@ -16,7 +16,7 @@ export interface StripeProduct {
   description: string;
   images: string[];
   livemode: boolean;
-  marketing_features: Array<{ name: string; description?: string }>;
+  marketing_features: { name: string; description?: string }[];
   metadata: {
     credits?: string;
     [key: string]: string | undefined;
@@ -43,7 +43,7 @@ export interface PricingProduct {
     description: string;
     images: string[];
     credits: string | undefined;
-    marketing_features: Array<{ name: string; description?: string }>;
+    marketing_features: { name: string; description?: string }[];
   };
 }
 

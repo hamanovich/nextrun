@@ -12,7 +12,7 @@ vi.mock("@/components/faq/faq", () => ({
     badge: string;
     heading: string;
     description: string;
-    faqs: Array<{ question: string; answer: string }>;
+    faqs: { question: string; answer: string }[];
   }) => (
     <div data-testid="faq-component">
       <div data-testid="faq-badge">{badge}</div>

@@ -4,22 +4,26 @@ A production-ready Next.js template with pre-configured authentication, payments
 
 ## ✨ Features
 
-### 🚀 **Next.js 15 + TypeScript**
+### 🚀 **Next.js 16 + TypeScript**
+
 - **App Router**: Latest Next.js routing with Server Components
 - **TypeScript**: Full type safety out of the box
 - **Turbopack**: Lightning-fast development builds
 
 ### 🔐 **Authentication Ready**
+
 - **Auth.js Integration**: Secure authentication with Google OAuth
 - **Session Management**: Persistent user sessions and protected routes
 - **User Management**: Complete user account system
 
 ### 💳 **Payment Processing**
+
 - **Stripe Integration**: Complete payment processing setup
 - **Subscription Management**: Handle recurring payments
 - **Webhook Support**: Secure payment event handling
 
 ### 🎨 **Modern UI Components**
+
 - **Radix UI**: Accessible component primitives
 - **Tailwind CSS**: Utility-first styling
 - **Dark Mode**: Built-in theme switching
@@ -29,7 +33,7 @@ A production-ready Next.js template with pre-configured authentication, payments
 
 ### Prerequisites
 
-- Node.js 20+
+- Node.js 24+
 - Bun (recommended) or npm/yarn/pnpm
 - PostgreSQL database (e.g., Neon, Supabase)
 - Stripe account (for payments)
@@ -107,7 +111,7 @@ A production-ready Next.js template with pre-configured authentication, payments
 
 ### Frontend
 
-- **Next.js 15** - React framework with App Router
+- **Next.js 16** - React framework with App Router
 - **React 19** - UI library
 - **TypeScript** - Type safety
 - **Tailwind CSS** - Styling
@@ -160,6 +164,7 @@ src/
 ### Getting Started with the Template
 
 1. **Clone and Install**
+
    ```bash
    git clone https://github.com/hamanovich/nextrun.git
    cd nextrun

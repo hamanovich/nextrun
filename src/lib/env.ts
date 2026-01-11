@@ -31,7 +31,7 @@ const envSchema = z.object({
 
 export type Env = z.infer<typeof envSchema>;
 
-function validateEnv(): Env {
+const validateEnv = (): Env => {
   try {
     return envSchema.parse(process.env);
   } catch (error) {
@@ -47,6 +47,6 @@ function validateEnv(): Env {
     }
     throw error;
   }
-}
+};
 
 export const env = validateEnv();

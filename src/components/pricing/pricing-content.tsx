@@ -20,7 +20,7 @@ import { PricingCta } from "./pricing-cta";
 import { PricingFaq } from "./pricing-faq";
 import { PricingHero } from "./pricing-hero";
 
-export async function PricingContent({ isMocked }: { isMocked?: boolean }) {
+export const PricingContent = async ({ isMocked }: { isMocked?: boolean }) => {
   const sessionUser = await getSessionUser();
   const products = isMocked ? [] : await listPricingProducts();
 
@@ -126,4 +126,4 @@ export async function PricingContent({ isMocked }: { isMocked?: boolean }) {
       <PricingCta isLoggedIn={!!sessionUser} />
     </>
   );
-}
+};

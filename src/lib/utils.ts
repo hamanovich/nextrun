@@ -1,14 +1,12 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
-export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs));
-}
+export const cn = (...inputs: ClassValue[]) => twMerge(clsx(inputs));
 
-export function formatMoney(
+export const formatMoney = (
   amount: number | null | undefined,
   currency: string | null | undefined,
-) {
+) => {
   if (amount == null || !currency) return "—";
   try {
     return new Intl.NumberFormat(undefined, {
@@ -18,4 +16,4 @@ export function formatMoney(
   } catch {
     return `${(amount / 100).toFixed(2)} ${currency?.toUpperCase() ?? ""}`;
   }
-}
+};

@@ -30,9 +30,7 @@ vi.mock("next/navigation", () => ({
 
 // Mock Next.js image component
 vi.mock("next/image", () => ({
-  default: (props: never) => {
-    return createElement("img", props);
-  },
+  default: (props: never) => createElement("img", props),
 }));
 
 // Mock Next.js Link component
@@ -45,9 +43,7 @@ vi.mock("next/link", () => ({
     href: string;
     children: React.ReactNode;
     className?: string;
-  }) => {
-    return createElement("a", { href, className }, children);
-  },
+  }) => createElement("a", { href, className }, children),
 }));
 
 // Mock environment variables for testing

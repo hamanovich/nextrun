@@ -71,23 +71,23 @@ export const updateUserStripeData = async (
   }
 };
 
-export async function consumeOneCredit(userId: string): Promise<boolean> {
+export const consumeOneCredit = async (userId: string): Promise<boolean> => {
   const rows = await db
     .update(users)
     .set({ stripeCredits: sql<number>`${users.stripeCredits} - 1` })
     .where(and(eq(users.id, userId), gte(users.stripeCredits, 1)))
     .returning({ stripeCredits: users.stripeCredits });
   return rows.length === 1;
-}
+};
 
-export async function refundOneCredit(userId: string): Promise<void> {
+export const refundOneCredit = async (userId: string): Promise<void> => {
   await db
     .update(users)
     .set({ stripeCredits: sql<number>`${users.stripeCredits} + 1` })
     .where(eq(users.id, userId));
-}
+};
 
-export async function getUserCredits(): Promise<number> {
+export const getUserCredits = async (): Promise<number> => {
   try {
     const session = await auth();
 
@@ -111,4 +111,4 @@ export async function getUserCredits(): Promise<number> {
   } catch {
     return 0;
   }
-}
+};

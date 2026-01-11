@@ -9,5 +9,5 @@ export interface FaqProps {
   badge?: ReactNode;
   heading?: ReactNode;
   description?: ReactNode;
-  faqs?: ReadonlyArray<FaqItem>;
+  faqs?: readonly FaqItem[];
 }

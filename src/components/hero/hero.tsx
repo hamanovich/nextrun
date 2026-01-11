@@ -47,7 +47,7 @@ export const Hero = () => (
         <div className="bg-muted flex size-12 items-center justify-center rounded-lg">
           <Code className="text-muted-foreground size-6" />
         </div>
-        <p className="text-muted-foreground text-lg">Next.js 15 + TypeScript</p>
+        <p className="text-muted-foreground text-lg">Next.js 16 + TypeScript</p>
       </li>
       <li className="flex h-full items-center justify-between gap-10 border-l border-t border-dashed px-5 md:gap-3 lg:justify-center lg:border-t-0">
         <div className="bg-muted flex size-12 items-center justify-center rounded-lg">

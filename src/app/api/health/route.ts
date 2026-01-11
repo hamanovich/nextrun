@@ -24,7 +24,7 @@ interface ServiceStatus {
   error?: string;
 }
 
-async function checkDatabase(): Promise<ServiceStatus> {
+const checkDatabase = async (): Promise<ServiceStatus> => {
   const start = Date.now();
   try {
     await Promise.race([
@@ -44,9 +44,9 @@ async function checkDatabase(): Promise<ServiceStatus> {
       error: error instanceof Error ? error.message : "Unknown database error",
     };
   }
-}
+};
 
-async function checkOpenAI(): Promise<ServiceStatus> {
+const checkOpenAI = async (): Promise<ServiceStatus> => {
   const start = Date.now();
   try {
     const response = await fetch("https://api.openai.com/v1/models", {
@@ -72,9 +72,9 @@ async function checkOpenAI(): Promise<ServiceStatus> {
       error: error instanceof Error ? error.message : "OpenAI API check failed",
     };
   }
-}
+};
 
-async function checkStripe(): Promise<ServiceStatus> {
+const checkStripe = async (): Promise<ServiceStatus> => {
   const start = Date.now();
   try {
     const response = await fetch("https://api.stripe.com/v1/balance", {
@@ -100,9 +100,9 @@ async function checkStripe(): Promise<ServiceStatus> {
       error: error instanceof Error ? error.message : "Stripe API check failed",
     };
   }
-}
+};
 
-export async function GET() {
+export const GET = async () => {
   const startTime = Date.now();
 
   try {
@@ -172,4 +172,4 @@ export async function GET() {
       headers: { "Cache-Control": "no-store, no-cache, must-revalidate" },
     });
   }
-}
+};

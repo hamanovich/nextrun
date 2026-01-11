@@ -15,9 +15,7 @@ const fetchCredits = async ({
     signal,
   });
 
-  if (!response.ok) {
-    throw new Error(`HTTP error! status: ${response.status}`);
-  }
+  if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
   let creditsData;
   try {
@@ -38,7 +36,7 @@ const fetchCredits = async ({
   return creditsValue;
 };
 
-export function useCredits() {
+export const useCredits = () => {
   const { data: session } = useSession();
 
   return useQuery({
@@ -48,9 +46,9 @@ export function useCredits() {
     staleTime: 5 * 60 * 1000, // 5 minutes
     retry: 3,
   });
-}
+};
 
-export function useCreditsRefetch() {
+export const useCreditsRefetch = () => {
   const { data: session } = useSession();
   const { refetch } = useCredits();
 
@@ -58,4 +56,4 @@ export function useCreditsRefetch() {
     refetchCredits: refetch,
     isAuthenticated: !!session?.user?.id,
   };
-}
+};

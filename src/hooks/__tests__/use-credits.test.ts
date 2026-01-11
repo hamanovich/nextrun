@@ -27,9 +27,14 @@ const mockAbortController = {
   signal: mockAbortSignal,
   abort: vi.fn(),
 };
-global.AbortController = vi.fn(
-  () => mockAbortController,
-) as unknown as typeof AbortController;
+
+class MockAbortController {
+  signal = mockAbortSignal;
+  abort = vi.fn();
+}
+
+global.AbortController =
+  MockAbortController as unknown as typeof AbortController;
 
 describe("useCredits", () => {
   beforeEach(() => {
@@ -229,15 +234,13 @@ describe("fetchCredits function", () => {
       status: "authenticated",
     });
 
-    mockUseQuery.mockImplementation(({ queryFn: _queryFn }) => {
-      return {
-        data: null,
-        isLoading: true,
-        isError: false,
-        error: null,
-        refetch: vi.fn(),
-      };
-    });
+    mockUseQuery.mockImplementation(({ queryFn: _queryFn }) => ({
+      data: null,
+      isLoading: true,
+      isError: false,
+      error: null,
+      refetch: vi.fn(),
+    }));
 
     renderHook(() => useCredits());
 
@@ -267,15 +270,13 @@ describe("fetchCredits function", () => {
       status: "authenticated",
     });
 
-    mockUseQuery.mockImplementation(({ queryFn: _queryFn }) => {
-      return {
-        data: null,
-        isLoading: true,
-        isError: false,
-        error: null,
-        refetch: vi.fn(),
-      };
-    });
+    mockUseQuery.mockImplementation(({ queryFn: _queryFn }) => ({
+      data: null,
+      isLoading: true,
+      isError: false,
+      error: null,
+      refetch: vi.fn(),
+    }));
 
     renderHook(() => useCredits());
 
@@ -297,15 +298,13 @@ describe("fetchCredits function", () => {
       status: "authenticated",
     });
 
-    mockUseQuery.mockImplementation(({ queryFn: _queryFn }) => {
-      return {
-        data: null,
-        isLoading: true,
-        isError: false,
-        error: null,
-        refetch: vi.fn(),
-      };
-    });
+    mockUseQuery.mockImplementation(({ queryFn: _queryFn }) => ({
+      data: null,
+      isLoading: true,
+      isError: false,
+      error: null,
+      refetch: vi.fn(),
+    }));
 
     renderHook(() => useCredits());
 
@@ -327,15 +326,13 @@ describe("fetchCredits function", () => {
       status: "authenticated",
     });
 
-    mockUseQuery.mockImplementation(({ queryFn: _queryFn }) => {
-      return {
-        data: null,
-        isLoading: true,
-        isError: false,
-        error: null,
-        refetch: vi.fn(),
-      };
-    });
+    mockUseQuery.mockImplementation(({ queryFn: _queryFn }) => ({
+      data: null,
+      isLoading: true,
+      isError: false,
+      error: null,
+      refetch: vi.fn(),
+    }));
 
     renderHook(() => useCredits());
 
@@ -357,15 +354,13 @@ describe("fetchCredits function", () => {
       status: "authenticated",
     });
 
-    mockUseQuery.mockImplementation(({ queryFn: _queryFn }) => {
-      return {
-        data: null,
-        isLoading: true,
-        isError: false,
-        error: null,
-        refetch: vi.fn(),
-      };
-    });
+    mockUseQuery.mockImplementation(({ queryFn: _queryFn }) => ({
+      data: null,
+      isLoading: true,
+      isError: false,
+      error: null,
+      refetch: vi.fn(),
+    }));
 
     renderHook(() => useCredits());
 
@@ -388,15 +383,13 @@ describe("fetchCredits function", () => {
       status: "authenticated",
     });
 
-    mockUseQuery.mockImplementation(({ queryFn: _queryFn }) => {
-      return {
-        data: null,
-        isLoading: true,
-        isError: false,
-        error: null,
-        refetch: vi.fn(),
-      };
-    });
+    mockUseQuery.mockImplementation(({ queryFn: _queryFn }) => ({
+      data: null,
+      isLoading: true,
+      isError: false,
+      error: null,
+      refetch: vi.fn(),
+    }));
 
     renderHook(() => useCredits());
 
@@ -415,15 +408,13 @@ describe("fetchCredits function", () => {
       status: "authenticated",
     });
 
-    mockUseQuery.mockImplementation(({ queryFn: _queryFn }) => {
-      return {
-        data: null,
-        isLoading: true,
-        isError: false,
-        error: null,
-        refetch: vi.fn(),
-      };
-    });
+    mockUseQuery.mockImplementation(({ queryFn: _queryFn }) => ({
+      data: null,
+      isLoading: true,
+      isError: false,
+      error: null,
+      refetch: vi.fn(),
+    }));
 
     renderHook(() => useCredits());
 
@@ -446,15 +437,13 @@ describe("fetchCredits function", () => {
       status: "authenticated",
     });
 
-    mockUseQuery.mockImplementation(({ queryFn: _queryFn }) => {
-      return {
-        data: null,
-        isLoading: true,
-        isError: false,
-        error: null,
-        refetch: vi.fn(),
-      };
-    });
+    mockUseQuery.mockImplementation(({ queryFn: _queryFn }) => ({
+      data: null,
+      isLoading: true,
+      isError: false,
+      error: null,
+      refetch: vi.fn(),
+    }));
 
     renderHook(() => useCredits());
 
@@ -483,15 +472,13 @@ describe("fetchCredits function", () => {
       status: "authenticated",
     });
 
-    mockUseQuery.mockImplementation(({ queryFn: _queryFn }) => {
-      return {
-        data: null,
-        isLoading: true,
-        isError: false,
-        error: null,
-        refetch: vi.fn(),
-      };
-    });
+    mockUseQuery.mockImplementation(({ queryFn: _queryFn }) => ({
+      data: null,
+      isLoading: true,
+      isError: false,
+      error: null,
+      refetch: vi.fn(),
+    }));
 
     renderHook(() => useCredits());
 

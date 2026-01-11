@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { getUserCredits } from "@/actions/user";
 import { logger } from "@/lib/logger";
 
-export async function GET() {
+export const GET = async () => {
   try {
     const credits = await getUserCredits();
     return NextResponse.json({ credits });
@@ -10,4 +10,4 @@ export async function GET() {
     logger.error("Failed to fetch user credits:", error);
     return NextResponse.json({ credits: 0 }, { status: 500 });
   }
-}
+};

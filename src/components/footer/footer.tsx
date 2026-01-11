@@ -1,4 +1,3 @@
-import React from "react";
 import Link from "next/link";
 import { Logo } from "@/components/navbar/logo";
 import { footerLegalLinks, footerSections } from "./footer.constants";
