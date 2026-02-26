@@ -8,28 +8,28 @@ describe("CallToAction", () => {
       render(<CallToAction />);
 
       expect(
-        screen.getByText("Ready to Master a New Language?"),
+        screen.getByText("Ready to Launch Your Next Project?"),
       ).toBeInTheDocument();
 
       expect(
         screen.getByText(
-          "Join thousands of learners who are accelerating their language learning journey with AI-powered flashcards. Generate personalized study materials for Quizlet and Anki in seconds, not hours.",
+          "Join thousands of developers who are accelerating their development journey with NextRun. Get a production-ready template with authentication, payments, and modern UI in seconds.",
         ),
       ).toBeInTheDocument();
 
-      expect(screen.getByText("Start Learning Now")).toBeInTheDocument();
+      expect(screen.getByText("View Pricing")).toBeInTheDocument();
 
       const buttonLink = screen.getByRole("link", {
-        name: /start learning now/i,
+        name: /view pricing/i,
       });
-      expect(buttonLink).toHaveAttribute("href", "/quizlet");
+      expect(buttonLink).toHaveAttribute("href", "/pricing");
 
       const defaultItems = [
-        "AI-Powered Learning",
-        "Multiple Platforms (Quizlet & Anki)",
-        "Wide Language Support",
-        "Smart Spaced Repetition",
-        "Instant Generation",
+        "Next.js 16 + TypeScript",
+        "Auth.js Authentication",
+        "Stripe Payments Ready",
+        "Beautiful UI Components",
+        "Tailwind CSS + Shadcn",
       ];
 
       defaultItems.forEach((item) => {
@@ -41,11 +41,11 @@ describe("CallToAction", () => {
       render(<CallToAction />);
 
       expect(
-        screen.getByText("START YOUR LANGUAGE JOURNEY"),
+        screen.getByText("START YOUR DEVELOPMENT JOURNEY"),
       ).toBeInTheDocument();
 
       const indicator = screen
-        .getByText("START YOUR LANGUAGE JOURNEY")
+        .getByText("START YOUR DEVELOPMENT JOURNEY")
         .closest("p");
       expect(indicator).toHaveClass(
         "text-muted-foreground",
@@ -60,7 +60,9 @@ describe("CallToAction", () => {
     it("renders the gradient title with correct styling", () => {
       render(<CallToAction />);
 
-      const titleElement = screen.getByText("Ready to Master a New Language?");
+      const titleElement = screen.getByText(
+        "Ready to Launch Your Next Project?",
+      );
       expect(titleElement).toHaveClass(
         "text-transparent",
         "bg-gradient-to-br",
@@ -91,7 +93,7 @@ describe("CallToAction", () => {
 
       expect(screen.getByText(customTitle)).toBeInTheDocument();
       expect(
-        screen.queryByText("Ready to Master a New Language?"),
+        screen.queryByText("Ready to Launch Your Next Project?"),
       ).not.toBeInTheDocument();
     });
 
@@ -102,7 +104,7 @@ describe("CallToAction", () => {
       expect(screen.getByText(customDescription)).toBeInTheDocument();
       expect(
         screen.queryByText(
-          "Join thousands of learners who are accelerating their language learning journey with AI-powered flashcards. Generate personalized study materials for Quizlet and Anki in seconds, not hours.",
+          "Join thousands of developers who are accelerating their development journey with NextRun. Get a production-ready template with authentication, payments, and modern UI in seconds.",
         ),
       ).not.toBeInTheDocument();
     });
@@ -159,7 +161,7 @@ describe("CallToAction", () => {
 
       const heading = screen.getByRole("heading", { level: 2 });
       expect(heading).toBeInTheDocument();
-      expect(heading).toHaveTextContent("Ready to Master a New Language?");
+      expect(heading).toHaveTextContent("Ready to Launch Your Next Project?");
     });
 
     it("has accessible button with proper role", () => {
@@ -167,7 +169,7 @@ describe("CallToAction", () => {
 
       const button = screen.getByRole("link");
       expect(button).toBeInTheDocument();
-      expect(button).toHaveAttribute("href", "/quizlet");
+      expect(button).toHaveAttribute("href", "/pricing");
     });
 
     it("has proper list structure", () => {
@@ -192,7 +194,7 @@ describe("CallToAction", () => {
       render(<CallToAction />);
 
       const container = screen
-        .getByText("Ready to Master a New Language?")
+        .getByText("Ready to Launch Your Next Project?")
         .closest(".container");
       expect(container).toBeInTheDocument();
     });
@@ -203,7 +205,7 @@ describe("CallToAction", () => {
       render(<CallToAction />);
 
       const mainContainer = screen
-        .getByText("Ready to Master a New Language?")
+        .getByText("Ready to Launch Your Next Project?")
         .closest(".container");
       expect(mainContainer).toHaveClass("container", "pt-6", "mx-auto");
 
@@ -238,7 +240,7 @@ describe("CallToAction", () => {
       expect(titleHeading).toHaveClass("text-2xl", "font-bold", "md:text-3xl");
 
       const description = screen.getByText(
-        "Join thousands of learners who are accelerating their language learning journey with AI-powered flashcards. Generate personalized study materials for Quizlet and Anki in seconds, not hours.",
+        "Join thousands of developers who are accelerating their development journey with NextRun. Get a production-ready template with authentication, payments, and modern UI in seconds.",
       );
       expect(description).toHaveClass(
         "text-muted-foreground",
@@ -251,7 +253,7 @@ describe("CallToAction", () => {
       render(<CallToAction />);
 
       const leftColumn = screen
-        .getByText("Ready to Master a New Language?")
+        .getByText("Ready to Launch Your Next Project?")
         .closest("div");
       expect(leftColumn).toHaveClass("md:w-1/2");
 
@@ -280,7 +282,7 @@ describe("CallToAction", () => {
       render(<CallToAction />);
 
       const buttonLink = screen.getByRole("link");
-      expect(buttonLink).toHaveTextContent("Start Learning Now");
+      expect(buttonLink).toHaveTextContent("View Pricing");
 
       const arrowIcon = buttonLink.querySelector("svg");
       expect(arrowIcon).toBeInTheDocument();
@@ -336,11 +338,11 @@ describe("CallToAction", () => {
       render(<CallToAction title={undefined} description={undefined} />);
 
       expect(
-        screen.getByText("Ready to Master a New Language?"),
+        screen.getByText("Ready to Launch Your Next Project?"),
       ).toBeInTheDocument();
       expect(
         screen.getByText(
-          "Join thousands of learners who are accelerating their language learning journey with AI-powered flashcards. Generate personalized study materials for Quizlet and Anki in seconds, not hours.",
+          "Join thousands of developers who are accelerating their development journey with NextRun. Get a production-ready template with authentication, payments, and modern UI in seconds.",
         ),
       ).toBeInTheDocument();
     });

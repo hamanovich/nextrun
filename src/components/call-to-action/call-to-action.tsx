@@ -11,16 +11,16 @@ interface CallToActionProps {
 }
 
 export const CallToAction = ({
-  title = "Ready to Master a New Language?",
-  description = "Join thousands of learners who are accelerating their language learning journey with AI-powered flashcards. Generate personalized study materials for Quizlet and Anki in seconds, not hours.",
-  buttonText = "Start Learning Now",
-  buttonUrl = "/quizlet",
+  title = "Ready to Launch Your Next Project?",
+  description = "Join thousands of developers who are accelerating their development journey with NextRun. Get a production-ready template with authentication, payments, and modern UI in seconds.",
+  buttonText = "View Pricing",
+  buttonUrl = "/pricing",
   items = [
-    "AI-Powered Learning",
-    "Multiple Platforms (Quizlet & Anki)",
-    "Wide Language Support",
-    "Smart Spaced Repetition",
-    "Instant Generation",
+    "Next.js 16 + TypeScript",
+    "Auth.js Authentication",
+    "Stripe Payments Ready",
+    "Beautiful UI Components",
+    "Tailwind CSS + Shadcn",
   ],
 }: CallToActionProps) => (
   <div className="container pt-6 mx-auto">
@@ -30,7 +30,7 @@ export const CallToAction = ({
           <div className="md:w-1/2">
             <p className="text-muted-foreground flex items-center gap-3 text-sm mb-2">
               <span className="inline-block size-2 rounded bg-green-500" />
-              START YOUR LANGUAGE JOURNEY
+              START YOUR DEVELOPMENT JOURNEY
             </p>
             <h2 className="mb-1 text-2xl font-bold md:text-3xl">
               <span className="text-transparent bg-gradient-to-br bg-clip-text from-teal-500 via-indigo-500 to-sky-500 dark:from-teal-200 dark:via-indigo-300 dark:to-sky-500">

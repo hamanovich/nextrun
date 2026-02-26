@@ -15,7 +15,7 @@ export default function NotFound() {
     <div className="container mx-auto px-6 py-16">
       <div className="flex flex-col items-center justify-center min-h-[60vh] text-center">
         <div className="mb-8">
-          <h1 className="text-9xl font-bold text-transparent bg-gradient-to-br bg-clip-text from-teal-500 via-indigo-500 to-sky-500 dark:from-teal-200 dark:via-indigo-300 dark:to-sky-500">
+          <h1 className="text-9xl font-bold text-transparent bg-linear-to-br bg-clip-text from-teal-500 via-indigo-500 to-sky-500 dark:from-teal-200 dark:via-indigo-300 dark:to-sky-500">
             404
           </h1>
         </div>
@@ -23,8 +23,8 @@ export default function NotFound() {
         <div className="mb-8 max-w-md">
           <h2 className="text-3xl font-semibold mb-4">Page Not Found</h2>
           <p className="text-muted-foreground text-lg">
-            Sorry, we couldn't find the page you're looking for. The page might
-            have been moved, deleted, or doesn't exist.
+            Sorry, we couldn&apos;t find the page you&apos;re looking for. The
+            page might have been moved, deleted, or doesn&apos;t exist.
           </p>
         </div>
 

@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import {
   ChevronDownIcon,
@@ -7,9 +8,7 @@ import {
   LogOutIcon,
   UserIcon,
 } from "lucide-react";
-import type { Session } from "next-auth";
-import { signOut } from "next-auth/react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { authClient } from "@/lib/auth-client";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -22,14 +21,21 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 interface UserMenuProps {
-  session: Session | null;
+  session: {
+    user: {
+      name?: string | null;
+      email?: string | null;
+      image?: string | null;
+    };
+  } | null;
   credits: number;
 }
 
 export const UserMenu = ({ session, credits }: UserMenuProps) => {
   const handleLogout = async () => {
     try {
-      await signOut({ callbackUrl: "/" });
+      await authClient.signOut();
+      window.location.href = "/";
     } catch (err) {
       console.error("Sign out failed", err);
     }
@@ -46,16 +52,22 @@ export const UserMenu = ({ session, credits }: UserMenuProps) => {
           variant="ghost"
           className="h-8 px-2 py-0 hover:bg-accent hover:text-accent-foreground"
         >
-          <Avatar className="h-6 w-6">
-            <AvatarImage src={userAvatar || undefined} alt={userName} />
-            <AvatarFallback className="text-xs">
-              {userName
-                .split(" ")
-                .map((n: string) => n[0])
-                .join("")
-                .toUpperCase()}
-            </AvatarFallback>
-          </Avatar>
+          {userAvatar ? (
+            <Image
+              alt={userName}
+              src={userAvatar}
+              width={32}
+              height={32}
+              className="rounded-full object-cover"
+            />
+          ) : (
+            <div
+              aria-hidden="true"
+              className="mr-1 flex size-8 items-center justify-center rounded-full bg-accent text-xs font-medium"
+            >
+              {userName.charAt(0).toUpperCase()}
+            </div>
+          )}
           <ChevronDownIcon className="h-3 w-3 ml-1" />
           <span className="sr-only">User menu</span>
         </Button>

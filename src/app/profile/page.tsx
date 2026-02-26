@@ -1,3 +1,4 @@
+import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { getSessionUser } from "@/actions/user";
 import { auth } from "@/lib/auth";
@@ -9,11 +10,9 @@ import { UserPaymentInformation } from "@/components/user/user-payment-informati
 export { metadata } from "./metadata";
 
 export default async function UserPage() {
-  const session = await auth();
+  const session = await auth.api.getSession({ headers: await headers() });
 
-  if (!session?.user) {
-    redirect("/");
-  }
+  if (!session?.user) redirect("/");
 
   const sessionUser = await getSessionUser();
   const user = sessionUser?.user || session.user;

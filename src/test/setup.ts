@@ -3,6 +3,8 @@ import { createElement } from "react";
 import * as matchers from "@testing-library/jest-dom/matchers";
 import { cleanup } from "@testing-library/react";
 import { afterEach, expect, vi } from "vitest";
+// Load centralized mocks
+import "./mocks/modules";
 
 // Extend Vitest's expect with jest-dom matchers
 expect.extend(matchers);
@@ -47,5 +49,5 @@ vi.mock("next/link", () => ({
 }));
 
 // Mock environment variables for testing
-process.env.NEXTAUTH_URL = "http://localhost:3000";
-process.env.NEXTAUTH_SECRET = "test-secret";
+process.env.BETTER_AUTH_URL = "http://localhost:3000";
+process.env.BETTER_AUTH_SECRET = "test-secret-32-chars-minimum-ok!";

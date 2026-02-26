@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { Home } from "lucide-react";
-import { signIn } from "next-auth/react";
+import { authClient } from "@/lib/auth-client";
 import { useAuthRedirect } from "@/hooks/use-auth-redirect";
 import { Button } from "@/components/ui/button";
 import { AuthLoading } from "@/components/auth/auth-loading";
@@ -23,7 +23,9 @@ export default function SignInPage() {
         <div className="space-y-4">
           <Button
             size="lg"
-            onClick={() => signIn("google", { callbackUrl: "/" })}
+            onClick={() =>
+              authClient.signIn.social({ provider: "google", callbackURL: "/" })
+            }
             className="w-full sm:w-auto"
           >
             Sign in with Google

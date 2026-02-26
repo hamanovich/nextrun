@@ -1,5 +1,6 @@
 "use server";
 
+import { headers } from "next/headers";
 import { db } from "@/db";
 import { users } from "@/db/schema";
 import { and, eq, gte, sql } from "drizzle-orm";
@@ -8,7 +9,7 @@ import { auth } from "@/lib/auth";
 
 export const getSessionUser = async (): Promise<SessionUser> => {
   try {
-    const session = await auth();
+    const session = await auth.api.getSession({ headers: await headers() });
 
     if (!session?.user) return null;
 
@@ -89,7 +90,7 @@ export const refundOneCredit = async (userId: string): Promise<void> => {
 
 export const getUserCredits = async (): Promise<number> => {
   try {
-    const session = await auth();
+    const session = await auth.api.getSession({ headers: await headers() });
 
     if (!session?.user?.id) {
       return 0;

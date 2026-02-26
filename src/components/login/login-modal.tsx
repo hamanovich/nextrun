@@ -1,6 +1,6 @@
 "use client";
 
-import { signIn } from "next-auth/react";
+import { authClient } from "@/lib/auth-client";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -16,7 +16,10 @@ interface LoginModalProps {
 
 export const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
   const handleGoogleSignIn = () =>
-    signIn("google", { callbackUrl: window.location.href });
+    authClient.signIn.social({
+      provider: "google",
+      callbackURL: window.location.href,
+    });
 
   return (
     <Dialog

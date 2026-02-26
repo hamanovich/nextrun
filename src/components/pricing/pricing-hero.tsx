@@ -5,7 +5,7 @@ interface PricingHeroProps {
 }
 
 export const PricingHero = ({ currentCredits }: PricingHeroProps) => (
-  <section className="py-6 md:py-12 bg-gradient-to-b from-background to-muted/50">
+  <section className="py-6 md:py-12 bg-linear-to-b from-background to-muted/50">
     <div className="container mx-auto px-4">
       <div className="mx-auto max-w-4xl text-center">
         <p className="text-muted-foreground mb-2 flex items-center justify-center gap-3 text-sm">
@@ -14,13 +14,13 @@ export const PricingHero = ({ currentCredits }: PricingHeroProps) => (
         </p>
         <h1 className="mb-6 text-4xl font-semibold tracking-tighter md:text-5xl lg:text-6xl">
           Choose Your{" "}
-          <span className="text-transparent bg-gradient-to-br bg-clip-text from-teal-500 via-indigo-500 to-sky-500 dark:from-teal-200 dark:via-indigo-300 dark:to-sky-500">
-            Learning Journey
+          <span className="text-transparent bg-linear-to-br bg-clip-text from-teal-500 via-indigo-500 to-sky-500 dark:from-teal-200 dark:via-indigo-300 dark:to-sky-500">
+            Development Journey
           </span>
         </h1>
         <p className="text-muted-foreground mx-auto max-w-2xl text-lg leading-relaxed">
           Start free and scale as you grow. Our credit-based system gives you
-          complete control over your language learning investment.
+          complete control over your development investment.
         </p>
 
         {currentCredits !== undefined && (

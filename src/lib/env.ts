@@ -9,13 +9,10 @@ const envSchema = z.object({
   GOOGLE_CLIENT_SECRET: z
     .string()
     .min(1, { message: "GOOGLE_CLIENT_SECRET is required" }),
-  NEXTAUTH_URL: z.url({ message: "NEXTAUTH_URL must be a valid URL" }),
-  NEXTAUTH_URL_INTERNAL: z
-    .url({ message: "NEXTAUTH_URL_INTERNAL must be a valid URL" })
-    .optional(),
-  NEXTAUTH_SECRET: z
+  BETTER_AUTH_URL: z.url({ message: "BETTER_AUTH_URL must be a valid URL" }),
+  BETTER_AUTH_SECRET: z
     .string()
-    .min(1, { message: "NEXTAUTH_SECRET is required" }),
+    .min(32, { message: "BETTER_AUTH_SECRET must be at least 32 characters" }),
   NEXT_PUBLIC_DOMAIN: z
     .url({
       message: "NEXT_PUBLIC_DOMAIN must be an absolute URL",

@@ -1,7 +1,7 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-import { useSession } from "next-auth/react";
+import { authClient } from "@/lib/auth-client";
 
 const fetchCredits = async ({
   signal,
@@ -37,7 +37,7 @@ const fetchCredits = async ({
 };
 
 export const useCredits = () => {
-  const { data: session } = useSession();
+  const { data: session } = authClient.useSession();
 
   return useQuery({
     queryKey: ["credits", session?.user?.id],
@@ -49,7 +49,7 @@ export const useCredits = () => {
 };
 
 export const useCreditsRefetch = () => {
-  const { data: session } = useSession();
+  const { data: session } = authClient.useSession();
   const { refetch } = useCredits();
 
   return {

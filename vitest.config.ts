@@ -21,6 +21,7 @@ export default defineConfig({
   },
   resolve: {
     alias: {
+      "@/public": path.resolve(__dirname, "./public"),
       "@": path.resolve(__dirname, "./src"),
       "server-only": path.resolve(__dirname, "./src/test/mocks/server-only.ts"),
     },

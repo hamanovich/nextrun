@@ -18,19 +18,17 @@ export default function AppError({ error, reset }: ErrorProps) {
   return (
     <div className="container mx-auto px-6 py-16">
       <div className="flex flex-col items-center justify-center min-h-[60vh] text-center">
-        {/* Error Icon */}
         <div className="mb-8">
           <div className="bg-destructive/10 dark:bg-destructive/20 rounded-full p-6 mb-4">
             <AlertTriangle className="size-16 text-destructive" />
           </div>
         </div>
 
-        {/* Error Message */}
         <div className="mb-8 max-w-md" role="alert">
           <h1 className="text-3xl font-semibold mb-4">Something went wrong!</h1>
           <p className="text-muted-foreground text-lg mb-4">
-            We encountered an unexpected error. Don't worry, our team has been
-            notified and we're working to fix it.
+            We encountered an unexpected error. Don&apos;t worry, our team has
+            been notified and we&apos;re working to fix it.
           </p>
           {process.env.NODE_ENV === "development" && (
             <details className="text-left bg-muted p-4 rounded-lg">
@@ -45,7 +43,6 @@ export default function AppError({ error, reset }: ErrorProps) {
           )}
         </div>
 
-        {/* Action Buttons */}
         <div className="flex flex-col sm:flex-row gap-4">
           <Button size="lg" onClick={reset} className="flex items-center gap-2">
             <RefreshCw className="size-4" />
@@ -68,7 +65,6 @@ export default function AppError({ error, reset }: ErrorProps) {
           </Button>
         </div>
 
-        {/* Additional Help */}
         <div className="mt-12 text-sm text-muted-foreground">
           <p>
             If this problem persists, please{" "}

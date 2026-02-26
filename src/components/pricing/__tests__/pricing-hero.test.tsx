@@ -10,7 +10,7 @@ describe("PricingHero", () => {
       expect(screen.getByRole("heading", { level: 1 })).toBeInTheDocument();
       expect(screen.getByText("PRICING")).toBeInTheDocument();
       expect(screen.getByText("Choose Your")).toBeInTheDocument();
-      expect(screen.getByText("Learning Journey")).toBeInTheDocument();
+      expect(screen.getByText("Development Journey")).toBeInTheDocument();
     });
 
     it("renders the pricing badge with correct styling", () => {
@@ -50,10 +50,10 @@ describe("PricingHero", () => {
         "lg:text-6xl",
       );
 
-      const gradientSpan = screen.getByText("Learning Journey");
+      const gradientSpan = screen.getByText("Development Journey");
       expect(gradientSpan).toHaveClass(
         "text-transparent",
-        "bg-gradient-to-br",
+        "bg-linear-to-br",
         "bg-clip-text",
         "from-teal-500",
         "via-indigo-500",
@@ -68,7 +68,7 @@ describe("PricingHero", () => {
       render(<PricingHero />);
 
       const description = screen.getByText(
-        "Start free and scale as you grow. Our credit-based system gives you complete control over your language learning investment.",
+        "Start free and scale as you grow. Our credit-based system gives you complete control over your development investment.",
       );
       expect(description).toHaveClass(
         "text-muted-foreground",
@@ -150,7 +150,7 @@ describe("PricingHero", () => {
       expect(section).toHaveClass(
         "py-6",
         "md:py-12",
-        "bg-gradient-to-b",
+        "bg-linear-to-b",
         "from-background",
         "to-muted/50",
       );
@@ -176,7 +176,7 @@ describe("PricingHero", () => {
 
       const heading = screen.getByRole("heading", { level: 1 });
       expect(heading).toBeInTheDocument();
-      expect(heading).toHaveTextContent("Choose Your Learning Journey");
+      expect(heading).toHaveTextContent("Choose Your Development Journey");
     });
 
     it("has proper semantic structure", () => {

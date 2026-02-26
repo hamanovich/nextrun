@@ -14,8 +14,9 @@ export default function TermsPage() {
               1. Acceptance of Terms
             </h2>
             <p className="text-gray-600 leading-relaxed">
-              By accessing and using NextRun.dev ("the Service"), you accept and
-              agree to be bound by the terms and provision of this agreement.
+              By accessing and using NextRun.dev (&quot;the Service&quot;), you
+              accept and agree to be bound by the terms and provision of this
+              agreement.
             </p>
           </section>
 
@@ -56,8 +57,8 @@ export default function TermsPage() {
               pre-configured authentication (Auth.js), payment processing
               (Stripe), and modern UI components. The template includes
               TypeScript support, responsive design, and best practices for web
-              development. The service is provided "as is" and we make no
-              warranties regarding its accuracy or reliability.
+              development. The service is provided &quot;as is&quot; and we make
+              no warranties regarding its accuracy or reliability.
             </p>
           </section>
 

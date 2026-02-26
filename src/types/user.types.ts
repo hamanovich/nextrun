@@ -1,7 +1,10 @@
-import type { Session } from "next-auth";
-
 export type SessionUser = {
-  user: Session["user"] & {
+  user: {
+    id: string;
+    name?: string | null;
+    email: string;
+    image?: string | null;
+    emailVerified?: boolean;
     stripeCredits: number;
     stripeCustomerId: string | null;
     stripeCheckoutSessionId: string | null;

@@ -1,45 +1,90 @@
-import { integer, pgTable, text, timestamp } from "drizzle-orm/pg-core";
+import {
+  boolean,
+  integer,
+  pgTable,
+  text,
+  timestamp,
+} from "drizzle-orm/pg-core";
 
 export const users = pgTable("user", {
   id: text("id").primaryKey(),
-  name: text("name"),
+  name: text("name").notNull(),
   email: text("email").notNull().unique(),
-  emailVerified: timestamp("emailVerified", {
+  emailVerified: boolean("emailVerified").notNull().default(false),
+  image: text("image"),
+  createdAt: timestamp("createdAt", {
     withTimezone: true,
     mode: "date",
-  }),
-  image: text("image"),
+  }).notNull(),
+  updatedAt: timestamp("updatedAt", {
+    withTimezone: true,
+    mode: "date",
+  }).notNull(),
   stripeCredits: integer("stripeCredits").default(5).notNull(),
   stripeCustomerId: text("stripeCustomerId"),
   stripeCheckoutSessionId: text("stripeCheckoutSessionId"),
 });
 
-export const accounts = pgTable("account", {
-  userId: text("userId")
-    .notNull()
-    .references(() => users.id, { onDelete: "cascade" }),
-  type: text("type").notNull(),
-  provider: text("provider").notNull(),
-  providerAccountId: text("providerAccountId").notNull(),
-  refresh_token: text("refresh_token"),
-  access_token: text("access_token"),
-  expires_at: integer("expires_at"),
-  token_type: text("token_type"),
-  scope: text("scope"),
-  id_token: text("id_token"),
-  session_state: text("session_state"),
-});
-
 export const sessions = pgTable("session", {
-  sessionToken: text("sessionToken").primaryKey(),
+  id: text("id").primaryKey(),
+  expiresAt: timestamp("expiresAt", {
+    withTimezone: true,
+    mode: "date",
+  }).notNull(),
+  token: text("token").notNull().unique(),
+  createdAt: timestamp("createdAt", {
+    withTimezone: true,
+    mode: "date",
+  }).notNull(),
+  updatedAt: timestamp("updatedAt", {
+    withTimezone: true,
+    mode: "date",
+  }).notNull(),
+  ipAddress: text("ipAddress"),
+  userAgent: text("userAgent"),
   userId: text("userId")
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),
-  expires: timestamp("expires", { mode: "date" }).notNull(),
 });
 
-export const verificationTokens = pgTable("verificationToken", {
+export const accounts = pgTable("account", {
+  id: text("id").primaryKey(),
+  accountId: text("accountId").notNull(),
+  providerId: text("providerId").notNull(),
+  userId: text("userId")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
+  accessToken: text("accessToken"),
+  refreshToken: text("refreshToken"),
+  idToken: text("idToken"),
+  accessTokenExpiresAt: timestamp("accessTokenExpiresAt", {
+    withTimezone: true,
+    mode: "date",
+  }),
+  refreshTokenExpiresAt: timestamp("refreshTokenExpiresAt", {
+    withTimezone: true,
+    mode: "date",
+  }),
+  scope: text("scope"),
+  password: text("password"),
+  createdAt: timestamp("createdAt", {
+    withTimezone: true,
+    mode: "date",
+  }).notNull(),
+  updatedAt: timestamp("updatedAt", {
+    withTimezone: true,
+    mode: "date",
+  }).notNull(),
+});
+
+export const verification = pgTable("verification", {
+  id: text("id").primaryKey(),
   identifier: text("identifier").notNull(),
-  token: text("token").notNull(),
-  expires: timestamp("expires", { mode: "date" }).notNull(),
+  value: text("value").notNull(),
+  expiresAt: timestamp("expiresAt", {
+    withTimezone: true,
+    mode: "date",
+  }).notNull(),
+  createdAt: timestamp("createdAt", { withTimezone: true, mode: "date" }),
+  updatedAt: timestamp("updatedAt", { withTimezone: true, mode: "date" }),
 });

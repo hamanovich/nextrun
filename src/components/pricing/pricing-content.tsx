@@ -30,7 +30,7 @@ export const PricingContent = async ({ isMocked }: { isMocked?: boolean }) => {
     period: product.interval ?? "one-time",
     credits:
       product.product?.credits != null ? Number(product.product.credits) : null,
-    description: product.product?.description || "Language learning credits",
+    description: product.product?.description || "NextRun building credits",
     features:
       product.product?.marketing_features?.map(
         (feature: { name: string }) => feature.name,

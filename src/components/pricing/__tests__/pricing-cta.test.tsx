@@ -26,10 +26,10 @@ describe("PricingCta", () => {
       render(<PricingCta />);
 
       expect(screen.getByRole("heading", { level: 2 })).toBeInTheDocument();
-      expect(screen.getByText("Ready to Start Learning?")).toBeInTheDocument();
+      expect(screen.getByText("Ready to Start Building?")).toBeInTheDocument();
       expect(
         screen.getByText(
-          "Join hundreds of language learners who are already accelerating their progress with NextLang. Start your free trial today!",
+          /Join hundreds of developers who are already accelerating their progress with NextRun/,
         ),
       ).toBeInTheDocument();
     });
@@ -55,14 +55,14 @@ describe("PricingCta", () => {
 
       const heading = screen.getByRole("heading", { level: 2 });
       expect(heading).toHaveClass("text-3xl", "font-bold", "mb-4");
-      expect(heading).toHaveTextContent("Ready to Start Learning?");
+      expect(heading).toHaveTextContent("Ready to Start Building?");
     });
 
     it("renders the description with correct styling", () => {
       render(<PricingCta />);
 
       const description = screen.getByText(
-        "Join hundreds of language learners who are already accelerating their progress with NextLang. Start your free trial today!",
+        /Join hundreds of developers who are already accelerating their progress with NextRun/,
       );
       expect(description).toHaveClass(
         "text-xl",
@@ -174,7 +174,7 @@ describe("PricingCta", () => {
 
       const heading = screen.getByRole("heading", { level: 2 });
       expect(heading).toBeInTheDocument();
-      expect(heading).toHaveTextContent("Ready to Start Learning?");
+      expect(heading).toHaveTextContent("Ready to Start Building?");
     });
 
     it("has accessible button when logged in", () => {

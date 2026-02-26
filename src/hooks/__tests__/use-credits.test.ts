@@ -4,8 +4,10 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { useCredits, useCreditsRefetch } from "../use-credits";
 
 const mockUseSession = vi.fn();
-vi.mock("next-auth/react", () => ({
-  useSession: () => mockUseSession(),
+vi.mock("@/lib/auth-client", () => ({
+  authClient: {
+    useSession: () => mockUseSession(),
+  },
 }));
 
 const mockUseQuery = vi.fn();
@@ -42,7 +44,7 @@ describe("useCredits", () => {
 
     mockUseSession.mockReturnValue({
       data: { user: { id: "user-123" } },
-      status: "authenticated",
+      isPending: false,
     });
 
     mockUseQuery.mockReturnValue({
@@ -73,7 +75,7 @@ describe("useCredits", () => {
   it("should disable query when user is not authenticated", () => {
     mockUseSession.mockReturnValue({
       data: null,
-      status: "unauthenticated",
+      isPending: false,
     });
 
     renderHook(() => useCredits());
@@ -90,7 +92,7 @@ describe("useCredits", () => {
   it("should disable query when user data is missing", () => {
     mockUseSession.mockReturnValue({
       data: { user: null },
-      status: "authenticated",
+      isPending: false,
     });
 
     renderHook(() => useCredits());
@@ -123,7 +125,7 @@ describe("useCredits", () => {
   it("should handle different user IDs", () => {
     mockUseSession.mockReturnValue({
       data: { user: { id: "different-user-456" } },
-      status: "authenticated",
+      isPending: false,
     });
 
     renderHook(() => useCredits());
@@ -144,7 +146,7 @@ describe("useCreditsRefetch", () => {
 
     mockUseSession.mockReturnValue({
       data: { user: { id: "user-123" } },
-      status: "authenticated",
+      isPending: false,
     });
 
     mockUseQuery.mockReturnValue({
@@ -181,7 +183,7 @@ describe("useCreditsRefetch", () => {
   it("should return false for isAuthenticated when user is not authenticated", () => {
     mockUseSession.mockReturnValue({
       data: null,
-      status: "unauthenticated",
+      isPending: false,
     });
 
     const { result } = renderHook(() => useCreditsRefetch());
@@ -192,7 +194,7 @@ describe("useCreditsRefetch", () => {
   it("should return false for isAuthenticated when user data is missing", () => {
     mockUseSession.mockReturnValue({
       data: { user: null },
-      status: "authenticated",
+      isPending: false,
     });
 
     const { result } = renderHook(() => useCreditsRefetch());
@@ -231,7 +233,7 @@ describe("fetchCredits function", () => {
 
     mockUseSession.mockReturnValue({
       data: { user: { id: "user-123" } },
-      status: "authenticated",
+      isPending: false,
     });
 
     mockUseQuery.mockImplementation(({ queryFn: _queryFn }) => ({
@@ -267,7 +269,7 @@ describe("fetchCredits function", () => {
 
     mockUseSession.mockReturnValue({
       data: { user: { id: "user-123" } },
-      status: "authenticated",
+      isPending: false,
     });
 
     mockUseQuery.mockImplementation(({ queryFn: _queryFn }) => ({
@@ -295,7 +297,7 @@ describe("fetchCredits function", () => {
 
     mockUseSession.mockReturnValue({
       data: { user: { id: "user-123" } },
-      status: "authenticated",
+      isPending: false,
     });
 
     mockUseQuery.mockImplementation(({ queryFn: _queryFn }) => ({
@@ -323,7 +325,7 @@ describe("fetchCredits function", () => {
 
     mockUseSession.mockReturnValue({
       data: { user: { id: "user-123" } },
-      status: "authenticated",
+      isPending: false,
     });
 
     mockUseQuery.mockImplementation(({ queryFn: _queryFn }) => ({
@@ -351,7 +353,7 @@ describe("fetchCredits function", () => {
 
     mockUseSession.mockReturnValue({
       data: { user: { id: "user-123" } },
-      status: "authenticated",
+      isPending: false,
     });
 
     mockUseQuery.mockImplementation(({ queryFn: _queryFn }) => ({
@@ -380,7 +382,7 @@ describe("fetchCredits function", () => {
 
     mockUseSession.mockReturnValue({
       data: { user: { id: "user-123" } },
-      status: "authenticated",
+      isPending: false,
     });
 
     mockUseQuery.mockImplementation(({ queryFn: _queryFn }) => ({
@@ -405,7 +407,7 @@ describe("fetchCredits function", () => {
 
     mockUseSession.mockReturnValue({
       data: { user: { id: "user-123" } },
-      status: "authenticated",
+      isPending: false,
     });
 
     mockUseQuery.mockImplementation(({ queryFn: _queryFn }) => ({
@@ -434,7 +436,7 @@ describe("fetchCredits function", () => {
 
     mockUseSession.mockReturnValue({
       data: { user: { id: "user-123" } },
-      status: "authenticated",
+      isPending: false,
     });
 
     mockUseQuery.mockImplementation(({ queryFn: _queryFn }) => ({
@@ -469,7 +471,7 @@ describe("fetchCredits function", () => {
 
     mockUseSession.mockReturnValue({
       data: { user: { id: "user-123" } },
-      status: "authenticated",
+      isPending: false,
     });
 
     mockUseQuery.mockImplementation(({ queryFn: _queryFn }) => ({

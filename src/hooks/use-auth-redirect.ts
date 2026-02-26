@@ -2,18 +2,18 @@
 
 import { useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import { useSession } from "next-auth/react";
+import { authClient } from "@/lib/auth-client";
 
 export const useAuthRedirect = (redirectTo: string = "/") => {
-  const { data: session, status } = useSession();
+  const { data: session, isPending } = authClient.useSession();
   const router = useRouter();
   const pathname = usePathname();
 
   useEffect(() => {
-    if (status === "loading") return;
-    if (status === "authenticated" && redirectTo && pathname !== redirectTo)
+    if (isPending) return;
+    if (session && redirectTo && pathname !== redirectTo)
       router.replace(redirectTo);
-  }, [status, pathname, router, redirectTo]);
+  }, [isPending, session, pathname, router, redirectTo]);
 
-  return { session, isLoading: status === "loading" };
+  return { session, isLoading: isPending };
 };

@@ -69,8 +69,8 @@ A production-ready Next.js template with pre-configured authentication, payments
    DATABASE_URL="your_postgresql_connection_string"
 
    # Authentication
-   NEXTAUTH_SECRET="your_nextauth_secret"
-   NEXTAUTH_URL="http://localhost:3000"
+   BETTER_AUTH_SECRET="min-32-chars-secret-key-generate-with-openssl"
+   BETTER_AUTH_URL="http://localhost:3000"
    GOOGLE_CLIENT_ID="your_google_client_id"
    GOOGLE_CLIENT_SECRET="your_google_client_secret"
 

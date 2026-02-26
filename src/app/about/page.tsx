@@ -139,7 +139,7 @@ export default function About() {
                     <Shield className="size-6" />
                   </div>
                   <h3 className="mb-3 text-xl font-semibold">
-                    Auth.js + Google OAuth
+                    Better Auth + Google OAuth
                   </h3>
                   <p className="text-muted-foreground text-sm leading-relaxed">
                     Secure authentication system with Google OAuth integration.

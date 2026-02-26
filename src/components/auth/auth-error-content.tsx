@@ -38,7 +38,7 @@ export const AuthErrorContent = () => {
             <>
               <h1 className="text-3xl font-semibold mb-4">Sign-in Failed</h1>
               <p className="text-muted-foreground text-lg mb-4">
-                There was a problem with the sign-in process. You'll be
+                There was a problem with the sign-in process. You&apos;ll be
                 redirected to the home page in a moment.
               </p>
               <p className="text-sm text-muted-foreground">

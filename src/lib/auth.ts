@@ -1,44 +1,28 @@
 import "server-only";
 import { db } from "@/db";
-import { accounts, sessions, users, verificationTokens } from "@/db/schema";
-import { DrizzleAdapter } from "@auth/drizzle-adapter";
-import NextAuth from "next-auth";
-import Google from "next-auth/providers/google";
+import { accounts, sessions, users, verification } from "@/db/schema";
+import { betterAuth } from "better-auth";
+import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { env } from "@/lib/env";
 
-export const { auth, handlers, signIn, signOut } = NextAuth({
-  adapter: DrizzleAdapter(db, {
-    usersTable: users,
-    accountsTable: accounts,
-    sessionsTable: sessions,
-    verificationTokensTable: verificationTokens,
+export const auth = betterAuth({
+  baseURL: env.BETTER_AUTH_URL,
+  secret: env.BETTER_AUTH_SECRET,
+  database: drizzleAdapter(db, {
+    provider: "pg",
+    schema: {
+      user: users,
+      session: sessions,
+      account: accounts,
+      verification,
+    },
   }),
-  trustHost: true,
-  providers: [
-    Google({
+  socialProviders: {
+    google: {
       clientId: env.GOOGLE_CLIENT_ID,
       clientSecret: env.GOOGLE_CLIENT_SECRET,
-      authorization: {
-        params: {
-          prompt: "consent",
-          access_type: "offline",
-          response_type: "code",
-        },
-      },
-    }),
-  ],
-  callbacks: {
-    async redirect({ url, baseUrl }) {
-      if (url.startsWith("/")) return url;
-      if (url.startsWith(baseUrl)) return url;
-      return baseUrl;
+      accessType: "offline",
+      prompt: "select_account consent",
     },
-    async session({ session, user }) {
-      if (session.user) session.user.id = user.id;
-      return session;
-    },
-  },
-  pages: {
-    error: "/auth/error",
   },
 });

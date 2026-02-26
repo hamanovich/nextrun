@@ -1,0 +1,22 @@
+{
+  "servers": {
+    "shadcn": {
+      "command": "npx",
+      "args": ["shadcn@latest", "mcp"]
+    },
+    "context7": {
+      "url": "https://mcp.context7.com/mcp"
+    },
+    "Playwright": {
+      "command": "bunx",
+      "args": ["-y", "@playwright/mcp@latest"]
+    },
+    "better-auth": {
+      "url": "https://mcp.inkeep.com/better-auth/mcp"
+    },
+    "ESLint": {
+      "command": "npx",
+      "args": ["@eslint/mcp@latest"]
+    }
+  }
+}

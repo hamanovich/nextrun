@@ -2,7 +2,7 @@
 
 import { ReactNode } from "react";
 import Link from "next/link";
-import { useSession } from "next-auth/react";
+import { authClient } from "@/lib/auth-client";
 import { useCredits } from "@/hooks/use-credits";
 import { Button } from "@/components/ui/button";
 import {
@@ -27,10 +27,10 @@ export const AuthRequiredForm = ({
   description = "Please sign in to access this feature.",
   creditsRequired = 1,
 }: AuthRequiredFormProps) => {
-  const { data: session, status } = useSession();
+  const { data: session, isPending } = authClient.useSession();
   const { data: userCredits = 0, isLoading: creditsLoading } = useCredits();
 
-  if (status === "loading" || creditsLoading) {
+  if (isPending || creditsLoading) {
     return (
       <Card>
         <CardContent className="p-6">

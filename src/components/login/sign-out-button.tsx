@@ -1,12 +1,13 @@
 "use client";
 
-import { signOut } from "next-auth/react";
+import { authClient } from "@/lib/auth-client";
 import { Button } from "@/components/ui/button";
 
 export const SignOutButton = () => {
   const handleSignOut = async () => {
     try {
-      await signOut({ callbackUrl: "/" });
+      await authClient.signOut();
+      window.location.href = "/";
     } catch (err) {
       console.error("Sign out failed", err);
     }

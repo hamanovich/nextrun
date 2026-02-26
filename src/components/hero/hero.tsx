@@ -53,7 +53,9 @@ export const Hero = () => (
         <div className="bg-muted flex size-12 items-center justify-center rounded-lg">
           <Shield className="text-muted-foreground size-6" />
         </div>
-        <p className="text-muted-foreground text-lg">Auth.js + Google OAuth</p>
+        <p className="text-muted-foreground text-lg">
+          Better Auth + Google OAuth
+        </p>
       </li>
       <li className="col-span-1 flex h-full items-center justify-between gap-10 border-l border-t border-dashed px-5 md:col-span-2 md:justify-center md:gap-3 lg:col-span-1 lg:border-t-0">
         <div className="bg-muted flex size-12 items-center justify-center rounded-lg">

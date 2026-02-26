@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import type { VariantProps } from "class-variance-authority";
-import { useSession } from "next-auth/react";
+import { authClient } from "@/lib/auth-client";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { LoginModal } from "./login-modal";
 import { SignOutButton } from "./sign-out-button";
@@ -13,10 +13,10 @@ interface LoginBtnProps {
 }
 
 export const LoginBtn = ({ className, variant }: LoginBtnProps) => {
-  const { data: session, status } = useSession();
+  const { data: session, isPending } = authClient.useSession();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  if (status === "loading") return <>Loading…</>;
+  if (isPending) return <>Loading…</>;
 
   if (session)
     return (

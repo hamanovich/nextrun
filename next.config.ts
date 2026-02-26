@@ -1,7 +1,7 @@
 import type { NextConfig } from "next";
 
 const ContentSecurityPolicy = `
-  default-src 'self' *.nextlang.co;
+  default-src 'self' *.nextrun.dev;
   script-src 'self' 'unsafe-eval' 'unsafe-inline' blob: js.stripe.com vercel.live va.vercel-scripts.com cdn.vercel-insights.com;
   style-src 'self' 'unsafe-inline';
   img-src 'self' blob: data: cdn.jsdelivr.net *.googleusercontent.com authjs.dev;

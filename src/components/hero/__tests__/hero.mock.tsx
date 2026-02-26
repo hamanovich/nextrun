@@ -6,7 +6,7 @@ export const mockFeatureItems = [
   },
   {
     icon: "Shield",
-    title: "Auth.js + Google OAuth",
+    title: "Better Auth + Google OAuth",
     description: "Secure authentication with Google OAuth integration",
   },
   {

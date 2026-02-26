@@ -215,7 +215,9 @@ describe("Hero Component", () => {
       render(<Hero />);
 
       expect(screen.getByText("Next.js 16 + TypeScript")).toBeInTheDocument();
-      expect(screen.getByText("Auth.js + Google OAuth")).toBeInTheDocument();
+      expect(
+        screen.getByText("Better Auth + Google OAuth"),
+      ).toBeInTheDocument();
       expect(screen.getByText("Stripe Payments Ready")).toBeInTheDocument();
     });
 
@@ -398,7 +400,7 @@ describe("Hero Component", () => {
 
       const featureTexts = [
         "Next.js 16 + TypeScript",
-        "Auth.js + Google OAuth",
+        "Better Auth + Google OAuth",
         "Stripe Payments Ready",
       ];
 
@@ -444,7 +446,7 @@ describe("Hero Component", () => {
 
       const features = [
         "Next.js 16 + TypeScript",
-        "Auth.js + Google OAuth",
+        "Better Auth + Google OAuth",
         "Stripe Payments Ready",
       ];
 

@@ -2,7 +2,7 @@
 
 import { forwardRef, useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { useSession } from "next-auth/react";
+import { authClient } from "@/lib/auth-client";
 import { cn } from "@/lib/utils";
 import { useCredits } from "@/hooks/use-credits";
 import { useWindowScroll } from "@/hooks/use-scroll";
@@ -26,7 +26,7 @@ export const Navbar = forwardRef<HTMLElement, NavbarProps>(
     },
     ref,
   ) => {
-    const { data: session, status } = useSession();
+    const { data: session, isPending } = authClient.useSession();
     const { data: credits = 0 } = useCredits();
     const [isMobile, setIsMobile] = useState(false);
     const containerRef = useRef<HTMLElement>(null);
@@ -104,7 +104,7 @@ export const Navbar = forwardRef<HTMLElement, NavbarProps>(
           {/* Right side */}
           <div className="flex items-center gap-2">
             <ThemeToggle />
-            {status === "loading" ? (
+            {isPending ? (
               <div className="h-8 w-8 animate-pulse rounded-full bg-muted" />
             ) : session ? (
               <UserMenu session={session} credits={credits} />

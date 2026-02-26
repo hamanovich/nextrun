@@ -46,7 +46,6 @@ Add these to your `.env.local`:
 ```env
 STRIPE_SECRET_KEY=sk_test_...
 STRIPE_WEBHOOK_SECRET=whsec_...
-NEXTAUTH_URL=http://localhost:3000
 ```
 
 ## Database Migration

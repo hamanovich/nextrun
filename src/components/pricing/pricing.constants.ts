@@ -19,8 +19,8 @@ export const FREE_TIER = {
   description: "Perfect for trying out our features",
   features: [
     "5 free credits to start",
-    "Basic flashcard generation",
-    "Anki & Quizlet support",
+    "Essential Next.js components",
+    "Basic deployment support",
     "Community support",
   ],
   popular: false,
@@ -29,7 +29,7 @@ export const FREE_TIER = {
 
 export const FREE_TIER_FEATURES = [
   "5 free credits to start",
-  "Basic flashcard generation",
-  "Anki & Quizlet support",
+  "Essential Next.js components",
+  "Basic deployment support",
   "Community support",
 ] as const;

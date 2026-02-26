@@ -32,8 +32,8 @@ describe("Pricing Constants", () => {
     it("has correct features array", () => {
       const expectedFeatures = [
         "5 free credits to start",
-        "Basic flashcard generation",
-        "Anki & Quizlet support",
+        "Essential Next.js components",
+        "Basic deployment support",
         "Community support",
       ];
 
@@ -56,8 +56,8 @@ describe("Pricing Constants", () => {
     it("has correct values", () => {
       const expectedFeatures = [
         "5 free credits to start",
-        "Basic flashcard generation",
-        "Anki & Quizlet support",
+        "Essential Next.js components",
+        "Basic deployment support",
         "Community support",
       ];
 
@@ -161,8 +161,8 @@ describe("Pricing Constants", () => {
       const features = FREE_TIER_FEATURES;
 
       expect(features).toContain("5 free credits to start");
-      expect(features).toContain("Basic flashcard generation");
-      expect(features).toContain("Anki & Quizlet support");
+      expect(features).toContain("Essential Next.js components");
+      expect(features).toContain("Basic deployment support");
       expect(features).toContain("Community support");
     });
 
