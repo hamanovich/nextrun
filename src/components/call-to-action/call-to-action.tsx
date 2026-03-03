@@ -17,7 +17,7 @@ export const CallToAction = ({
   buttonUrl = "/pricing",
   items = [
     "Next.js 16 + TypeScript",
-    "Auth.js Authentication",
+    "Better Auth",
     "Stripe Payments Ready",
     "Beautiful UI Components",
     "Tailwind CSS + Shadcn",
@@ -33,7 +33,7 @@ export const CallToAction = ({
               START YOUR DEVELOPMENT JOURNEY
             </p>
             <h2 className="mb-1 text-2xl font-bold md:text-3xl">
-              <span className="text-transparent bg-gradient-to-br bg-clip-text from-teal-500 via-indigo-500 to-sky-500 dark:from-teal-200 dark:via-indigo-300 dark:to-sky-500">
+              <span className="text-transparent bg-linear-to-br bg-clip-text from-teal-500 via-indigo-500 to-sky-500 dark:from-teal-200 dark:via-indigo-300 dark:to-sky-500">
                 {title}
               </span>
             </h2>
@@ -51,7 +51,7 @@ export const CallToAction = ({
             <ul className="flex flex-col space-y-2 text-sm font-medium">
               {items.map((item, idx) => (
                 <li className="flex items-center" key={idx}>
-                  <Check className="mr-4 size-4 flex-shrink-0" />
+                  <Check className="mr-4 size-4 shrink-0" />
                   {item}
                 </li>
               ))}

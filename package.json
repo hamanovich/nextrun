@@ -1,6 +1,6 @@
 {
   "name": "nextrun",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "private": true,
   "author": "Siarhei Hamanovich <dev.hamanovich@gmail.com>",
   "license": "ISC",
@@ -16,9 +16,11 @@
     "auth",
     "react",
     "typescript",
-    "stripe"
+    "stripe",
+    "grammyjs"
   ],
   "scripts": {
+    "bot:dev": "bun --watch run src/bot/index.ts",
     "check": "bun run ts:check && bun run lint && bun run format && bun run test",
     "dev": "next dev --turbopack",
     "build": "next build --turbopack",
@@ -35,6 +37,9 @@
     "bump:version": "node scripts/bump-version.js"
   },
   "dependencies": {
+    "@grammyjs/conversations": "^2.1.1",
+    "@grammyjs/files": "^1.2.0",
+    "@grammyjs/transformer-throttler": "^1.2.1",
     "@hookform/resolvers": "^5.2.2",
     "@neondatabase/serverless": "^1.0.2",
     "@radix-ui/react-accordion": "^1.2.12",
@@ -73,6 +78,7 @@
     "dotenv": "^17.3.1",
     "drizzle-orm": "^0.45.1",
     "embla-carousel-react": "^8.6.0",
+    "grammy": "^1.40.1",
     "lucide-react": "^0.576.0",
     "next": "16.1.6",
     "next-themes": "^0.4.6",

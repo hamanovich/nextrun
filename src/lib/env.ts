@@ -24,6 +24,12 @@ const envSchema = z.object({
   STRIPE_WEBHOOK_SECRET: z
     .string()
     .min(1, { message: "STRIPE_WEBHOOK_SECRET is required" }),
+  TELEGRAM_BOT_TOKEN: z
+    .string()
+    .min(1, { message: "TELEGRAM_BOT_TOKEN is required" }),
+  WHITELIST_USER_IDS: z
+    .string()
+    .min(1, { message: "WHITELIST_USER_IDS is required" }),
 });
 
 export type Env = z.infer<typeof envSchema>;

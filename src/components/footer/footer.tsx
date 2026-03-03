@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { version } from "@app";
 import { Logo } from "@/components/navbar/logo";
 import { footerLegalLinks, footerSections } from "./footer.constants";
 
@@ -12,6 +13,7 @@ export const Footer = () => (
               <Logo />
             </Link>
             <h2 className="text-xl font-semibold">NextRun.dev</h2>
+            <p className="text-muted-foreground text-sm">v{version}</p>
           </div>
           <p className="text-muted-foreground max-w-[70%] text-sm">
             A powerful Next.js template that comes pre-configured with modern

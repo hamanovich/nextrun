@@ -12,7 +12,7 @@ A production-ready Next.js template with pre-configured authentication, payments
 
 ### 🔐 **Authentication Ready**
 
-- **Auth.js Integration**: Secure authentication with Google OAuth
+- **Better Auth Integration**: Secure authentication with Google OAuth
 - **Session Management**: Persistent user sessions and protected routes
 - **User Management**: Complete user account system
 
@@ -21,6 +21,13 @@ A production-ready Next.js template with pre-configured authentication, payments
 - **Stripe Integration**: Complete payment processing setup
 - **Subscription Management**: Handle recurring payments
 - **Webhook Support**: Secure payment event handling
+
+### 🤖 **Telegram Bot**
+
+- **Grammy Framework**: Lightweight and type-safe bot framework
+- **Whitelist Middleware**: Restrict bot access to allowed users
+- **Session & Conversations**: Stateful multi-step bot flows
+- **Rate Limiting**: Built-in API throttling
 
 ### 🎨 **Modern UI Components**
 
@@ -38,6 +45,7 @@ A production-ready Next.js template with pre-configured authentication, payments
 - PostgreSQL database (e.g., Neon, Supabase)
 - Stripe account (for payments)
 - Google OAuth credentials (for authentication)
+- Telegram Bot Token (for the bot)
 
 ### Installation
 
@@ -78,6 +86,10 @@ A production-ready Next.js template with pre-configured authentication, payments
    STRIPE_SECRET_KEY="your_stripe_secret_key"
    STRIPE_PUBLISHABLE_KEY="your_stripe_publishable_key"
    STRIPE_WEBHOOK_SECRET="your_stripe_webhook_secret"
+
+   # Telegram Bot
+   TELEGRAM_BOT_TOKEN="your_telegram_bot_token"
+   WHITELIST_USER_IDS="123456789,987654321"
    ```
 
 4. **Set up the database**
@@ -106,6 +118,7 @@ A production-ready Next.js template with pre-configured authentication, payments
 - `bun run db:push` - Push database schema changes
 - `bun run db:studio` - Open Drizzle Studio
 - `bun run stripe:listen` - Listen to Stripe webhooks locally
+- `bun run bot:dev` - Start the Telegram bot in watch mode
 
 ## 🏗️ Tech Stack
 
@@ -122,10 +135,17 @@ A production-ready Next.js template with pre-configured authentication, payments
 ### Backend
 
 - **Next.js API Routes** - Serverless API
-- **Auth.js** - Authentication with Google OAuth
+- **Better Auth** - Authentication with Google OAuth
 - **Drizzle ORM** - Database ORM
 - **PostgreSQL** - Database
 - **Server Actions** - Type-safe server-side logic
+
+### Telegram Bot
+
+- **Grammy** - Telegram bot framework
+- **@grammyjs/conversations** - Stateful conversation flows
+- **@grammyjs/files** - File handling
+- **@grammyjs/transformer-throttler** - API rate limiting
 
 ### Payments & Infrastructure
 
@@ -154,6 +174,10 @@ src/
 │   ├── navbar/       # Navigation components
 │   ├── footer/       # Footer components
 │   └── ui/           # Reusable UI components
+├── bot/              # Telegram bot
+│   ├── handlers.ts   # Command handlers
+│   ├── index.ts      # Bot entry point
+│   └── middlewares/  # Bot middlewares (whitelist, etc.)
 ├── db/               # Database configuration
 ├── lib/              # Utility functions and schemas
 └── contexts/         # React contexts
@@ -175,6 +199,7 @@ src/
    - Set up your database connection
    - Configure Google OAuth credentials
    - Add your Stripe keys
+   - Add your Telegram Bot token and whitelist user IDs
 
 3. **Customize Your App**
    - Modify the branding and content
@@ -192,6 +217,13 @@ src/
 - Stripe integration is ready to use
 - Handle one-time and subscription payments
 - Webhook support for payment events
+
+### Telegram Bot
+
+- Create a bot via [@BotFather](https://t.me/BotFather) and copy the token
+- Set `TELEGRAM_BOT_TOKEN` in your environment
+- Set `WHITELIST_USER_IDS` to a comma-separated list of allowed Telegram user IDs
+- Run `bun run bot:dev` to start the bot locally
 
 ### Deployment
 

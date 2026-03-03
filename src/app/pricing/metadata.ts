@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Pricing - NextRun Next.js Template Plans",
+  title: "Pricing - NextRun Next.js Template & Telegram Bot Plans",
   description:
-    "Choose the perfect NextRun plan for your project. Affordable pricing for production-ready Next.js templates with authentication, payments, and modern UI components.",
+    "Choose the perfect NextRun plan for your project. Affordable pricing for production-ready Next.js templates and Telegram bots with authentication, payments, and modern UI components.",
   keywords: [
     "pricing",
+    "Telegram Bot",
     "NextRun",
     "Next.js template",
     "plans",
@@ -20,9 +21,9 @@ export const metadata: Metadata = {
     canonical: "/pricing",
   },
   openGraph: {
-    title: "Pricing - NextRun Next.js Template Plans",
+    title: "Pricing - NextRun Next.js Template & Telegram Bot Plans",
     description:
-      "Choose the perfect NextRun plan for your project. Affordable pricing for production-ready Next.js templates with authentication, payments, and modern UI components.",
+      "Choose the perfect NextRun plan for your project. Affordable pricing for production-ready Next.js templates and Telegram bots.",
     url: "https://nextrun.dev/pricing",
     siteName: "NextRun",
     images: [
@@ -30,7 +31,7 @@ export const metadata: Metadata = {
         url: "/logo.png",
         width: 1200,
         height: 630,
-        alt: "Pricing - NextRun Next.js Template Plans",
+        alt: "Pricing - NextRun Next.js Template & Telegram Bot Plans",
       },
     ],
     locale: "en_US",
@@ -38,9 +39,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Pricing - NextRun Next.js Template Plans",
+    title: "Pricing - NextRun Next.js Template & Telegram Bot Plans",
     description:
-      "Choose the perfect NextRun plan for your project. Affordable pricing for production-ready Next.js templates.",
+      "Choose the perfect NextRun plan for your project. Affordable pricing for production-ready Next.js templates and Telegram bots.",
     images: ["/logo.png"],
   },
   robots: {

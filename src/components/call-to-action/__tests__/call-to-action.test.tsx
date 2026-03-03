@@ -26,7 +26,7 @@ describe("CallToAction", () => {
 
       const defaultItems = [
         "Next.js 16 + TypeScript",
-        "Auth.js Authentication",
+        "Better Auth",
         "Stripe Payments Ready",
         "Beautiful UI Components",
         "Tailwind CSS + Shadcn",
@@ -65,7 +65,7 @@ describe("CallToAction", () => {
       );
       expect(titleElement).toHaveClass(
         "text-transparent",
-        "bg-gradient-to-br",
+        "bg-linear-to-br",
         "bg-clip-text",
         "from-teal-500",
         "via-indigo-500",
