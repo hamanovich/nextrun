@@ -11,11 +11,6 @@ const eslintConfig = defineConfig([
     rules: {
       "react-hooks/exhaustive-deps": "off",
       "react-hooks/set-state-in-effect": "off",
-      "@next/next/no-img-element": "off",
-      "prefer-arrow-callback": [
-        "error",
-        { allowNamedFunctions: false, allowUnboundThis: true },
-      ],
     },
   },
   globalIgnores([
