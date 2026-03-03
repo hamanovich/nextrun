@@ -31,6 +31,7 @@ vi.mock("lucide-react", () => ({
   Code: () => <div data-testid="code-icon">Code Icon</div>,
   Shield: () => <div data-testid="shield-icon">Shield Icon</div>,
   CreditCard: () => <div data-testid="credit-card-icon">CreditCard Icon</div>,
+  Bot: () => <div data-testid="bot-icon">Bot Icon</div>,
 }));
 
 vi.mock("@/components/ui/button", () => ({
@@ -101,7 +102,7 @@ describe("Hero Component", () => {
       render(<Hero />);
 
       const statusBadge = screen.getByText(
-        "NEXT.JS TEMPLATE • READY TO DEPLOY",
+        "NEXT.JS TEMPLATE + TELEGRAM BOT • READY TO DEPLOY",
       );
       expect(statusBadge).toBeInTheDocument();
       expect(statusBadge).toHaveClass("text-muted-foreground", "text-sm");
@@ -129,7 +130,7 @@ describe("Hero Component", () => {
       const { container } = render(<Hero />);
 
       const gradientSpan = container.querySelector(
-        ".text-transparent.bg-gradient-to-br.bg-clip-text",
+        ".text-transparent.bg-linear-to-br.bg-clip-text",
       );
       expect(gradientSpan).toBeInTheDocument();
       expect(gradientSpan).toHaveTextContent("NextRun");
@@ -219,6 +220,9 @@ describe("Hero Component", () => {
         screen.getByText("Better Auth + Google OAuth"),
       ).toBeInTheDocument();
       expect(screen.getByText("Stripe Payments Ready")).toBeInTheDocument();
+      expect(
+        screen.getByText("Telegram Bot Management Included"),
+      ).toBeInTheDocument();
     });
 
     it("should render feature icons", () => {
@@ -236,14 +240,16 @@ describe("Hero Component", () => {
       expect(featureList).toBeInTheDocument();
 
       const listItems = screen.getAllByRole("listitem");
-      expect(listItems).toHaveLength(3);
+      expect(listItems).toHaveLength(4);
     });
 
     it("should render feature items with proper styling", () => {
       const { container } = render(<Hero />);
 
-      const iconContainers = container.querySelectorAll(".bg-muted");
-      expect(iconContainers).toHaveLength(3);
+      const iconContainers = container.querySelectorAll(
+        ".flex.size-12.items-center.justify-center.rounded-lg",
+      );
+      expect(iconContainers).toHaveLength(4);
 
       iconContainers.forEach((container) => {
         expect(container).toHaveClass(
@@ -355,7 +361,7 @@ describe("Hero Component", () => {
       expect(featureGrid).toHaveClass(
         "grid-cols-1",
         "md:grid-cols-2",
-        "lg:grid-cols-3",
+        "lg:grid-cols-4",
       );
     });
 
@@ -402,6 +408,7 @@ describe("Hero Component", () => {
         "Next.js 16 + TypeScript",
         "Better Auth + Google OAuth",
         "Stripe Payments Ready",
+        "Telegram Bot Management Included",
       ];
 
       featureTexts.forEach((text) => {
@@ -418,7 +425,7 @@ describe("Hero Component", () => {
       expect(featureList).toBeInTheDocument();
 
       const listItems = screen.getAllByRole("listitem");
-      expect(listItems).toHaveLength(3);
+      expect(listItems).toHaveLength(4);
     });
   });
 
@@ -436,7 +443,7 @@ describe("Hero Component", () => {
       render(<Hero />);
 
       const description = screen.getByText(
-        /A powerful Next.js template that comes pre-configured with modern authentication, payment processing, and beautiful UI components/,
+        /A powerful Next.js template that comes pre-configured with modern authentication, payment processing, Telegram bot integration/,
       );
       expect(description).toBeInTheDocument();
     });
@@ -448,6 +455,7 @@ describe("Hero Component", () => {
         "Next.js 16 + TypeScript",
         "Better Auth + Google OAuth",
         "Stripe Payments Ready",
+        "Telegram Bot Management Included",
       ];
 
       features.forEach((feature) => {
@@ -473,14 +481,14 @@ describe("Hero Component", () => {
       const { container, rerender } = render(<Hero />);
 
       const initialGradient = container.querySelector(
-        ".text-transparent.bg-gradient-to-br",
+        ".text-transparent.bg-linear-to-br",
       );
       expect(initialGradient).toHaveClass("from-teal-500");
 
       rerender(<Hero />);
 
       const rerenderedGradient = container.querySelector(
-        ".text-transparent.bg-gradient-to-br",
+        ".text-transparent.bg-linear-to-br",
       );
       expect(rerenderedGradient).toHaveClass("from-teal-500");
     });
@@ -507,12 +515,12 @@ describe("Hero Component", () => {
       const { container } = render(<Hero />);
 
       const iconContainers = container.querySelectorAll(
-        ".bg-muted.flex.size-12.items-center.justify-center.rounded-lg",
+        ".flex.size-12.items-center.justify-center.rounded-lg",
       );
-      expect(iconContainers).toHaveLength(3);
+      expect(iconContainers).toHaveLength(4);
 
       const icons = container.querySelectorAll("[data-testid$='-icon']");
-      expect(icons).toHaveLength(3);
+      expect(icons).toHaveLength(4);
 
       icons.forEach((icon) => {
         expect(icon).toBeInTheDocument();

@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "About NextRun - Making Web Development Effortless",
+  title: "About NextRun - Modern Next.js Template with Telegram Bot",
   description:
-    "Learn about NextRun's mission to accelerate web development with production-ready Next.js templates. Discover our values, technology stack, and commitment to developer experience.",
+    "Learn about NextRun's mission to accelerate web development with production-ready Next.js templates and integrated Telegram bots. Discover our values and technology stack.",
   keywords: [
     "NextRun",
+    "Telegram Bot",
     "about",
     "mission",
     "vision",
@@ -21,9 +22,9 @@ export const metadata: Metadata = {
     canonical: "/about",
   },
   openGraph: {
-    title: "About NextRun - Making Web Development Effortless",
+    title: "About NextRun - Modern Next.js Template with Telegram Bot",
     description:
-      "Learn about NextRun's mission to accelerate web development with production-ready Next.js templates. Discover our values, technology stack, and commitment to developer experience.",
+      "Learn about NextRun's mission to accelerate web development with production-ready Next.js templates and integrated Telegram bots.",
     url: "https://nextrun.dev/about",
     siteName: "NextRun",
     images: [
@@ -31,7 +32,7 @@ export const metadata: Metadata = {
         url: "/logo.png",
         width: 1200,
         height: 630,
-        alt: "About NextRun - Making Web Development Effortless",
+        alt: "About NextRun - Modern Next.js Template with Telegram Bot",
       },
     ],
     locale: "en_US",
@@ -39,9 +40,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "About NextRun - Making Web Development Effortless",
+    title: "About NextRun - Modern Next.js Template with Telegram Bot",
     description:
-      "Learn about NextRun's mission to accelerate web development with production-ready Next.js templates.",
+      "Learn about NextRun's mission to accelerate web development with production-ready Next.js templates and Telegram bots.",
     images: ["/logo.png"],
   },
   robots: {

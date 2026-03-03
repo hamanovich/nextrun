@@ -3,18 +3,14 @@ import { createElement } from "react";
 import * as matchers from "@testing-library/jest-dom/matchers";
 import { cleanup } from "@testing-library/react";
 import { afterEach, expect, vi } from "vitest";
-// Load centralized mocks
 import "./mocks/modules";
 
-// Extend Vitest's expect with jest-dom matchers
 expect.extend(matchers);
 
-// Cleanup after each test case
 afterEach(() => {
   cleanup();
 });
 
-// Mock Next.js router
 vi.mock("next/navigation", () => ({
   useRouter: () => ({
     push: vi.fn(),
@@ -30,12 +26,10 @@ vi.mock("next/navigation", () => ({
   usePathname: () => "/",
 }));
 
-// Mock Next.js image component
 vi.mock("next/image", () => ({
   default: (props: never) => createElement("img", props),
 }));
 
-// Mock Next.js Link component
 vi.mock("next/link", () => ({
   default: ({
     href,
@@ -46,6 +40,12 @@ vi.mock("next/link", () => ({
     children: React.ReactNode;
     className?: string;
   }) => createElement("a", { href, className }, children),
+}));
+
+vi.mock("@/lib/env", () => ({
+  env: {
+    WHITELIST_USER_IDS: "123,456",
+  },
 }));
 
 // Mock environment variables for testing

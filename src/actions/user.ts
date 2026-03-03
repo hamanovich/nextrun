@@ -13,9 +13,7 @@ export const getSessionUser = async (): Promise<SessionUser> => {
 
     if (!session?.user) return null;
 
-    if (!session.user.id) {
-      throw new Error("Session user id is undefined");
-    }
+    if (!session.user.id) throw new Error("Session user id is undefined");
 
     const userData = await db
       .select({
@@ -59,12 +57,9 @@ export const updateUserStripeData = async (
     const updates = Object.fromEntries(
       Object.entries(stripeData).filter(([, v]) => v !== undefined),
     ) as typeof stripeData;
-    if (
-      typeof updates.stripeCredits === "number" &&
-      updates.stripeCredits < 0
-    ) {
+    if (typeof updates.stripeCredits === "number" && updates.stripeCredits < 0)
       updates.stripeCredits = 0;
-    }
+
     if (Object.keys(updates).length === 0) return;
     await db.update(users).set(updates).where(eq(users.id, userId));
   } catch (error) {
@@ -92,9 +87,7 @@ export const getUserCredits = async (): Promise<number> => {
   try {
     const session = await auth.api.getSession({ headers: await headers() });
 
-    if (!session?.user?.id) {
-      return 0;
-    }
+    if (!session?.user?.id) return 0;
 
     const userData = await db
       .select({
@@ -104,9 +97,7 @@ export const getUserCredits = async (): Promise<number> => {
       .where(eq(users.id, session.user.id))
       .limit(1);
 
-    if (userData.length === 0) {
-      return 0;
-    }
+    if (userData.length === 0) return 0;
 
     return userData[0].stripeCredits;
   } catch {

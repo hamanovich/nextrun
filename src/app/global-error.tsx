@@ -20,14 +20,12 @@ export default function GlobalError({ error, reset }: GlobalErrorProps) {
       <body className="antialiased">
         <div className="container mx-auto px-6 py-16">
           <div className="flex flex-col items-center justify-center min-h-[60vh] text-center">
-            {/* Error Icon */}
             <div className="mb-8">
               <div className="bg-destructive/10 dark:bg-destructive/20 rounded-full p-6 mb-4">
                 <AlertTriangle className="size-16 text-destructive" />
               </div>
             </div>
 
-            {/* Error Message */}
             <div className="mb-8 max-w-md" role="alert">
               <h1 className="text-3xl font-semibold mb-4">Application Error</h1>
               <p className="text-muted-foreground text-lg mb-4">
@@ -47,7 +45,6 @@ export default function GlobalError({ error, reset }: GlobalErrorProps) {
               )}
             </div>
 
-            {/* Action Buttons */}
             <div className="flex flex-col sm:flex-row gap-4">
               <Button
                 size="lg"
@@ -65,7 +62,6 @@ export default function GlobalError({ error, reset }: GlobalErrorProps) {
               </Button>
             </div>
 
-            {/* Additional Help */}
             <div className="mt-12 text-sm text-muted-foreground">
               <p>
                 If this problem persists, please{" "}

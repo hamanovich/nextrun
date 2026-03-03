@@ -54,7 +54,7 @@ export default function TermsPage() {
             </h2>
             <p className="text-gray-600 leading-relaxed">
               NextRun provides a production-ready Next.js template with
-              pre-configured authentication (Auth.js), payment processing
+              pre-configured authentication (Better Auth), payment processing
               (Stripe), and modern UI components. The template includes
               TypeScript support, responsive design, and best practices for web
               development. The service is provided &quot;as is&quot; and we make

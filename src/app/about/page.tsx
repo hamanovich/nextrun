@@ -1,5 +1,13 @@
 import Link from "next/link";
-import { Code, CreditCard, Shield, Target, Users, Zap } from "lucide-react";
+import {
+  Bot,
+  Code,
+  CreditCard,
+  Shield,
+  Target,
+  Users,
+  Zap,
+} from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 
 export { metadata } from "./metadata";
@@ -15,15 +23,15 @@ export default function About() {
           </p>
           <h1 className="mb-6 text-4xl font-semibold tracking-tighter md:text-5xl lg:text-6xl">
             Making Web Development{" "}
-            <span className="text-transparent bg-gradient-to-br bg-clip-text from-teal-500 via-indigo-500 to-sky-500 dark:from-teal-200 dark:via-indigo-300 dark:to-sky-500">
+            <span className="text-transparent bg-linear-to-br bg-clip-text from-teal-500 via-indigo-500 to-sky-500 dark:from-teal-200 dark:via-indigo-300 dark:to-sky-500">
               Effortless
             </span>
           </h1>
           <p className="text-muted-foreground mx-auto max-w-2xl text-lg leading-relaxed">
             NextRun is a production-ready Next.js template that eliminates the
             tedious setup process. Get your next web application up and running
-            in minutes with pre-configured authentication, payments, and modern
-            UI components.
+            in minutes with pre-configured authentication, payments, Telegram
+            bot integration, and modern UI components.
           </p>
         </div>
 
@@ -31,8 +39,8 @@ export default function About() {
           <div className="grid gap-8 md:grid-cols-2">
             <Card className="border-dashed">
               <CardContent className="p-8">
-                <div className="mb-6 flex size-12 items-center justify-center rounded-lg bg-accent">
-                  <Target className="size-6" />
+                <div className="mb-6 flex size-12 items-center justify-center rounded-lg bg-teal-500/10">
+                  <Target className="size-6 text-teal-500" />
                 </div>
                 <h2 className="mb-4 text-2xl font-semibold">Our Mission</h2>
                 <p className="text-muted-foreground leading-relaxed">
@@ -47,8 +55,8 @@ export default function About() {
 
             <Card className="border-dashed">
               <CardContent className="p-8">
-                <div className="mb-6 flex size-12 items-center justify-center rounded-lg bg-accent">
-                  <Code className="size-6" />
+                <div className="mb-6 flex size-12 items-center justify-center rounded-lg bg-indigo-500/10">
+                  <Code className="size-6 text-indigo-500" />
                 </div>
                 <h2 className="mb-4 text-2xl font-semibold">Our Vision</h2>
                 <p className="text-muted-foreground leading-relaxed">
@@ -72,8 +80,8 @@ export default function About() {
 
           <div className="grid gap-6 md:grid-cols-3">
             <div className="rounded-lg border border-dashed p-6 text-center">
-              <div className="mx-auto mb-4 flex size-12 items-center justify-center rounded-lg bg-accent">
-                <Zap className="size-6" />
+              <div className="mx-auto mb-4 flex size-12 items-center justify-center rounded-lg bg-amber-500/10">
+                <Zap className="size-6 text-amber-500" />
               </div>
               <h3 className="mb-2 text-xl font-semibold">Speed</h3>
               <p className="text-muted-foreground text-sm">
@@ -83,8 +91,8 @@ export default function About() {
             </div>
 
             <div className="rounded-lg border border-dashed p-6 text-center">
-              <div className="mx-auto mb-4 flex size-12 items-center justify-center rounded-lg bg-accent">
-                <Users className="size-6" />
+              <div className="mx-auto mb-4 flex size-12 items-center justify-center rounded-lg bg-violet-500/10">
+                <Users className="size-6 text-violet-500" />
               </div>
               <h3 className="mb-2 text-xl font-semibold">
                 Developer Experience
@@ -96,8 +104,8 @@ export default function About() {
             </div>
 
             <div className="rounded-lg border border-dashed p-6 text-center">
-              <div className="mx-auto mb-4 flex size-12 items-center justify-center rounded-lg bg-accent">
-                <Shield className="size-6" />
+              <div className="mx-auto mb-4 flex size-12 items-center justify-center rounded-lg bg-indigo-500/10">
+                <Shield className="size-6 text-indigo-500" />
               </div>
               <h3 className="mb-2 text-xl font-semibold">Security</h3>
               <p className="text-muted-foreground text-sm">
@@ -122,8 +130,8 @@ export default function About() {
             <CardContent className="p-8">
               <div className="grid gap-8 md:grid-cols-2">
                 <div>
-                  <div className="mb-4 flex size-12 items-center justify-center rounded-lg bg-accent">
-                    <Code className="size-6" />
+                  <div className="mb-4 flex size-12 items-center justify-center rounded-lg bg-teal-500/10">
+                    <Code className="size-6 text-teal-500" />
                   </div>
                   <h3 className="mb-3 text-xl font-semibold">
                     Next.js 16 + TypeScript
@@ -135,8 +143,8 @@ export default function About() {
                   </p>
                 </div>
                 <div>
-                  <div className="mb-4 flex size-12 items-center justify-center rounded-lg bg-accent">
-                    <Shield className="size-6" />
+                  <div className="mb-4 flex size-12 items-center justify-center rounded-lg bg-indigo-500/10">
+                    <Shield className="size-6 text-indigo-500" />
                   </div>
                   <h3 className="mb-3 text-xl font-semibold">
                     Better Auth + Google OAuth
@@ -148,8 +156,8 @@ export default function About() {
                   </p>
                 </div>
                 <div>
-                  <div className="mb-4 flex size-12 items-center justify-center rounded-lg bg-accent">
-                    <CreditCard className="size-6" />
+                  <div className="mb-4 flex size-12 items-center justify-center rounded-lg bg-violet-500/10">
+                    <CreditCard className="size-6 text-violet-500" />
                   </div>
                   <h3 className="mb-3 text-xl font-semibold">
                     Stripe Payments
@@ -161,14 +169,17 @@ export default function About() {
                   </p>
                 </div>
                 <div>
-                  <div className="mb-4 flex size-12 items-center justify-center rounded-lg bg-accent">
-                    <Zap className="size-6" />
+                  <div className="mb-4 flex size-12 items-center justify-center rounded-lg bg-sky-500/10">
+                    <Bot className="size-6 text-sky-500" />
                   </div>
-                  <h3 className="mb-3 text-xl font-semibold">UI Components</h3>
+                  <h3 className="mb-3 text-xl font-semibold">
+                    Telegram Bot & Automation
+                  </h3>
                   <p className="text-muted-foreground text-sm leading-relaxed">
-                    Beautiful, accessible UI components built with Radix UI and
-                    styled with Tailwind CSS. Dark mode support, responsive
-                    design, and consistent design system included.
+                    A fully configured Telegram bot powered by Grammy for your
+                    automation needs. Includes whitelist middleware, session
+                    management, multi-step conversations, and API rate limiting
+                    — ready to extend with your own commands.
                   </p>
                 </div>
               </div>
@@ -192,7 +203,7 @@ export default function About() {
               View Pricing
             </Link>
             <Link
-              href="/profile"
+              href="/"
               className="inline-flex h-12 items-center justify-center rounded-lg border border-input bg-background px-8 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground"
             >
               Get Started

@@ -110,9 +110,9 @@ export default function PrivacyPage() {
             </h2>
             <p className="text-gray-600 leading-relaxed">
               Our template integrates with third-party services including Stripe
-              for payments, Auth.js for authentication, and Google OAuth. These
-              services have their own privacy policies, and we encourage you to
-              review them.
+              for payments, Better Auth for authentication, and Google OAuth.
+              These services have their own privacy policies, and we encourage
+              you to review them.
             </p>
           </section>
 

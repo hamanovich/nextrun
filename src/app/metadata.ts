@@ -1,14 +1,15 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "NextRun - Production-Ready Next.js Template",
+  title: "NextRun - Production-Ready Next.js Template & Telegram Bot",
   description:
-    "Get your next web application up and running in minutes with our production-ready Next.js template. Includes authentication, payments, and modern UI components.",
+    "Get your next web application and Telegram bot up and running in minutes with our production-ready Next.js template. Includes authentication, payments, and modern UI components.",
   keywords: [
     "Next.js",
     "template",
     "React",
     "TypeScript",
+    "Telegram bot",
     "authentication",
     "payments",
     "Stripe",
@@ -26,9 +27,9 @@ export const metadata: Metadata = {
     canonical: "/",
   },
   openGraph: {
-    title: "NextRun - Production-Ready Next.js Template",
+    title: "NextRun - Production-Ready Next.js Template & Telegram Bot",
     description:
-      "Get your next web application up and running in minutes with our production-ready Next.js template. Includes authentication, payments, and modern UI components.",
+      "Get your next web application and Telegram bot up and running in minutes with our production-ready Next.js template. Includes authentication, payments, and modern UI components.",
     url: "https://nextrun.dev",
     siteName: "NextRun",
     images: [
@@ -36,7 +37,7 @@ export const metadata: Metadata = {
         url: "/logo.png",
         width: 1200,
         height: 630,
-        alt: "NextRun - Production-Ready Next.js Template",
+        alt: "NextRun - Production-Ready Next.js Template & Telegram Bot",
       },
     ],
     locale: "en_US",
@@ -44,9 +45,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "NextRun - Production-Ready Next.js Template",
+    title: "NextRun - Production-Ready Next.js Template & Telegram Bot",
     description:
-      "Get your next web application up and running in minutes with our production-ready Next.js template.",
+      "Get your next web application and Telegram bot up and running in minutes with our production-ready Next.js template.",
     images: ["/logo.png"],
   },
   robots: {
