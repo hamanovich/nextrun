@@ -1,22 +1,21 @@
 import "server-only";
 import { db } from "@/db";
-import { accounts, sessions, users, verification } from "@/db/schema";
+import * as schema from "@/db/schema";
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { env } from "@/lib/env";
 
 export const auth = betterAuth({
-  baseURL: env.BETTER_AUTH_URL,
-  secret: env.BETTER_AUTH_SECRET,
   database: drizzleAdapter(db, {
     provider: "pg",
     schema: {
-      user: users,
-      session: sessions,
-      account: accounts,
-      verification,
+      ...schema,
+      user: schema.users,
+      session: schema.sessions,
+      account: schema.accounts,
     },
   }),
+  trustedOrigins: [env.NEXT_PUBLIC_DOMAIN],
   socialProviders: {
     google: {
       clientId: env.GOOGLE_CLIENT_ID,
