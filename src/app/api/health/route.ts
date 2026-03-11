@@ -1,8 +1,9 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/db";
 import app from "@app";
 import { sql } from "drizzle-orm";
 import { env } from "@/lib/env";
+import { logger } from "@/lib/logger";
 
 interface HealthCheckResult {
   status: "healthy" | "unhealthy" | "degraded";
@@ -49,27 +50,22 @@ const checkDatabase = async (): Promise<ServiceStatus> => {
 const checkOpenAI = async (): Promise<ServiceStatus> => {
   const start = Date.now();
   try {
-    const response = await fetch("https://api.openai.com/v1/models", {
-      cache: "no-store",
-      headers: {
-        Authorization: `Bearer ${env.OPENAI_API_KEY}`,
+    const response = await fetch(
+      "https://status.openai.com/api/v2/status.json",
+      {
+        signal: AbortSignal.timeout(3000),
+        cache: "no-store",
       },
-      signal: AbortSignal.timeout(5000),
-    });
-
-    if (!response.ok) {
-      throw new Error(`OpenAI API returned ${response.status}`);
-    }
-
+    );
     return {
-      status: "healthy",
+      status: response.ok ? "healthy" : "degraded",
       responseTime: Date.now() - start,
     };
   } catch (error) {
     return {
       status: "unhealthy",
       responseTime: Date.now() - start,
-      error: error instanceof Error ? error.message : "OpenAI API check failed",
+      error: error instanceof Error ? error.message : "Check failed",
     };
   }
 };
@@ -102,7 +98,11 @@ const checkStripe = async (): Promise<ServiceStatus> => {
   }
 };
 
-export const GET = async () => {
+export const GET = async (req: NextRequest) => {
+  const authHeader = req.headers.get("authorization");
+  if (authHeader !== `Bearer ${env.HEALTH_CHECK_SECRET}`)
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+
   const startTime = Date.now();
 
   try {
@@ -153,7 +153,7 @@ export const GET = async () => {
     });
   } catch (error) {
     const responseTime = Date.now() - startTime;
-    console.error("[/api/health] Unhandled error:", error);
+    logger.error("[/api/health] Unhandled error:", error);
     const fallback: HealthCheckResult = {
       status: "unhealthy",
       timestamp: new Date().toISOString(),

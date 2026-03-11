@@ -10,6 +10,9 @@ const envSchema = z.object({
     .string()
     .min(1, { message: "GOOGLE_CLIENT_SECRET is required" }),
   BETTER_AUTH_URL: z.url({ message: "BETTER_AUTH_URL must be a valid URL" }),
+  HEALTH_CHECK_SECRET: z
+    .string()
+    .min(32, { message: "HEALTH_CHECK_SECRET must be at least 32 characters" }),
   BETTER_AUTH_SECRET: z
     .string()
     .min(32, { message: "BETTER_AUTH_SECRET must be at least 32 characters" }),
@@ -27,9 +30,6 @@ const envSchema = z.object({
   TELEGRAM_BOT_TOKEN: z
     .string()
     .min(1, { message: "TELEGRAM_BOT_TOKEN is required" }),
-  WHITELIST_USER_IDS: z
-    .string()
-    .min(1, { message: "WHITELIST_USER_IDS is required" }),
 });
 
 export type Env = z.infer<typeof envSchema>;

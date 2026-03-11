@@ -177,9 +177,9 @@ export default function About() {
                   </h3>
                   <p className="text-muted-foreground text-sm leading-relaxed">
                     A fully configured Telegram bot powered by Grammy for your
-                    automation needs. Includes whitelist middleware, session
-                    management, multi-step conversations, and API rate limiting
-                    — ready to extend with your own commands.
+                    automation needs. Includes session management, multi-step
+                    conversations, and API rate limiting - ready to extend with
+                    your own commands.
                   </p>
                 </div>
               </div>

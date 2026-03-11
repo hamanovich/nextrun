@@ -2,11 +2,12 @@
 
 import { forwardRef, useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { KeyRound } from "lucide-react";
 import { authClient } from "@/lib/auth-client";
 import { cn } from "@/lib/utils";
 import { useCredits } from "@/hooks/use-credits";
 import { useWindowScroll } from "@/hooks/use-scroll";
-import { LoginBtn } from "@/components/login/login-btn";
+import { SignInButton } from "@/components/auth/sign-in-button";
 import { defaultNavigationLinks } from "./constants";
 import { DesktopNavigation } from "./desktop-navigation";
 import { Logo } from "./logo";
@@ -75,16 +76,14 @@ export const Navbar = forwardRef<HTMLElement, NavbarProps>(
       <header
         ref={combinedRef}
         className={cn(
-          "sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 px-4 md:px-6 [&_*]:no-underline transition-transform duration-300",
+          "sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60 px-4 md:px-6 **:no-underline transition-transform duration-300",
           isHidden ? "-translate-y-full" : "translate-y-0",
           className,
         )}
         {...props}
       >
         <div className="container mx-auto flex h-16 max-w-screen-2xl items-center justify-between gap-4">
-          {/* Left side */}
           <div className="flex flex-1 items-center gap-2">
-            {/* Mobile menu trigger */}
             {isMobile && <MobileNavigation navigationLinks={navigationLinks} />}
             <nav aria-label="Main" className="flex items-center gap-6">
               <Link
@@ -101,7 +100,6 @@ export const Navbar = forwardRef<HTMLElement, NavbarProps>(
               )}
             </nav>
           </div>
-          {/* Right side */}
           <div className="flex items-center gap-2">
             <ThemeToggle />
             {isPending ? (
@@ -109,7 +107,10 @@ export const Navbar = forwardRef<HTMLElement, NavbarProps>(
             ) : session ? (
               <UserMenu session={session} credits={credits} />
             ) : (
-              <LoginBtn />
+              <SignInButton>
+                <KeyRound />
+                Sign in
+              </SignInButton>
             )}
           </div>
         </div>

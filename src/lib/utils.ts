@@ -7,7 +7,7 @@ export const formatMoney = (
   amount: number | null | undefined,
   currency: string | null | undefined,
 ) => {
-  if (amount == null || !currency) return "—";
+  if (amount == null || !currency) return "-";
   try {
     return new Intl.NumberFormat(undefined, {
       style: "currency",

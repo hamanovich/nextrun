@@ -176,7 +176,6 @@ describe("About Page", () => {
       render(<About />);
 
       expect(screen.getByText(/Grammy/i)).toBeInTheDocument();
-      expect(screen.getByText(/whitelist middleware/i)).toBeInTheDocument();
     });
 
     it("renders the bot icon", () => {

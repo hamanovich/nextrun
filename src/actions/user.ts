@@ -6,6 +6,9 @@ import { users } from "@/db/schema";
 import { and, eq, gte, sql } from "drizzle-orm";
 import { SessionUser } from "@/types/user.types";
 import { auth } from "@/lib/auth";
+import { taggerLogger } from "@/lib/logger";
+
+const log = taggerLogger("user-actions");
 
 export const getSessionUser = async (): Promise<SessionUser> => {
   try {
@@ -40,7 +43,8 @@ export const getSessionUser = async (): Promise<SessionUser> => {
       user: userWithStripeData,
       userId: session.user.id,
     };
-  } catch {
+  } catch (error) {
+    log.error("Failed to get session user:", error);
     return null;
   }
 };

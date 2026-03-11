@@ -1,15 +1,17 @@
-import { whitelistMiddleware } from "@/bot/middlewares/whitelist";
 import { conversations } from "@grammyjs/conversations";
 import { hydrateFiles } from "@grammyjs/files";
 import { apiThrottler } from "@grammyjs/transformer-throttler";
 import { Bot, session } from "grammy";
 import type { MyContext } from "@/types/bot.types";
 import { env } from "@/lib/env";
+import { taggerLogger } from "@/lib/logger";
 import { setupHandlers } from "./handlers";
 
 export interface SessionData {
   rawTranscript?: string;
 }
+
+const log = taggerLogger("bot");
 
 const bot = new Bot<MyContext>(env.TELEGRAM_BOT_TOKEN);
 
@@ -25,14 +27,13 @@ bot.use(
 );
 
 bot.use(conversations());
-bot.use(whitelistMiddleware);
 
 setupHandlers(bot);
 
 bot.catch((err) => {
-  console.error(`Error while handling update ${err.ctx.update.update_id}:`);
+  log.error(`Error while handling update ${err.ctx.update.update_id}:`);
   if (err.error) {
-    console.error(err.error);
+    log.error(err.error);
   }
 });
 
@@ -42,7 +43,24 @@ bot.api.setMyCommands([
 ]);
 
 bot.start({
-  onStart(botInfo) {
-    console.log(`Bot started as @${botInfo.username}`);
-  },
+  onStart: (botInfo) => log.info(`Bot started as @${botInfo.username}`),
+  allowed_updates: ["message", "callback_query"],
+});
+
+const shutdown = async (signal: string) => {
+  log.info(`Received ${signal}, shutting down gracefully...`);
+  await bot.stop();
+  process.exit(0);
+};
+
+process.on("SIGINT", () => shutdown("SIGINT"));
+process.on("SIGTERM", () => shutdown("SIGTERM"));
+
+process.on("uncaughtException", (err) => {
+  log.error("Uncaught exception in bot process:", err);
+  shutdown("uncaughtException");
+});
+
+process.on("unhandledRejection", (reason) => {
+  log.error("Unhandled rejection in bot process:", reason);
 });

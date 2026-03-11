@@ -13,7 +13,7 @@ export default function PricingPage() {
         </div>
       }
     >
-      <PricingContent isMocked />
+      <PricingContent />
     </Suspense>
   );
 }

@@ -2,7 +2,9 @@
 
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
+import { z } from "zod";
 import { env } from "@/lib/env";
+import { logger } from "@/lib/logger";
 import { stripe } from "@/lib/stripe";
 import { getSessionUser, updateUserStripeData } from "./user";
 
@@ -107,12 +109,13 @@ export const createPayment = async (priceId: string) => {
   redirect(checkoutSession.url);
 };
 
+const priceIdSchema = z.string().startsWith("price_").max(255);
+
 export const createPaymentAction = async (formData: FormData) => {
-  const priceId = formData.get("priceId") as string;
+  const result = priceIdSchema.safeParse(formData.get("priceId"));
+  if (!result.success) throw new Error("Invalid Price ID");
 
-  if (!priceId) throw new Error("Price ID is required");
-
-  await createPayment(priceId);
+  await createPayment(result.data);
 };
 
 export const listPricingProducts = async (): Promise<PricingProduct[]> => {
@@ -143,7 +146,7 @@ export const listPricingProducts = async (): Promise<PricingProduct[]> => {
         };
       });
   } catch (error) {
-    console.error("Failed to list pricing products", error);
+    logger.error("Failed to list pricing products", error);
     throw error;
   }
 };
@@ -153,7 +156,7 @@ export const getCheckoutSession = async (sessionId: string) => {
     const session = await stripe.checkout.sessions.retrieve(sessionId);
     return session;
   } catch (error) {
-    console.error("Failed to get checkout session", error);
+    logger.error("Failed to get checkout session", error);
     throw error;
   }
 };

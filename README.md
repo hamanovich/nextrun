@@ -25,7 +25,6 @@ A production-ready Next.js template with pre-configured authentication, payments
 ### 🤖 **Telegram Bot**
 
 - **Grammy Framework**: Lightweight and type-safe bot framework
-- **Whitelist Middleware**: Restrict bot access to allowed users
 - **Session & Conversations**: Stateful multi-step bot flows
 - **Rate Limiting**: Built-in API throttling
 
@@ -89,7 +88,6 @@ A production-ready Next.js template with pre-configured authentication, payments
 
    # Telegram Bot
    TELEGRAM_BOT_TOKEN="your_telegram_bot_token"
-   WHITELIST_USER_IDS="123456789,987654321"
    ```
 
 4. **Set up the database**
@@ -177,7 +175,6 @@ src/
 ├── bot/              # Telegram bot
 │   ├── handlers.ts   # Command handlers
 │   ├── index.ts      # Bot entry point
-│   └── middlewares/  # Bot middlewares (whitelist, etc.)
 ├── db/               # Database configuration
 ├── lib/              # Utility functions and schemas
 └── contexts/         # React contexts
@@ -199,7 +196,6 @@ src/
    - Set up your database connection
    - Configure Google OAuth credentials
    - Add your Stripe keys
-   - Add your Telegram Bot token and whitelist user IDs
 
 3. **Customize Your App**
    - Modify the branding and content
@@ -222,7 +218,6 @@ src/
 
 - Create a bot via [@BotFather](https://t.me/BotFather) and copy the token
 - Set `TELEGRAM_BOT_TOKEN` in your environment
-- Set `WHITELIST_USER_IDS` to a comma-separated list of allowed Telegram user IDs
 - Run `bun run bot:dev` to start the bot locally
 
 ### Deployment

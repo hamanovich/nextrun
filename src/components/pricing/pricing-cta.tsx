@@ -1,8 +1,8 @@
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, KeyRound } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { LoginBtn } from "@/components/login/login-btn";
+import { SignInButton } from "@/components/auth/sign-in-button";
 
 interface PricingCtaProps {
   isLoggedIn?: boolean;
@@ -32,7 +32,10 @@ export const PricingCta = ({ isLoggedIn }: PricingCtaProps) => (
                 </Link>
               </Button>
             ) : (
-              <LoginBtn variant="secondary" />
+              <SignInButton variant="secondary">
+                <KeyRound />
+                Sign in
+              </SignInButton>
             )}
           </div>
         </CardContent>

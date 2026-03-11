@@ -1,20 +1,24 @@
 import { NextRequest, NextResponse } from "next/server";
 
-const protectedRoutes: string[] = [];
+const protectedRoutes = ["/profile"];
 
-export default function middleware(req: NextRequest) {
+const SESSION_COOKIE = "better-auth.session_token";
+
+export const proxy = (req: NextRequest) => {
   const { pathname } = req.nextUrl;
 
   const isProtectedRoute = protectedRoutes.some((route) =>
     pathname.startsWith(route),
   );
 
-  if (isProtectedRoute) {
-    return NextResponse.redirect(new URL("/", req.url));
+  if (isProtectedRoute && !req.cookies.get(SESSION_COOKIE)) {
+    const signInUrl = new URL("/auth/signin", req.url);
+    signInUrl.searchParams.set("callbackUrl", pathname);
+    return NextResponse.redirect(signInUrl);
   }
 
   return NextResponse.next();
-}
+};
 
 export const config = {
   matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],

@@ -34,24 +34,6 @@ vi.mock("../pricing-cta", () => ({
   ),
 }));
 
-vi.mock("@/components/login/login-btn", () => ({
-  LoginBtn: ({
-    className,
-    variant,
-  }: {
-    className?: string;
-    variant?: string;
-  }) => (
-    <button
-      data-testid="login-btn"
-      className={className}
-      data-variant={variant}
-    >
-      Login
-    </button>
-  ),
-}));
-
 describe("PricingContent", () => {
   beforeEach(() => {
     vi.clearAllMocks();
@@ -336,31 +318,6 @@ describe("PricingContent", () => {
       expect(
         screen.getByRole("button", { name: /purchase credits/i }),
       ).toBeInTheDocument();
-    });
-
-    it("renders LoginBtn for paid plans when not logged in", async () => {
-      const mockProducts = [
-        {
-          id: "price_123",
-          amount: 999,
-          interval: "month",
-          product: {
-            name: "Pro Plan",
-            credits: 50,
-            description: "Professional plan",
-            marketing_features: [{ name: "50 credits per month" }],
-          },
-        },
-      ];
-
-      vi.mocked(getSessionUser).mockResolvedValue(null);
-      vi.mocked(listPricingProducts).mockResolvedValue(
-        mockProducts as unknown as PricingProduct[],
-      );
-
-      render(await PricingContent({ isMocked: false }));
-
-      expect(screen.getByTestId("login-btn")).toBeInTheDocument();
     });
 
     it("renders Contact Sales button for plans without productId", async () => {

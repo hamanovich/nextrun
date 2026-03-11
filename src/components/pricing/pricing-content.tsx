@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { createPaymentAction, listPricingProducts } from "@/actions/stripe";
 import { getSessionUser } from "@/actions/user";
-import { Check } from "lucide-react";
+import { Check, KeyRound } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -11,7 +11,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { LoginBtn } from "@/components/login/login-btn";
+import { SignInButton } from "@/components/auth/sign-in-button";
 import {
   FREE_TIER,
   FREE_TIER_FEATURES,
@@ -20,7 +20,11 @@ import { PricingCta } from "./pricing-cta";
 import { PricingFaq } from "./pricing-faq";
 import { PricingHero } from "./pricing-hero";
 
-export const PricingContent = async ({ isMocked }: { isMocked?: boolean }) => {
+export const PricingContent = async ({
+  isMocked = true,
+}: {
+  isMocked?: boolean;
+}) => {
   const sessionUser = await getSessionUser();
   const products = isMocked ? [] : await listPricingProducts();
 
@@ -86,7 +90,7 @@ export const PricingContent = async ({ isMocked }: { isMocked?: boolean }) => {
                         key={featureIndex}
                         className="flex items-center gap-3"
                       >
-                        <Check className="w-5 h-5 text-green-500 flex-shrink-0" />
+                        <Check className="w-5 h-5 text-green-500 shrink-0" />
                         <span className="text-sm">{feature}</span>
                       </li>
                     ))}
@@ -107,7 +111,10 @@ export const PricingContent = async ({ isMocked }: { isMocked?: boolean }) => {
                         <Button className="w-full">Purchase Credits</Button>
                       </form>
                     ) : (
-                      <LoginBtn className="w-full" />
+                      <SignInButton>
+                        <KeyRound />
+                        Sign in
+                      </SignInButton>
                     )
                   ) : (
                     <Button className="w-full" variant="outline">

@@ -74,30 +74,6 @@ export const sanitizePreContent = (content: string): string =>
   content.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
 /**
- * Configuration for different sanitization levels
- */
-export const SANITIZE_CONFIG = {
-  // For user-generated content that will be displayed as HTML
-  HTML: {
-    ALLOWED_TAGS: ["b", "i", "em", "strong", "p", "br", "span"],
-    ALLOWED_ATTR: ["class"],
-    KEEP_CONTENT: true,
-  },
-  // For content that should be plain text only
-  TEXT: {
-    ALLOWED_TAGS: [],
-    ALLOWED_ATTR: [],
-    KEEP_CONTENT: true,
-  },
-  // For JSON-LD structured data
-  JSON_LD: {
-    ALLOWED_TAGS: [],
-    ALLOWED_ATTR: [],
-    KEEP_CONTENT: true,
-  },
-} as const;
-
-/**
  * Validate and sanitize user input based on expected type
  */
 export const validateAndSanitize = (

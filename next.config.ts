@@ -22,15 +22,13 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   htmlLimitedBots: /.*/,
   compress: true,
-  productionBrowserSourceMaps: true,
+  productionBrowserSourceMaps: false,
   images: {
     qualities: [50, 75],
     minimumCacheTTL: 3600,
     remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "**",
-      },
+      { protocol: "https", hostname: "**.googleusercontent.com" },
+      { protocol: "https", hostname: "cdn.jsdelivr.net" },
     ],
   },
   async headers() {

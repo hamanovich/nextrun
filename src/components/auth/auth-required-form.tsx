@@ -2,6 +2,7 @@
 
 import { ReactNode } from "react";
 import Link from "next/link";
+import { KeyRound } from "lucide-react";
 import { authClient } from "@/lib/auth-client";
 import { useCredits } from "@/hooks/use-credits";
 import { Button } from "@/components/ui/button";
@@ -12,7 +13,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { LoginBtn } from "@/components/login/login-btn";
+import { SignInButton } from "./sign-in-button";
 
 interface AuthRequiredFormProps {
   children: ReactNode;
@@ -52,7 +53,10 @@ export const AuthRequiredForm = ({
           </CardDescription>
         </CardHeader>
         <CardContent className="text-center">
-          <LoginBtn />
+          <SignInButton>
+            <KeyRound />
+            Sign in
+          </SignInButton>
         </CardContent>
       </Card>
     );

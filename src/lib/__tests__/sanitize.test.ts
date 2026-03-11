@@ -1,6 +1,5 @@
 import { describe, expect, it } from "vitest";
 import {
-  SANITIZE_CONFIG,
   sanitizeFormInput,
   sanitizeJsonLd,
   sanitizePreContent,
@@ -157,32 +156,6 @@ describe("sanitize", () => {
 
     it("should handle empty string", () => {
       expect(sanitizePreContent("")).toBe("");
-    });
-  });
-
-  describe("SANITIZE_CONFIG", () => {
-    it("should have correct HTML config", () => {
-      expect(SANITIZE_CONFIG.HTML).toEqual({
-        ALLOWED_TAGS: ["b", "i", "em", "strong", "p", "br", "span"],
-        ALLOWED_ATTR: ["class"],
-        KEEP_CONTENT: true,
-      });
-    });
-
-    it("should have correct TEXT config", () => {
-      expect(SANITIZE_CONFIG.TEXT).toEqual({
-        ALLOWED_TAGS: [],
-        ALLOWED_ATTR: [],
-        KEEP_CONTENT: true,
-      });
-    });
-
-    it("should have correct JSON_LD config", () => {
-      expect(SANITIZE_CONFIG.JSON_LD).toEqual({
-        ALLOWED_TAGS: [],
-        ALLOWED_ATTR: [],
-        KEEP_CONTENT: true,
-      });
     });
   });
 

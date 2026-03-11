@@ -1,17 +1,18 @@
 import { headers } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
-import { updateUserStripeData } from "@/actions/user";
 import { db } from "@/db";
 import { users } from "@/db/schema";
-import { eq } from "drizzle-orm";
+import { eq, sql } from "drizzle-orm";
 import type Stripe from "stripe";
 import { stripe } from "@/lib/stripe";
 import "@/lib/logger";
+import { env } from "@/lib/env";
+import { logger } from "@/lib/logger";
 
 export const POST = async (req: NextRequest) => {
   const body = await req.text();
   const signature = (await headers()).get("stripe-signature") ?? "";
-  const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
+  const webhookSecret = env.STRIPE_WEBHOOK_SECRET;
 
   if (!webhookSecret) {
     return NextResponse.json(
@@ -32,7 +33,7 @@ export const POST = async (req: NextRequest) => {
   try {
     event = stripe.webhooks.constructEvent(body, signature, webhookSecret);
   } catch (err) {
-    console.error("Webhook signature verification failed:", err);
+    logger.error("Webhook signature verification failed:", err);
     return NextResponse.json(
       { error: "Webhook signature verification failed" },
       { status: 400 },
@@ -66,38 +67,45 @@ export const POST = async (req: NextRequest) => {
             }, 0);
 
             if (totalCreditsToAdd > 0) {
-              const userData = await db
+              const existing = await db
                 .select({
-                  stripeCredits: users.stripeCredits,
-                  lastSessionId: users.stripeCheckoutSessionId,
+                  stripeCheckoutSessionId: users.stripeCheckoutSessionId,
                 })
                 .from(users)
                 .where(eq(users.id, userId))
                 .limit(1);
 
-              if (userData.length > 0) {
-                const { stripeCredits: currentCredits } = userData[0];
-                const newCredits = currentCredits + totalCreditsToAdd;
+              if (existing.length === 0) {
+                logger.error(
+                  `User not found in database for userId: ${userId}`,
+                );
+                break;
+              }
 
-                await updateUserStripeData(userId, {
-                  stripeCredits: newCredits,
+              if (existing[0].stripeCheckoutSessionId === session.id) {
+                logger.info(
+                  `Webhook already processed for session: ${session.id}`,
+                );
+                break;
+              }
+
+              await db
+                .update(users)
+                .set({
+                  stripeCredits: sql`${users.stripeCredits} + ${totalCreditsToAdd}`,
                   stripeCheckoutSessionId: session.id,
                   stripeCustomerId:
                     typeof session.customer === "string"
                       ? session.customer
                       : session.customer?.id,
-                });
+                })
+                .where(eq(users.id, userId));
 
-                console.info(
-                  `Added ${totalCreditsToAdd} credits to user ${userId}. Previous: ${currentCredits}, New total: ${newCredits}`,
-                );
-              } else {
-                console.error(
-                  `User not found in database for userId: ${userId}`,
-                );
-              }
+              logger.info(
+                `Added ${totalCreditsToAdd} credits to user ${userId} for session: ${session.id}`,
+              );
             } else {
-              console.warn(
+              logger.warn(
                 `No valid credits found to add for session: ${session.id}`,
               );
             }
@@ -107,14 +115,14 @@ export const POST = async (req: NextRequest) => {
       }
 
       case "customer.created": {
-        console.info(`Customer created: ${event.data.object.id}`);
+        logger.info(`Customer created: ${event.data.object.id}`);
         break;
       }
     }
 
     return NextResponse.json({ received: true });
   } catch (error) {
-    console.error("Error processing webhook:", error);
+    logger.error("Error processing webhook:", error);
     return NextResponse.json(
       { error: "Webhook processing failed" },
       { status: 500 },

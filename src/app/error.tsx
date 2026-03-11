@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import Link from "next/link";
 import { AlertTriangle, ArrowLeft, Home, RefreshCw } from "lucide-react";
+import { logger } from "@/lib/logger";
 import { Button } from "@/components/ui/button";
 
 interface ErrorProps {
@@ -12,7 +13,7 @@ interface ErrorProps {
 
 export default function AppError({ error, reset }: ErrorProps) {
   useEffect(() => {
-    console.error("Application error:", error);
+    logger.error("Application error:", error);
   }, [error]);
 
   return (

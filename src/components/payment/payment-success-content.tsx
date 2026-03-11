@@ -1,5 +1,6 @@
 import { getCheckoutSession } from "@/actions/stripe";
 import { getSessionUser } from "@/actions/user";
+import { logger } from "@/lib/logger";
 import { AuthRequiredCard } from "./auth-required-card";
 import { ErrorCard } from "./error-card";
 import { PaymentPendingCard } from "./payment-pending-card";
@@ -44,7 +45,7 @@ export const PaymentSuccessContent = async ({
       />
     );
   } catch (error) {
-    console.error("Error fetching payment details:", error);
+    logger.error("Error fetching payment details:", error);
     return <ErrorCard />;
   }
 };

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import type { ReactNode } from "react";
+import { env } from "@/lib/env";
 import { Toaster } from "@/components/ui/sonner";
 import { Footer } from "@/components/footer/footer";
 import { Navbar } from "@/components/navbar/navbar";
@@ -18,9 +19,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(
-    process.env.NEXT_PUBLIC_DOMAIN || "https://nextrun.dev",
-  ),
+  metadataBase: new URL(env.NEXT_PUBLIC_DOMAIN || "https://nextrun.dev"),
   title: "NextRun",
   description: "NextRun - Next.js template",
   applicationName: "NextRun",

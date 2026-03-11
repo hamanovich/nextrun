@@ -1,6 +1,7 @@
 "use client";
 
 import { authClient } from "@/lib/auth-client";
+import { logger } from "@/lib/logger";
 import { Button } from "@/components/ui/button";
 
 export const SignOutButton = () => {
@@ -9,7 +10,7 @@ export const SignOutButton = () => {
       await authClient.signOut();
       window.location.href = "/";
     } catch (err) {
-      console.error("Sign out failed", err);
+      logger.error("Sign out failed", err);
     }
   };
 

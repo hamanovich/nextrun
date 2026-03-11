@@ -13,7 +13,6 @@ trigger: always_on
 ## Architectural Truths (The "How")
 
 - **Database:** Supabase (PostgreSQL) integrated in `src/services/db.ts`. Schema creates one log per day.
-- **Auth Flow:** Whitelisted Telegram users via `WHITELIST_USER_IDS` environment variable.
 - **Grammy Logic:** Built with grammY running on Bun. Logic is split between `src/bot/handlers.ts` and `src/bot/callbacks.ts`. AI Transcription mapping is in `src/services/openai.ts`.
 - **Runtime Logic:** AI processes use OpenAI Whisper for voice and GPT for entity extraction directly in the backend.
 
@@ -25,5 +24,4 @@ trigger: always_on
 
 ## The "Never" List (Lessons Learned)
 
-- **Do NOT** process non-whitelisted users' messages to preserve privacy and OpenAI quota.
 - **Do NOT** blindly overwrite daily logs; follow-up messages must merge into the existing daily entry.

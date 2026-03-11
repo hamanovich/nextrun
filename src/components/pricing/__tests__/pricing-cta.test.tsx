@@ -1,24 +1,6 @@
 import { render, screen } from "@testing-library/react";
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it } from "vitest";
 import { PricingCta } from "../pricing-cta";
-
-vi.mock("@/components/login/login-btn", () => ({
-  LoginBtn: ({
-    className,
-    variant,
-  }: {
-    className?: string;
-    variant?: string;
-  }) => (
-    <button
-      data-testid="login-btn"
-      className={className}
-      data-variant={variant}
-    >
-      Login
-    </button>
-  ),
-}));
 
 describe("PricingCta", () => {
   describe("Default Rendering", () => {
@@ -37,7 +19,9 @@ describe("PricingCta", () => {
     it("renders when not logged in", () => {
       render(<PricingCta isLoggedIn={false} />);
 
-      expect(screen.getByTestId("login-btn")).toBeInTheDocument();
+      expect(
+        screen.getByRole("button", { name: /sign in/i }),
+      ).toBeInTheDocument();
       expect(screen.queryByText("Get Started Now")).not.toBeInTheDocument();
     });
 
@@ -45,7 +29,9 @@ describe("PricingCta", () => {
       render(<PricingCta isLoggedIn={true} />);
 
       expect(screen.getByText("Get Started Now")).toBeInTheDocument();
-      expect(screen.queryByTestId("login-btn")).not.toBeInTheDocument();
+      expect(
+        screen.queryByRole("button", { name: /sign in/i }),
+      ).not.toBeInTheDocument();
     });
   });
 
@@ -132,24 +118,6 @@ describe("PricingCta", () => {
     });
   });
 
-  describe("Button Rendering - Not Logged In", () => {
-    it("renders LoginBtn when not logged in", () => {
-      render(<PricingCta isLoggedIn={false} />);
-
-      const loginBtn = screen.getByTestId("login-btn");
-      expect(loginBtn).toBeInTheDocument();
-      expect(loginBtn).toHaveAttribute("data-variant", "secondary");
-    });
-
-    it("renders LoginBtn with correct styling when not logged in", () => {
-      render(<PricingCta isLoggedIn={false} />);
-
-      const loginBtn = screen.getByTestId("login-btn");
-      expect(loginBtn).toBeInTheDocument();
-      expect(loginBtn).toHaveAttribute("data-variant", "secondary");
-    });
-  });
-
   describe("Responsive Behavior", () => {
     it("applies responsive button container classes", () => {
       render(<PricingCta />);
@@ -185,13 +153,6 @@ describe("PricingCta", () => {
       expect(button).toHaveAttribute("href", "/");
     });
 
-    it("has accessible login button when not logged in", () => {
-      render(<PricingCta isLoggedIn={false} />);
-
-      const loginBtn = screen.getByTestId("login-btn");
-      expect(loginBtn).toBeInTheDocument();
-    });
-
     it("has proper semantic structure", () => {
       render(<PricingCta />);
 
@@ -206,14 +167,18 @@ describe("PricingCta", () => {
     it("handles undefined isLoggedIn prop", () => {
       render(<PricingCta isLoggedIn={undefined} />);
 
-      expect(screen.getByTestId("login-btn")).toBeInTheDocument();
+      expect(
+        screen.getByRole("button", { name: /sign in/i }),
+      ).toBeInTheDocument();
       expect(screen.queryByText("Get Started Now")).not.toBeInTheDocument();
     });
 
     it("handles null isLoggedIn prop", () => {
       render(<PricingCta isLoggedIn={false} />);
 
-      expect(screen.getByTestId("login-btn")).toBeInTheDocument();
+      expect(
+        screen.getByRole("button", { name: /sign in/i }),
+      ).toBeInTheDocument();
       expect(screen.queryByText("Get Started Now")).not.toBeInTheDocument();
     });
   });

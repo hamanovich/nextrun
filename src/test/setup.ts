@@ -42,12 +42,6 @@ vi.mock("next/link", () => ({
   }) => createElement("a", { href, className }, children),
 }));
 
-vi.mock("@/lib/env", () => ({
-  env: {
-    WHITELIST_USER_IDS: "123,456",
-  },
-}));
-
 // Mock environment variables for testing
 process.env.BETTER_AUTH_URL = "http://localhost:3000";
 process.env.BETTER_AUTH_SECRET = "test-secret-32-chars-minimum-ok!";

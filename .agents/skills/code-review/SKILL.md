@@ -18,7 +18,6 @@ Before reviewing, read `.agents/rules/base.md`, `.agents/rules/grammy.md`, and `
 
 ### 2. Security & Auth
 
-- Non-whitelisted users must never reach OpenAI or Supabase calls — verify the `whitelist` middleware is applied before any handler that costs quota or touches the DB.
 - No secrets or API keys are hardcoded. All env vars must flow through `src/env.ts`.
 - Supabase queries must not allow user-supplied strings to bypass row-level conditions (no raw SQL interpolation).
 
@@ -65,7 +64,7 @@ Before reviewing, read `.agents/rules/base.md`, `.agents/rules/grammy.md`, and `
 
 Structure your review as follows:
 
-**[BLOCKER]** — must be fixed before merge. Security issues, data-loss bugs (e.g. overwriting daily log), missing whitelist guard.
+**[BLOCKER]** — must be fixed before merge. Security issues, data-loss bugs (e.g. overwriting daily log).
 
 **[ISSUE]** — should be fixed. Violation of conventions, missing error handling, absent tests for branching logic.
 

@@ -8,7 +8,7 @@ export const setupHandlers = (bot: Bot<MyContext>) => {
 
   bot.command("help", (ctx: MyContext) => {
     ctx.reply(
-      "Available commands:\n/start — Start the bot\n/help — Show this message",
+      "Available commands:\n/start - Start the bot\n/help - Show this message",
     );
   });
 };
