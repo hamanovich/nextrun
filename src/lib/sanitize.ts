@@ -68,7 +68,7 @@ export const sanitizeUrl = (url: string): string => {
 
 /**
  * Sanitize content for display in pre-formatted text areas
- * This is used for displaying generated content like Anki/Quizlet data
+ * This is used for displaying generated or user-provided content
  */
 export const sanitizePreContent = (content: string): string =>
   content.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");

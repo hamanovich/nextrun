@@ -15,9 +15,7 @@ export default function NotFound() {
     <div className="container mx-auto px-6 py-16">
       <div className="flex flex-col items-center justify-center min-h-[60vh] text-center">
         <div className="mb-8">
-          <h1 className="text-9xl font-bold text-transparent bg-linear-to-br bg-clip-text from-teal-500 via-indigo-500 to-sky-500 dark:from-teal-200 dark:via-indigo-300 dark:to-sky-500">
-            404
-          </h1>
+          <h1 className="text-9xl font-bold tracking-tighter">404</h1>
         </div>
 
         <div className="mb-8 max-w-md">

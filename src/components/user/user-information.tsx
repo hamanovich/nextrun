@@ -43,12 +43,12 @@ export const UserInformation = ({ user }: UserInformationProps) => (
               className="rounded-full border-2 border-border shadow-sm"
             />
           ) : (
-            <div className="w-18 h-18 rounded-full bg-gradient-to-br from-primary/20 to-primary/40 border-2 border-border flex items-center justify-center">
-              <User className="w-8 h-8 text-primary/60" />
+            <div className="border-border bg-muted flex size-[72px] items-center justify-center rounded-full border-2">
+              <User className="text-muted-foreground size-8" />
             </div>
           )}
-          <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-green-500 rounded-full border-2 border-background flex items-center justify-center">
-            <Shield className="w-3 h-3 text-white" />
+          <div className="border-background bg-primary text-primary-foreground absolute -right-1 -bottom-1 flex size-5 items-center justify-center rounded-full border-2">
+            <Shield className="size-3" />
           </div>
         </div>
 
@@ -96,10 +96,10 @@ export const UserInformation = ({ user }: UserInformationProps) => (
             <label className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
               Account Status
             </label>
-            <div className="p-3 bg-green-50 dark:bg-green-950/20 rounded-lg border border-green-200 dark:border-green-800">
+            <div className="bg-muted/50 rounded-lg border p-3">
               <div className="flex items-center gap-2">
-                <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                <span className="text-sm font-medium text-green-700 dark:text-green-300">
+                <div className="bg-foreground size-2 rounded-full"></div>
+                <span className="text-foreground text-sm font-medium">
                   Active
                 </span>
               </div>

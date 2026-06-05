@@ -139,12 +139,9 @@ describe("UserInformation", () => {
         .closest("div")?.parentElement;
       expect(statusContainer).toHaveClass(
         "p-3",
-        "bg-green-50",
-        "dark:bg-green-950/20",
+        "bg-muted/50",
         "rounded-lg",
         "border",
-        "border-green-200",
-        "dark:border-green-800",
       );
     });
   });

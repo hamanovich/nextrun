@@ -25,14 +25,6 @@ export const metadata: Metadata = {
       "Read NextRun's privacy policy to understand how we collect, use, and protect your personal information. Learn about our data practices and your privacy rights.",
     url: "https://nextrun.dev/privacy",
     siteName: "NextRun",
-    images: [
-      {
-        url: "/logo.png",
-        width: 1200,
-        height: 630,
-        alt: "Privacy Policy - NextRun Data Protection",
-      },
-    ],
     locale: "en_US",
     type: "website",
   },
@@ -41,7 +33,6 @@ export const metadata: Metadata = {
     title: "Privacy Policy - NextRun Data Protection",
     description:
       "Read NextRun's privacy policy to understand how we collect, use, and protect your personal information.",
-    images: ["/logo.png"],
   },
   robots: {
     index: true,

@@ -20,32 +20,34 @@ export const PaymentSuccessContent = async ({
     return <AuthRequiredCard />;
   }
 
+  let session: Awaited<ReturnType<typeof getCheckoutSession>>;
   try {
-    const session = await getCheckoutSession(sessionId);
-
-    const sessionOwnerId =
-      (session.metadata?.userId as string | undefined) ?? null;
-    const sessionCustomer = (session.customer as string | null) ?? null;
-    if (
-      sessionOwnerId !== sessionUser.user.id &&
-      sessionCustomer !== sessionUser.user.stripeCustomerId
-    ) {
-      return <UnauthorizedCard />;
-    }
-
-    if (session.payment_status !== "paid") {
-      return <PaymentPendingCard />;
-    }
-
-    return (
-      <PaymentSuccessCard
-        amountTotal={session.amount_total}
-        currency={session.currency}
-        currentCredits={sessionUser.user.stripeCredits}
-      />
-    );
+    session = await getCheckoutSession(sessionId);
   } catch (error) {
     logger.error("Error fetching payment details:", error);
     return <ErrorCard />;
   }
+
+  const sessionOwnerId =
+    (session.metadata?.userId as string | undefined) ?? null;
+  const sessionCustomer = (session.customer as string | null) ?? null;
+
+  if (
+    sessionOwnerId !== sessionUser.user.id &&
+    sessionCustomer !== sessionUser.user.stripeCustomerId
+  ) {
+    return <UnauthorizedCard />;
+  }
+
+  if (session.payment_status !== "paid") {
+    return <PaymentPendingCard />;
+  }
+
+  return (
+    <PaymentSuccessCard
+      amountTotal={session.amount_total}
+      currency={session.currency}
+      currentCredits={sessionUser.user.stripeCredits}
+    />
+  );
 };

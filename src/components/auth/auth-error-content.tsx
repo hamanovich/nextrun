@@ -28,8 +28,8 @@ export const AuthErrorContent = () => {
     <div className="container mx-auto px-6 py-12">
       <div className="flex flex-col items-center justify-center min-h-[60vh] text-center">
         <div className="mb-8">
-          <div className="bg-orange-100 dark:bg-orange-900/20 rounded-full p-6 mb-4">
-            <AlertCircle className="size-16 text-orange-600 dark:text-orange-400" />
+          <div className="bg-destructive/10 dark:bg-destructive/20 mb-4 rounded-full p-6">
+            <AlertCircle className="text-destructive size-16" />
           </div>
         </div>
 

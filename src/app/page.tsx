@@ -1,11 +1,17 @@
+import { CallToAction } from "@/components/call-to-action/call-to-action";
+import { Features } from "@/components/features/features";
 import { Hero } from "@/components/hero/hero";
+import { TechStack } from "@/components/tech-stack/tech-stack";
 
 export { metadata } from "./metadata";
 
 export default function Home() {
   return (
-    <section className="h-full w-screen overflow-hidden py-6 md:py-12">
+    <main>
       <Hero />
-    </section>
+      <Features />
+      <TechStack />
+      <CallToAction />
+    </main>
   );
 }

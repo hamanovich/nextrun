@@ -20,13 +20,13 @@ export const PaymentSuccessCard = ({
   currency,
   currentCredits,
 }: PaymentSuccessCardProps) => (
-  <div className="min-h-screen flex items-center justify-center">
+  <div className="flex min-h-[60vh] items-center justify-center">
     <Card className="w-full max-w-md">
       <CardHeader className="text-center">
-        <div className="mx-auto mb-4 w-16 h-16 bg-green-100 rounded-full flex items-center justify-center">
-          <CheckCircle className="w-8 h-8 text-green-600" />
+        <div className="bg-muted mx-auto mb-4 flex size-16 items-center justify-center rounded-full">
+          <CheckCircle className="text-foreground size-8" />
         </div>
-        <CardTitle className="text-green-600">Payment Successful!</CardTitle>
+        <CardTitle>Payment Successful!</CardTitle>
         <CardDescription>
           Thank you for your purchase. Your credits have been added to your
           account.

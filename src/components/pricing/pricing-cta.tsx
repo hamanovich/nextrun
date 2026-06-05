@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { ArrowRight, KeyRound } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import { SignInButton } from "@/components/auth/sign-in-button";
 
 interface PricingCtaProps {
@@ -9,37 +8,29 @@ interface PricingCtaProps {
 }
 
 export const PricingCta = ({ isLoggedIn }: PricingCtaProps) => (
-  <section className="pb-12">
-    <div className="container mx-auto px-4">
-      <Card className="bg-primary text-primary-foreground">
-        <CardContent className="p-6 text-center">
-          <h2 className="text-3xl font-bold mb-4">Ready to Start Building?</h2>
-          <p className="text-xl mb-8 opacity-90 max-w-2xl mx-auto">
-            Join hundreds of developers who are already accelerating their
-            progress with NextRun. Start your project today!
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            {isLoggedIn ? (
-              <Button
-                asChild
-                size="lg"
-                variant="secondary"
-                className="text-primary"
-              >
-                <Link href="/">
-                  Get Started Now
-                  <ArrowRight className="ml-2 w-4 h-4" />
-                </Link>
-              </Button>
-            ) : (
-              <SignInButton variant="secondary">
-                <KeyRound />
-                Sign in
-              </SignInButton>
-            )}
-          </div>
-        </CardContent>
-      </Card>
+  <section className="container mx-auto px-6 pb-20 md:pb-28">
+    <div className="bg-muted mx-auto max-w-5xl rounded-lg border px-6 py-12 text-center md:px-12">
+      <h2 className="text-2xl font-semibold tracking-tighter md:text-3xl">
+        Ready to start building?
+      </h2>
+      <p className="text-muted-foreground mx-auto mt-3 max-w-xl text-base leading-relaxed">
+        Clone the template, add your credits, and ship. No subscription
+        required.
+      </p>
+      <div className="mt-7 flex justify-center">
+        {isLoggedIn ? (
+          <Button asChild size="lg" className="h-11 px-6">
+            <Link href="/">
+              Get started <ArrowRight className="size-4" aria-hidden={true} />
+            </Link>
+          </Button>
+        ) : (
+          <SignInButton>
+            <KeyRound />
+            Sign in
+          </SignInButton>
+        )}
+      </div>
     </div>
   </section>
 );

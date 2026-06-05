@@ -8,12 +8,18 @@ export const footerSections = [
     links: [{ name: "About", href: "/about" }],
   },
   {
-    title: "Support",
-    links: [{ name: "Help Center", href: "#" }],
+    title: "Resources",
+    links: [
+      { name: "GitHub", href: "https://github.com/hamanovich/nextrun" },
+      {
+        name: "Documentation",
+        href: "https://github.com/hamanovich/nextrun#readme",
+      },
+    ],
   },
 ];
 
 export const footerLegalLinks = [
-  { name: "Terms and Conditions", href: "/terms" },
-  { name: "Privacy Policy", href: "/privacy" },
+  { name: "Terms", href: "/terms" },
+  { name: "Privacy", href: "/privacy" },
 ];

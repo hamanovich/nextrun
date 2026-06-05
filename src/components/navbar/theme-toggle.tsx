@@ -14,7 +14,17 @@ export const ThemeToggle = () => {
   }, []);
 
   if (!mounted) {
-    return null;
+    return (
+      <Button
+        variant="ghost"
+        size="icon"
+        className="h-8 w-8"
+        disabled
+        aria-hidden={true}
+      >
+        <span className="sr-only">Toggle theme</span>
+      </Button>
+    );
   }
 
   const toggleTheme = () => {

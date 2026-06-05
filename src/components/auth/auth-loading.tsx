@@ -1,4 +1,4 @@
-import { AlertCircle } from "lucide-react";
+import { Loader2 } from "lucide-react";
 
 export interface AuthLoadingProps {
   message?: string;
@@ -15,9 +15,7 @@ export const AuthLoading = ({
   >
     <div className="flex flex-col items-center justify-center min-h-[60vh] text-center">
       <div className="mb-8">
-        <div className="bg-orange-100 dark:bg-orange-900/20 rounded-full p-6 mb-4">
-          <AlertCircle className="size-16 text-orange-600 dark:text-orange-400" />
-        </div>
+        <Loader2 className="text-muted-foreground size-12 animate-spin" />
       </div>
       <div className="mb-8 max-w-md">
         <h1 className="text-3xl font-semibold mb-4">Loading...</h1>

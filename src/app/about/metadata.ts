@@ -27,14 +27,6 @@ export const metadata: Metadata = {
       "Learn about NextRun's mission to accelerate web development with production-ready Next.js templates and integrated Telegram bots.",
     url: "https://nextrun.dev/about",
     siteName: "NextRun",
-    images: [
-      {
-        url: "/logo.png",
-        width: 1200,
-        height: 630,
-        alt: "About NextRun - Modern Next.js Template with Telegram Bot",
-      },
-    ],
     locale: "en_US",
     type: "website",
   },
@@ -43,7 +35,6 @@ export const metadata: Metadata = {
     title: "About NextRun - Modern Next.js Template with Telegram Bot",
     description:
       "Learn about NextRun's mission to accelerate web development with production-ready Next.js templates and Telegram bots.",
-    images: ["/logo.png"],
   },
   robots: {
     index: true,

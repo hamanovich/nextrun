@@ -1,216 +1,114 @@
-import Link from "next/link";
-import {
-  Bot,
-  Code,
-  CreditCard,
-  Shield,
-  Target,
-  Users,
-  Zap,
-} from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
+import { Code, Eye, ShieldCheck, Target, Zap } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
+import { CallToAction } from "@/components/call-to-action/call-to-action";
 
 export { metadata } from "./metadata";
 
+type Pillar = {
+  icon: LucideIcon;
+  title: string;
+  description: string;
+};
+
+const purpose: Pillar[] = [
+  {
+    icon: Target,
+    title: "Our mission",
+    description:
+      "Give developers a production-ready foundation so shipping an idea takes days, not weeks. You should never rebuild authentication and billing from scratch again.",
+  },
+  {
+    icon: Eye,
+    title: "Our vision",
+    description:
+      "A world where the distance between an idea and a deployed product is as short as a single git clone.",
+  },
+];
+
+const values: Pillar[] = [
+  {
+    icon: Zap,
+    title: "Speed",
+    description:
+      "Pre-configured integrations and sensible defaults so you reach your first deploy fast.",
+  },
+  {
+    icon: Code,
+    title: "Developer experience",
+    description:
+      "Typed end to end, linted, and documented. Code you can read, trust, and extend.",
+  },
+  {
+    icon: ShieldCheck,
+    title: "Security",
+    description:
+      "Authentication, validated inputs, and secure payment flows wired in from the first commit.",
+  },
+];
+
 export default function About() {
   return (
-    <section className="h-full w-screen overflow-hidden py-16">
-      <div className="container mx-auto px-6">
-        <div className="mx-auto max-w-4xl text-center">
-          <p className="text-muted-foreground mb-4 flex items-center justify-center gap-3 text-sm">
-            <span className="inline-block size-2 rounded bg-green-500" />
-            ABOUT NEXTRUN
+    <main>
+      <section className="container mx-auto px-6 pt-16 pb-12 md:pt-24">
+        <div className="max-w-2xl">
+          <p className="text-muted-foreground mb-5 text-sm font-medium">
+            About NextRun
           </p>
-          <h1 className="mb-6 text-4xl font-semibold tracking-tighter md:text-5xl lg:text-6xl">
-            Making Web Development{" "}
-            <span className="text-transparent bg-linear-to-br bg-clip-text from-teal-500 via-indigo-500 to-sky-500 dark:from-teal-200 dark:via-indigo-300 dark:to-sky-500">
-              Effortless
-            </span>
+          <h1 className="text-4xl font-semibold tracking-tighter text-balance md:text-5xl lg:text-6xl">
+            A starter that gets out of your way
           </h1>
-          <p className="text-muted-foreground mx-auto max-w-2xl text-lg leading-relaxed">
-            NextRun is a production-ready Next.js template that eliminates the
-            tedious setup process. Get your next web application up and running
-            in minutes with pre-configured authentication, payments, Telegram
-            bot integration, and modern UI components.
+          <p className="text-muted-foreground mt-6 max-w-xl text-base leading-relaxed md:text-lg">
+            NextRun removes the tedious setup. Authentication, payments,
+            database, and a Telegram bot integration come configured, so you can
+            focus on the product instead of the plumbing.
           </p>
         </div>
+      </section>
 
-        <div className="mx-auto mt-16 max-w-6xl">
-          <div className="grid gap-8 md:grid-cols-2">
-            <Card className="border-dashed">
-              <CardContent className="p-8">
-                <div className="mb-6 flex size-12 items-center justify-center rounded-lg bg-teal-500/10">
-                  <Target className="size-6 text-teal-500" />
-                </div>
-                <h2 className="mb-4 text-2xl font-semibold">Our Mission</h2>
-                <p className="text-muted-foreground leading-relaxed">
-                  To accelerate web development by providing developers with a
-                  production-ready Next.js template that includes all the
-                  essential features they need. We believe every developer
-                  should focus on building their unique ideas, not reinventing
-                  authentication and payment systems.
+      <section className="container mx-auto px-6 py-12">
+        <div className="bg-border grid grid-cols-1 gap-px overflow-hidden rounded-lg border md:grid-cols-2">
+          {purpose.map(({ icon: Icon, title, description }) => (
+            <div key={title} className="bg-background flex flex-col gap-4 p-8">
+              <Icon
+                className="size-5 shrink-0"
+                aria-hidden={true}
+                strokeWidth={1.5}
+              />
+              <div className="space-y-2">
+                <h2 className="text-xl font-medium">{title}</h2>
+                <p className="text-muted-foreground text-sm leading-relaxed">
+                  {description}
                 </p>
-              </CardContent>
-            </Card>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
 
-            <Card className="border-dashed">
-              <CardContent className="p-8">
-                <div className="mb-6 flex size-12 items-center justify-center rounded-lg bg-indigo-500/10">
-                  <Code className="size-6 text-indigo-500" />
-                </div>
-                <h2 className="mb-4 text-2xl font-semibold">Our Vision</h2>
-                <p className="text-muted-foreground leading-relaxed">
-                  A world where developers can launch their ideas faster than
-                  ever. Where the barrier between concept and production is
-                  minimal. We envision NextRun as the foundation that empowers
-                  developers to build the next generation of web applications.
+      <section className="container mx-auto px-6 py-12">
+        <h2 className="text-2xl font-semibold tracking-tighter md:text-3xl">
+          What we value
+        </h2>
+        <div className="bg-border mt-8 grid grid-cols-1 gap-px overflow-hidden rounded-lg border sm:grid-cols-3">
+          {values.map(({ icon: Icon, title, description }) => (
+            <div key={title} className="bg-background flex flex-col gap-4 p-8">
+              <Icon
+                className="size-5 shrink-0"
+                aria-hidden={true}
+                strokeWidth={1.5}
+              />
+              <div className="space-y-2">
+                <h3 className="font-medium">{title}</h3>
+                <p className="text-muted-foreground text-sm leading-relaxed">
+                  {description}
                 </p>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-
-        <div className="mx-auto mt-16 max-w-6xl">
-          <div className="text-center">
-            <h2 className="mb-4 text-3xl font-semibold">Our Values</h2>
-            <p className="text-muted-foreground mb-12 text-lg">
-              The principles that guide everything we do
-            </p>
-          </div>
-
-          <div className="grid gap-6 md:grid-cols-3">
-            <div className="rounded-lg border border-dashed p-6 text-center">
-              <div className="mx-auto mb-4 flex size-12 items-center justify-center rounded-lg bg-amber-500/10">
-                <Zap className="size-6 text-amber-500" />
               </div>
-              <h3 className="mb-2 text-xl font-semibold">Speed</h3>
-              <p className="text-muted-foreground text-sm">
-                We believe in rapid development and deployment. Get your ideas
-                to market faster with our pre-configured solutions.
-              </p>
             </div>
-
-            <div className="rounded-lg border border-dashed p-6 text-center">
-              <div className="mx-auto mb-4 flex size-12 items-center justify-center rounded-lg bg-violet-500/10">
-                <Users className="size-6 text-violet-500" />
-              </div>
-              <h3 className="mb-2 text-xl font-semibold">
-                Developer Experience
-              </h3>
-              <p className="text-muted-foreground text-sm">
-                Every feature is designed with developers in mind. Clean code,
-                great documentation, and intuitive APIs.
-              </p>
-            </div>
-
-            <div className="rounded-lg border border-dashed p-6 text-center">
-              <div className="mx-auto mb-4 flex size-12 items-center justify-center rounded-lg bg-indigo-500/10">
-                <Shield className="size-6 text-indigo-500" />
-              </div>
-              <h3 className="mb-2 text-xl font-semibold">Security</h3>
-              <p className="text-muted-foreground text-sm">
-                Production-ready security from day one. Authentication,
-                authorization, and data protection built-in.
-              </p>
-            </div>
-          </div>
+          ))}
         </div>
+      </section>
 
-        <div className="mx-auto mt-16 max-w-4xl">
-          <div className="text-center">
-            <h2 className="mb-4 text-3xl font-semibold">
-              Built with Modern Technology
-            </h2>
-            <p className="text-muted-foreground mb-8 text-lg">
-              Production-ready stack with the latest tools and best practices
-            </p>
-          </div>
-
-          <Card className="border-dashed">
-            <CardContent className="p-8">
-              <div className="grid gap-8 md:grid-cols-2">
-                <div>
-                  <div className="mb-4 flex size-12 items-center justify-center rounded-lg bg-teal-500/10">
-                    <Code className="size-6 text-teal-500" />
-                  </div>
-                  <h3 className="mb-3 text-xl font-semibold">
-                    Next.js 16 + TypeScript
-                  </h3>
-                  <p className="text-muted-foreground text-sm leading-relaxed">
-                    Built on the latest Next.js framework with full TypeScript
-                    support, App Router, Server Components, and all the modern
-                    React features you need for scalable applications.
-                  </p>
-                </div>
-                <div>
-                  <div className="mb-4 flex size-12 items-center justify-center rounded-lg bg-indigo-500/10">
-                    <Shield className="size-6 text-indigo-500" />
-                  </div>
-                  <h3 className="mb-3 text-xl font-semibold">
-                    Better Auth + Google OAuth
-                  </h3>
-                  <p className="text-muted-foreground text-sm leading-relaxed">
-                    Secure authentication system with Google OAuth integration.
-                    Session management, protected routes, and user management
-                    all configured and ready to use.
-                  </p>
-                </div>
-                <div>
-                  <div className="mb-4 flex size-12 items-center justify-center rounded-lg bg-violet-500/10">
-                    <CreditCard className="size-6 text-violet-500" />
-                  </div>
-                  <h3 className="mb-3 text-xl font-semibold">
-                    Stripe Payments
-                  </h3>
-                  <p className="text-muted-foreground text-sm leading-relaxed">
-                    Complete payment processing with Stripe integration.
-                    Subscription management, webhooks, and secure payment flows
-                    all pre-configured for immediate use.
-                  </p>
-                </div>
-                <div>
-                  <div className="mb-4 flex size-12 items-center justify-center rounded-lg bg-sky-500/10">
-                    <Bot className="size-6 text-sky-500" />
-                  </div>
-                  <h3 className="mb-3 text-xl font-semibold">
-                    Telegram Bot & Automation
-                  </h3>
-                  <p className="text-muted-foreground text-sm leading-relaxed">
-                    A fully configured Telegram bot powered by Grammy for your
-                    automation needs. Includes session management, multi-step
-                    conversations, and API rate limiting - ready to extend with
-                    your own commands.
-                  </p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-
-        <div className="mx-auto mt-16 max-w-2xl text-center">
-          <h2 className="mb-4 text-3xl font-semibold">
-            Ready to Start Building?
-          </h2>
-          <p className="text-muted-foreground mb-8 text-lg">
-            Join thousands of developers who are already building amazing
-            applications with NextRun.
-          </p>
-          <div className="flex flex-col gap-4 sm:flex-row sm:justify-center">
-            <Link
-              href="/pricing"
-              className="inline-flex h-12 items-center justify-center rounded-lg bg-primary px-8 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
-            >
-              View Pricing
-            </Link>
-            <Link
-              href="/"
-              className="inline-flex h-12 items-center justify-center rounded-lg border border-input bg-background px-8 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground"
-            >
-              Get Started
-            </Link>
-          </div>
-        </div>
-      </div>
-    </section>
+      <CallToAction />
+    </main>
   );
 }

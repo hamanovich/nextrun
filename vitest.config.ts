@@ -26,5 +26,14 @@ export default defineConfig({
       "**/.{idea,git,cache,output,temp}/**",
       "**/{karma,rollup,webpack,vite,vitest,jest,ava,babel,nyc,cypress,tsup,build}.config.*",
     ],
+    coverage: {
+      exclude: ["**/test/mocks/**", "**/components/ui/**"],
+      thresholds: {
+        lines: 50,
+        functions: 50,
+        branches: 50,
+        statements: 50,
+      },
+    },
   },
 });

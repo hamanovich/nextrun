@@ -26,14 +26,6 @@ export const metadata: Metadata = {
       "Choose the perfect NextRun plan for your project. Affordable pricing for production-ready Next.js templates and Telegram bots.",
     url: "https://nextrun.dev/pricing",
     siteName: "NextRun",
-    images: [
-      {
-        url: "/logo.png",
-        width: 1200,
-        height: 630,
-        alt: "Pricing - NextRun Next.js Template & Telegram Bot Plans",
-      },
-    ],
     locale: "en_US",
     type: "website",
   },
@@ -42,7 +34,6 @@ export const metadata: Metadata = {
     title: "Pricing - NextRun Next.js Template & Telegram Bot Plans",
     description:
       "Choose the perfect NextRun plan for your project. Affordable pricing for production-ready Next.js templates and Telegram bots.",
-    images: ["/logo.png"],
   },
   robots: {
     index: true,

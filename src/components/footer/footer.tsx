@@ -1,42 +1,39 @@
 import Link from "next/link";
-import { version } from "@app";
 import { Logo } from "@/components/navbar/logo";
 import { footerLegalLinks, footerSections } from "./footer.constants";
 
 export const Footer = () => (
-  <section className="py-8 px-4 md:px-6">
-    <div className="container mx-auto max-w-screen-2xl gap-4">
-      <div className="flex w-full flex-col justify-between gap-10 lg:flex-row lg:items-start lg:text-left">
-        <div className="flex w-full flex-col items-center justify-between gap-6 lg:items-start">
-          <div className="flex items-center gap-2">
-            <Link href="/">
-              <Logo />
-            </Link>
-            <h2 className="text-xl font-semibold">NextRun.dev</h2>
-            <p className="text-muted-foreground text-sm">v{version}</p>
-          </div>
-          <p className="text-muted-foreground max-w-[70%] text-center text-sm lg:text-left">
-            A powerful Next.js template that comes pre-configured with modern
-            authentication, payment processing, and beautiful UI components.
-            Skip the setup headaches and focus on building your next big idea.
-            Everything you need to launch faster.
+  <footer className="border-t">
+    <div className="container mx-auto max-w-screen-2xl px-6 py-12">
+      <div className="flex flex-col justify-between gap-10 lg:flex-row">
+        <div className="max-w-sm">
+          <Link href="/" className="text-foreground flex items-center gap-2">
+            <Logo />
+            <span className="text-lg font-semibold">NextRun.dev</span>
+          </Link>
+          <p className="text-muted-foreground mt-4 text-sm leading-relaxed">
+            A production-ready Next.js starter with authentication, payments,
+            and a Telegram bot. Clone it and build the part that matters.
           </p>
         </div>
-        <div className="grid w-full gap-6 text-center md:grid-cols-3 md:text-left lg:gap-20">
-          {footerSections.map((section, sectionIdx) => (
-            <div key={sectionIdx}>
-              <h3 className="mb-4 font-bold">{section.title}</h3>
-              <ul className="text-muted-foreground space-y-3 text-sm">
+        <div className="grid grid-cols-2 gap-8 sm:grid-cols-3 lg:gap-16">
+          {footerSections.map((section) => (
+            <div key={section.title}>
+              <h3 className="text-sm font-medium">{section.title}</h3>
+              <ul className="text-muted-foreground mt-4 space-y-3 text-sm">
                 {section.links.map((link) => (
-                  <li
-                    key={link.href}
-                    className="hover:text-primary font-medium"
-                  >
+                  <li key={link.href}>
                     {link.href.startsWith("/") ? (
-                      <Link href={link.href}>{link.name}</Link>
+                      <Link
+                        href={link.href}
+                        className="hover:text-foreground transition-colors"
+                      >
+                        {link.name}
+                      </Link>
                     ) : (
                       <a
                         href={link.href}
+                        className="hover:text-foreground transition-colors"
                         {...(link.href.startsWith("mailto:")
                           ? {}
                           : { target: "_blank", rel: "noopener noreferrer" })}
@@ -51,17 +48,25 @@ export const Footer = () => (
           ))}
         </div>
       </div>
-      <div className="text-muted-foreground mt-8 flex flex-col items-center justify-between gap-4 border-t py-8 text-xs font-medium md:flex-row md:items-center md:text-left">
-        <p className="order-2 lg:order-1">
-          © {new Date().getFullYear()} NextRun.dev. All rights reserved.
-        </p>
-        <ul className="order-1 flex flex-col gap-2 md:order-2 md:flex-row">
+      <div className="text-muted-foreground mt-12 flex flex-col items-center justify-between gap-4 border-t pt-8 text-xs sm:flex-row">
+        <p>© {new Date().getFullYear()} NextRun.dev. All rights reserved.</p>
+        <ul className="flex gap-6">
           {footerLegalLinks.map((link) => (
-            <li key={link.href || link.name} className="hover:text-primary">
+            <li key={link.href || link.name}>
               {link.href.startsWith("/") ? (
-                <Link href={link.href}>{link.name}</Link>
+                <Link
+                  href={link.href}
+                  className="hover:text-foreground transition-colors"
+                >
+                  {link.name}
+                </Link>
               ) : (
-                <a href={link.href} target="_blank" rel="noopener noreferrer">
+                <a
+                  href={link.href}
+                  className="hover:text-foreground transition-colors"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   {link.name}
                 </a>
               )}
@@ -70,5 +75,5 @@ export const Footer = () => (
         </ul>
       </div>
     </div>
-  </section>
+  </footer>
 );

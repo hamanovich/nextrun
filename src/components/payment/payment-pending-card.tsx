@@ -10,12 +10,10 @@ import {
 } from "@/components/ui/card";
 
 export const PaymentPendingCard = () => (
-  <div className="min-h-screen flex items-center justify-center">
+  <div className="flex min-h-[60vh] items-center justify-center">
     <Card className="w-full max-w-md">
       <CardHeader>
-        <CardTitle className="text-center text-yellow-600">
-          Payment Pending
-        </CardTitle>
+        <CardTitle className="text-center">Payment Pending</CardTitle>
         <CardDescription className="text-center">
           Your payment is still being processed. Please check back later.
         </CardDescription>

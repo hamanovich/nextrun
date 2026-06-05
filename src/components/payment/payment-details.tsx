@@ -11,7 +11,7 @@ export const PaymentDetails = ({
   currency,
   currentCredits,
 }: PaymentDetailsProps) => (
-  <div className="bg-gray-50 p-4 rounded-lg">
+  <div className="bg-muted rounded-lg p-4">
     <div className="flex items-center justify-between">
       <span className="text-sm font-medium">Amount Paid:</span>
       <span className="font-semibold">
@@ -20,7 +20,7 @@ export const PaymentDetails = ({
     </div>
     <div className="flex items-center justify-between mt-2">
       <span className="text-sm font-medium">Current Credits:</span>
-      <span className="font-semibold text-blue-600">{currentCredits}</span>
+      <span className="text-foreground font-semibold">{currentCredits}</span>
     </div>
   </div>
 );

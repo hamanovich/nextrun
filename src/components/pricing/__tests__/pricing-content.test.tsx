@@ -62,6 +62,20 @@ describe("PricingContent", () => {
       expect(screen.getByTestId("pricing-cta")).toBeInTheDocument();
     });
 
+    it("renders three mock tiers when isMocked is true", async () => {
+      vi.mocked(getSessionUser).mockResolvedValue({
+        user: { stripeCredits: 0 },
+      } as SessionUser);
+
+      render(await PricingContent({ isMocked: true }));
+
+      expect(screen.getByText("Starter")).toBeInTheDocument();
+      expect(screen.getByText("Pro")).toBeInTheDocument();
+      expect(screen.getByText("Scale")).toBeInTheDocument();
+      expect(screen.getByText("Most Popular")).toBeInTheDocument();
+      expect(listPricingProducts).not.toHaveBeenCalled();
+    });
+
     it("renders with real data when isMocked is false", async () => {
       const mockProducts = [
         {

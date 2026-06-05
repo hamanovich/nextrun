@@ -15,6 +15,7 @@ import { SignInButton } from "@/components/auth/sign-in-button";
 import {
   FREE_TIER,
   FREE_TIER_FEATURES,
+  MOCK_TIERS,
 } from "@/components/pricing/pricing.constants";
 import { PricingCta } from "./pricing-cta";
 import { PricingFaq } from "./pricing-faq";
@@ -28,20 +29,24 @@ export const PricingContent = async ({
   const sessionUser = await getSessionUser();
   const products = isMocked ? [] : await listPricingProducts();
 
-  const pricingPlans = products.map((product, index) => ({
-    name: product.product?.name || `Plan ${index + 1}`,
-    price: (product.amount! / 100).toFixed(0),
-    period: product.interval ?? "one-time",
-    credits:
-      product.product?.credits != null ? Number(product.product.credits) : null,
-    description: product.product?.description || "NextRun building credits",
-    features:
-      product.product?.marketing_features?.map(
-        (feature: { name: string }) => feature.name,
-      ) ?? FREE_TIER_FEATURES,
-    popular: index === 0,
-    productId: product.id,
-  }));
+  const pricingPlans = isMocked
+    ? MOCK_TIERS
+    : products.map((product, index) => ({
+        name: product.product?.name || `Plan ${index + 1}`,
+        price: (product.amount! / 100).toFixed(0),
+        period: product.interval ?? "one-time",
+        credits:
+          product.product?.credits != null
+            ? Number(product.product.credits)
+            : null,
+        description: product.product?.description || "NextRun building credits",
+        features:
+          product.product?.marketing_features?.map(
+            (feature: { name: string }) => feature.name,
+          ) ?? FREE_TIER_FEATURES,
+        popular: index === 0,
+        productId: product.id,
+      }));
 
   const allPlans = [FREE_TIER, ...pricingPlans];
 
@@ -90,7 +95,7 @@ export const PricingContent = async ({
                         key={featureIndex}
                         className="flex items-center gap-3"
                       >
-                        <Check className="w-5 h-5 text-green-500 shrink-0" />
+                        <Check className="text-foreground size-5 shrink-0" />
                         <span className="text-sm">{feature}</span>
                       </li>
                     ))}
@@ -99,6 +104,10 @@ export const PricingContent = async ({
                   {plan.name === "Starter" ? (
                     <Button asChild className="w-full" variant="outline">
                       <Link href="/">Get Started Free</Link>
+                    </Button>
+                  ) : plan.productId?.startsWith("mock_") ? (
+                    <Button asChild className="w-full">
+                      <Link href="/auth/signin">Get started</Link>
                     </Button>
                   ) : plan.productId ? (
                     sessionUser ? (
@@ -111,7 +120,7 @@ export const PricingContent = async ({
                         <Button className="w-full">Purchase Credits</Button>
                       </form>
                     ) : (
-                      <SignInButton>
+                      <SignInButton className="w-full">
                         <KeyRound />
                         Sign in
                       </SignInButton>

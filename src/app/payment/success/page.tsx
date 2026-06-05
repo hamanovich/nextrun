@@ -1,6 +1,7 @@
 import { Suspense } from "react";
+import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -17,6 +18,17 @@ interface PaymentSuccessPageProps {
   };
 }
 
+export const metadata: Metadata = {
+  robots: {
+    index: false,
+    follow: true,
+    googleBot: {
+      index: false,
+      follow: true,
+    },
+  },
+};
+
 export default async function PaymentSuccessPage({
   searchParams,
 }: PaymentSuccessPageProps) {
@@ -24,7 +36,7 @@ export default async function PaymentSuccessPage({
 
   if (!sessionId) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="flex min-h-[60vh] items-center justify-center">
         <Card className="w-full max-w-md">
           <CardHeader>
             <CardTitle className="text-center text-destructive">
@@ -51,14 +63,14 @@ export default async function PaymentSuccessPage({
     <Suspense
       fallback={
         <div
-          className="min-h-screen flex items-center justify-center"
+          className="flex min-h-[60vh] items-center justify-center"
           role="status"
           aria-live="polite"
         >
-          <div
-            className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"
+          <Loader2
+            className="text-muted-foreground size-6 animate-spin"
             aria-hidden="true"
-          ></div>
+          />
           <span className="sr-only">Loading payment result…</span>
         </div>
       }

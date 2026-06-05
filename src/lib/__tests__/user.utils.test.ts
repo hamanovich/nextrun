@@ -93,49 +93,48 @@ describe("User Utils", () => {
     it("returns empty status for zero credits", () => {
       const result = getCreditsStatus(0);
       expect(result.status).toBe("empty");
-      expect(result.color).toBe("text-red-600");
-      expect(result.bg).toBe("bg-red-50 dark:bg-red-950/20");
-      expect(result.border).toBe("border-red-200 dark:border-red-800");
+      expect(result.color).toBe("text-foreground");
+      expect(result.bg).toBe("bg-muted/50");
+      expect(result.border).toBe("border-border");
     });
 
     it("returns low status for credits less than 10", () => {
       const result = getCreditsStatus(5);
       expect(result.status).toBe("low");
-      expect(result.color).toBe("text-yellow-600");
-      expect(result.bg).toBe("bg-yellow-50 dark:bg-yellow-950/20");
-      expect(result.border).toBe("border-yellow-200 dark:border-yellow-800");
     });
 
     it("returns low status for 9 credits", () => {
       const result = getCreditsStatus(9);
       expect(result.status).toBe("low");
-      expect(result.color).toBe("text-yellow-600");
     });
 
     it("returns good status for 10 or more credits", () => {
       const result = getCreditsStatus(10);
       expect(result.status).toBe("good");
-      expect(result.color).toBe("text-green-600");
-      expect(result.bg).toBe("bg-green-50 dark:bg-green-950/20");
-      expect(result.border).toBe("border-green-200 dark:border-green-800");
     });
 
     it("returns good status for high credit amounts", () => {
       const result = getCreditsStatus(100);
       expect(result.status).toBe("good");
-      expect(result.color).toBe("text-green-600");
     });
 
     it("handles negative credits as low status", () => {
       const result = getCreditsStatus(-5);
       expect(result.status).toBe("low");
-      expect(result.color).toBe("text-yellow-600");
     });
 
     it("handles very large credit amounts", () => {
       const result = getCreditsStatus(999999);
       expect(result.status).toBe("good");
-      expect(result.color).toBe("text-green-600");
+    });
+
+    it("returns neutral, theme-aware classes for every status", () => {
+      for (const credits of [0, 5, 50]) {
+        const result = getCreditsStatus(credits);
+        expect(result.color).toBe("text-foreground");
+        expect(result.bg).toBe("bg-muted/50");
+        expect(result.border).toBe("border-border");
+      }
     });
   });
 

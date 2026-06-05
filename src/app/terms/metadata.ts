@@ -25,14 +25,6 @@ export const metadata: Metadata = {
       "Read NextRun's terms and conditions to understand the license, usage rights, and legal terms for using our Next.js template and services.",
     url: "https://nextrun.dev/terms",
     siteName: "NextRun",
-    images: [
-      {
-        url: "/logo.png",
-        width: 1200,
-        height: 630,
-        alt: "Terms and Conditions - NextRun Legal",
-      },
-    ],
     locale: "en_US",
     type: "website",
   },
@@ -41,7 +33,6 @@ export const metadata: Metadata = {
     title: "Terms and Conditions - NextRun Legal",
     description:
       "Read NextRun's terms and conditions to understand the license, usage rights, and legal terms.",
-    images: ["/logo.png"],
   },
   robots: {
     index: true,

@@ -1,7 +1,7 @@
 {
   "name": "NextRun",
   "short_name": "NextRun",
-  "description": "NextRun - Next.js template",
+  "description": "Get your next web application and Telegram bot up and running in minutes with our production-ready Next.js template. Includes authentication, payments, and modern UI components.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",

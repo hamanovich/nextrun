@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/card";
 
 export const AuthRequiredCard = () => (
-  <div className="min-h-screen flex items-center justify-center">
+  <div className="flex min-h-[60vh] items-center justify-center">
     <Card className="w-full max-w-md">
       <CardHeader>
         <CardTitle className="text-center text-destructive">

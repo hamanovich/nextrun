@@ -42,7 +42,7 @@ describe("PricingFaq", () => {
       render(<PricingFaq />);
 
       const section = screen.getByTestId("faq-component").closest("section");
-      expect(section).toHaveClass("py-6", "bg-muted/30");
+      expect(section).toHaveClass("py-6");
 
       const container = section?.querySelector(".container");
       expect(container).toHaveClass("container", "mx-auto", "px-4");
@@ -87,11 +87,11 @@ describe("PricingFaq", () => {
 
       const expectedQuestions = [
         "How do credits work?",
-        "Can I change my plan anytime?",
+        "Do I need a subscription?",
         "What payment methods do you accept?",
-        "Is there a free trial?",
+        "Is there a free tier?",
         "Do you offer refunds?",
-        "Can I use credits for both Anki and Quizlet?",
+        "What is included in the template?",
       ];
 
       expectedQuestions.forEach((question, index) => {
@@ -105,12 +105,12 @@ describe("PricingFaq", () => {
       render(<PricingFaq />);
 
       const expectedAnswers = [
-        "Each credit allows you to generate one set of flashcards. For example, creating 50 Spanish vocabulary cards costs 1 credit. Credits don't expire and roll over month to month.",
-        "Yes! You can upgrade, downgrade, or cancel your plan at any time. Changes take effect immediately, and you'll only pay for what you use.",
-        "We accept major credit and debit cards (processed securely by Stripe). Depending on your region, Apple Pay or Google Pay may also be available.",
-        "Yes! Every new user gets 5 free credits to try our features. No credit card required to get started.",
-        "We offer a 30-day money-back guarantee. If you're not satisfied with our service, contact us for a full refund.",
-        "Absolutely! Your credits work for both platforms. You can generate content for Anki, Quizlet, or both - it's up to you.",
+        "Each credit covers one paid action, such as a generation request. Credits do not expire and roll over from month to month.",
+        "No. NextRun uses one-off credit purchases, so there is no recurring subscription and nothing to cancel.",
+        "We accept major credit and debit cards, processed securely by Stripe. Depending on your region, Apple Pay or Google Pay may also be available.",
+        "Yes. Every new account starts with 5 free credits, and no credit card is required to get started.",
+        "We offer a 30-day money-back guarantee. If the template is not the right fit, contact us for a full refund.",
+        "Authentication, Stripe payments, a Postgres database, a Telegram bot, and a typed shadcn/ui component library, all pre-configured.",
       ];
 
       expectedAnswers.forEach((answer, index) => {
@@ -126,7 +126,7 @@ describe("PricingFaq", () => {
       render(<PricingFaq />);
 
       const section = screen.getByTestId("faq-component").closest("section");
-      expect(section).toHaveClass("py-6", "bg-muted/30");
+      expect(section).toHaveClass("py-6");
     });
 
     it("applies responsive container classes", () => {

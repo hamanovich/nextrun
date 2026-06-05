@@ -66,9 +66,7 @@ export const AuthRequiredForm = ({
     return (
       <Card>
         <CardHeader>
-          <CardTitle className="text-center text-orange-600">
-            Insufficient Credits
-          </CardTitle>
+          <CardTitle className="text-center">Insufficient Credits</CardTitle>
           <CardDescription className="text-center">
             You need at least {creditsRequired}{" "}
             {creditsRequired === 1 ? "credit" : "credits"} to use this feature.
@@ -79,8 +77,7 @@ export const AuthRequiredForm = ({
         </CardHeader>
         <CardContent className="text-center space-y-4">
           <p className="text-sm text-muted-foreground">
-            Purchase more credits to continue using our language learning
-            features.
+            Purchase more credits to keep using this feature.
           </p>
           <Button asChild className="w-full">
             <Link href="/pricing">Buy More Credits</Link>

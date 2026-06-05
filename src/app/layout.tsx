@@ -18,10 +18,13 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const SITE_DESCRIPTION =
+  "Get your next web application and Telegram bot up and running in minutes with our production-ready Next.js template. Includes authentication, payments, and modern UI components.";
+
 export const metadata: Metadata = {
   metadataBase: new URL(env.NEXT_PUBLIC_DOMAIN || "https://nextrun.dev"),
-  title: "NextRun",
-  description: "NextRun - Next.js template",
+  title: "NextRun - Production-Ready Next.js Template & Telegram Bot",
+  description: SITE_DESCRIPTION,
   applicationName: "NextRun",
   manifest: "/manifest.json",
   authors: [
@@ -56,7 +59,7 @@ const jsonLd = {
         width: 512,
         height: 512,
       },
-      description: "NextRun - Next.js template",
+      description: SITE_DESCRIPTION,
       founder: {
         "@type": "Person",
         name: "Siarhei Hamanovich",
@@ -70,31 +73,22 @@ const jsonLd = {
       "@id": "https://nextrun.dev/#website",
       url: "https://nextrun.dev",
       name: "NextRun",
-      description: "NextRun - Next.js template",
+      description: SITE_DESCRIPTION,
       publisher: {
         "@id": "https://nextrun.dev/#organization",
-      },
-      potentialAction: {
-        "@type": "SearchAction",
-        target: {
-          "@type": "EntryPoint",
-          urlTemplate: "https://nextrun.dev/search?q={search_term_string}",
-        },
-        "query-input": "required name=search_term_string",
       },
     },
     {
       "@type": "SoftwareApplication",
       "@id": "https://nextrun.dev/#software",
       name: "NextRun",
-      description:
-        "NextRun - Next.js template with TypeScript, Tailwind CSS, and modern development tools",
+      description: SITE_DESCRIPTION,
       url: "https://nextrun.dev",
       applicationCategory: "DeveloperApplication",
       operatingSystem: "Web",
       offers: {
-        "@type": "Offer",
-        price: "0",
+        "@type": "AggregateOffer",
+        lowPrice: "0",
         priceCurrency: "USD",
       },
       author: {
@@ -120,8 +114,7 @@ const jsonLd = {
       "@id": "https://nextrun.dev/#webpage",
       url: "https://nextrun.dev",
       name: "NextRun - Next.js Template",
-      description:
-        "NextRun - Next.js template with TypeScript, Tailwind CSS, and modern development tools",
+      description: SITE_DESCRIPTION,
       isPartOf: {
         "@id": "https://nextrun.dev/#website",
       },

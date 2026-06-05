@@ -11,54 +11,41 @@ interface CallToActionProps {
 }
 
 export const CallToAction = ({
-  title = "Ready to Launch Your Next Project?",
-  description = "Join thousands of developers who are accelerating their development journey with NextRun. Get a production-ready template with authentication, payments, and modern UI in seconds.",
-  buttonText = "View Pricing",
+  title = "Ready to launch your next project?",
+  description = "Clone the template, point it at your database, and deploy. Authentication, payments, and UI are already in place.",
+  buttonText = "Get started",
   buttonUrl = "/pricing",
   items = [
     "Next.js 16 + TypeScript",
     "Better Auth",
-    "Stripe Payments Ready",
-    "Beautiful UI Components",
-    "Tailwind CSS + Shadcn",
+    "Stripe Payments",
+    "shadcn/ui components",
+    "Tailwind CSS v4",
   ],
 }: CallToActionProps) => (
-  <div className="container pt-6 mx-auto">
-    <div className="flex justify-center">
-      <div className="max-w-5xl">
-        <div className="flex flex-col items-start justify-between gap-8 rounded-lg bg-muted px-6 py-10 md:flex-row lg:px-20 lg:py-12">
-          <div className="md:w-1/2">
-            <p className="text-muted-foreground flex items-center gap-3 text-sm mb-2">
-              <span className="inline-block size-2 rounded bg-green-500" />
-              START YOUR DEVELOPMENT JOURNEY
-            </p>
-            <h2 className="mb-1 text-2xl font-bold md:text-3xl">
-              <span className="text-transparent bg-linear-to-br bg-clip-text from-teal-500 via-indigo-500 to-sky-500 dark:from-teal-200 dark:via-indigo-300 dark:to-sky-500">
-                {title}
-              </span>
-            </h2>
-            <p className="text-muted-foreground text-base lg:text-lg">
-              {description}
-            </p>
-            <Button className="mt-6" size="lg" asChild>
-              <Link href={buttonUrl}>
-                {buttonText}{" "}
-                <ArrowRight className="size-4" aria-hidden={true} />
-              </Link>
-            </Button>
-          </div>
-          <div className="md:w-1/3">
-            <ul className="flex flex-col space-y-2 text-sm font-medium">
-              {items.map((item, idx) => (
-                <li className="flex items-center" key={idx}>
-                  <Check className="mr-4 size-4 shrink-0" />
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
+  <section className="container mx-auto px-6 pt-6 pb-24 md:pb-32">
+    <div className="bg-muted mx-auto flex max-w-5xl flex-col justify-between gap-10 rounded-lg border px-6 py-12 md:flex-row md:items-center md:px-12 lg:px-16">
+      <div className="max-w-md">
+        <h2 className="text-2xl font-semibold tracking-tighter md:text-3xl">
+          {title}
+        </h2>
+        <p className="text-muted-foreground mt-3 text-base leading-relaxed">
+          {description}
+        </p>
+        <Button className="mt-7 h-11 px-6" size="lg" asChild>
+          <Link href={buttonUrl}>
+            {buttonText} <ArrowRight className="size-4" aria-hidden={true} />
+          </Link>
+        </Button>
       </div>
+      <ul className="flex flex-col gap-3 text-sm font-medium">
+        {items.map((item) => (
+          <li className="flex items-center gap-3" key={item}>
+            <Check className="size-4 shrink-0" aria-hidden={true} />
+            {item}
+          </li>
+        ))}
+      </ul>
     </div>
-  </div>
+  </section>
 );

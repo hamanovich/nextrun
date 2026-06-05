@@ -39,12 +39,12 @@ A production-ready Next.js template with pre-configured authentication, payments
 
 ### Prerequisites
 
-- Node.js 24+
-- Bun (recommended) or npm/yarn/pnpm
+- Bun (recommended) or npm/yarn/pnpm — Node.js 20+ if not using Bun
 - PostgreSQL database (e.g., Neon, Supabase)
 - Stripe account (for payments)
 - Google OAuth credentials (for authentication)
 - Telegram Bot Token (for the bot)
+- OpenAI API key (used by the health-check endpoint)
 
 ### Installation
 
@@ -66,28 +66,36 @@ A production-ready Next.js template with pre-configured authentication, payments
 3. **Set up environment variables**
 
    ```bash
-   cp env.example .env.local
+   cp .env.example .env
    ```
 
-   Fill in your environment variables:
+   Fill in your environment variables (all are validated at startup by `src/lib/env.ts`):
 
    ```env
-   # Database
-   DATABASE_URL="your_postgresql_connection_string"
+   # Database (Neon / any PostgreSQL connection string)
+   DATABASE_URL="postgresql://user:password@host/db?sslmode=require"
 
-   # Authentication
-   BETTER_AUTH_SECRET="min-32-chars-secret-key-generate-with-openssl"
+   # Public absolute site URL
+   NEXT_PUBLIC_DOMAIN="http://localhost:3000"
+
+   # Authentication (Better Auth + Google OAuth)
+   BETTER_AUTH_SECRET="min-32-char-secret (openssl rand -base64 32)"
    BETTER_AUTH_URL="http://localhost:3000"
    GOOGLE_CLIENT_ID="your_google_client_id"
    GOOGLE_CLIENT_SECRET="your_google_client_secret"
 
-   # Stripe
-   STRIPE_SECRET_KEY="your_stripe_secret_key"
-   STRIPE_PUBLISHABLE_KEY="your_stripe_publishable_key"
-   STRIPE_WEBHOOK_SECRET="your_stripe_webhook_secret"
+   # Stripe (payments)
+   STRIPE_SECRET_KEY="sk_test_..."
+   STRIPE_WEBHOOK_SECRET="whsec_..."
 
    # Telegram Bot
    TELEGRAM_BOT_TOKEN="your_telegram_bot_token"
+
+   # OpenAI (used by the health-check endpoint)
+   OPENAI_API_KEY="sk-..."
+
+   # Health-check endpoint auth (min 32 chars)
+   HEALTH_CHECK_SECRET="min-32-char-random-secret"
    ```
 
 4. **Set up the database**
@@ -109,13 +117,17 @@ A production-ready Next.js template with pre-configured authentication, payments
 
 ## 🛠️ Available Scripts
 
-- `bun run dev` - Start development server with Turbopack
-- `bun run build` - Build for production with Turbopack
-- `bun run start` - Start production server
+- `bun run dev` - Start the development server (Turbopack)
+- `bun run build` - Build for production (Turbopack)
+- `bun run start` - Start the production server
 - `bun run lint` - Run ESLint
-- `bun run db:push` - Push database schema changes
-- `bun run db:studio` - Open Drizzle Studio
-- `bun run stripe:listen` - Listen to Stripe webhooks locally
+- `bun run ts:check` - Type-check with `tsc`
+- `bun run format` - Format with Prettier
+- `bun run test` - Run the test suite (Vitest)
+- `bun run test:coverage` - Run tests with coverage
+- `bun run check` - Run `ts:check` + `lint` + `format` + `test`
+- `bun run db:push` - Push the Drizzle schema to the database
+- `bun run stripe:listen` - Forward Stripe webhooks to localhost
 - `bun run bot:dev` - Start the Telegram bot in watch mode
 
 ## 🏗️ Tech Stack
@@ -132,11 +144,13 @@ A production-ready Next.js template with pre-configured authentication, payments
 
 ### Backend
 
-- **Next.js API Routes** - Serverless API
+- **Next.js API Routes** - auth, credits, health, Stripe webhooks
 - **Better Auth** - Authentication with Google OAuth
-- **Drizzle ORM** - Database ORM
-- **PostgreSQL** - Database
+- **Drizzle ORM** - Type-safe database access
+- **Neon PostgreSQL** - Serverless Postgres
 - **Server Actions** - Type-safe server-side logic
+- **Zod** - Runtime validation for inputs and environment variables
+- **OpenAI** - Used by the health-check endpoint
 
 ### Telegram Bot
 
@@ -154,30 +168,26 @@ A production-ready Next.js template with pre-configured authentication, payments
 
 ```
 src/
-├── actions/           # Server actions
-│   ├── stripe.ts     # Payment processing
-│   └── user.ts       # User management
-├── app/              # Next.js app router
-│   ├── pricing/      # Pricing page
-│   ├── user/         # User dashboard
-│   ├── payment/      # Payment success page
-│   ├── about/        # About page
-│   ├── terms/        # Terms of service
-│   ├── privacy/      # Privacy policy
-│   └── api/          # API routes
-├── components/       # React components
-│   ├── auth/         # Authentication components
-│   ├── payment/      # Payment-related components
-│   ├── pricing/      # Pricing components
-│   ├── navbar/       # Navigation components
-│   ├── footer/       # Footer components
-│   └── ui/           # Reusable UI components
-├── bot/              # Telegram bot
-│   ├── handlers.ts   # Command handlers
-│   ├── index.ts      # Bot entry point
-├── db/               # Database configuration
-├── lib/              # Utility functions and schemas
-└── contexts/         # React contexts
+├── actions/          # Server Actions (Drizzle queries, Stripe)
+│   ├── stripe.ts     # Payments
+│   └── user.ts       # Session/user + credits
+├── app/              # Next.js App Router
+│   ├── about/
+│   ├── api/          # auth, credits, health, webhooks/stripe
+│   ├── auth/         # signin + error pages
+│   ├── payment/      # Payment success flow
+│   ├── pricing/
+│   ├── privacy/
+│   ├── profile/      # Protected user dashboard
+│   └── terms/
+├── bot/              # Telegram bot (grammY)
+├── components/       # React components (ui/ is shadcn-generated)
+├── db/               # Drizzle schema + DB clients
+├── hooks/            # Client hooks (TanStack Query)
+├── lib/              # env, auth, utils, helpers
+├── test/             # Vitest setup + mocks
+├── types/            # Shared types
+└── proxy.ts          # Next.js middleware (protects /profile)
 ```
 
 ## 🎯 Usage

@@ -25,14 +25,6 @@ export const metadata: Metadata = {
       "Manage your NextRun account, view payment information, and access your user dashboard. Secure profile management with authentication and payment details.",
     url: "https://nextrun.dev/profile",
     siteName: "NextRun",
-    images: [
-      {
-        url: "/logo.png",
-        width: 1200,
-        height: 630,
-        alt: "User Profile - NextRun Dashboard",
-      },
-    ],
     locale: "en_US",
     type: "website",
   },
@@ -41,7 +33,6 @@ export const metadata: Metadata = {
     title: "User Profile - NextRun Dashboard",
     description:
       "Manage your NextRun account, view payment information, and access your user dashboard.",
-    images: ["/logo.png"],
   },
   robots: {
     index: false,
