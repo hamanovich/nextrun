@@ -54,6 +54,12 @@ ENV NEXT_TELEMETRY_DISABLED=1
 ENV PORT=3000
 ENV HOSTNAME=0.0.0.0
 
+# Coolify's HTTP healthcheck shells out to curl INSIDE the container;
+# the slim image ships neither curl nor wget, so add a minimal curl.
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends curl \
+    && rm -rf /var/lib/apt/lists/*
+
 # oven/bun images already ship a non-root `bun` user — reuse it
 # (debian-slim has no `addgroup`/`adduser`).
 COPY --from=builder /app/public ./public
