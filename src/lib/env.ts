@@ -35,6 +35,9 @@ const envSchema = z.object({
 export type Env = z.infer<typeof envSchema>;
 
 const validateEnv = (): Env => {
+  if (process.env.SKIP_ENV_VALIDATION) {
+    return process.env as unknown as Env;
+  }
   try {
     return envSchema.parse(process.env);
   } catch (error) {
