@@ -14,9 +14,9 @@ export default function SignInPage() {
 
   return (
     <div className="container mx-auto px-6 py-12">
-      <div className="flex flex-col items-center justify-center min-h-[60vh] text-center">
-        <h1 className="text-3xl font-semibold mb-4">Sign In</h1>
-        <p className="text-muted-foreground text-lg mb-8">
+      <div className="flex min-h-[60vh] flex-col items-center justify-center text-center">
+        <h1 className="mb-4 text-3xl font-semibold">Sign In</h1>
+        <p className="text-muted-foreground mb-8 text-lg">
           Choose your preferred sign-in method
         </p>
 

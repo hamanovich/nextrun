@@ -39,7 +39,7 @@ export default async function PaymentSuccessPage({
       <div className="flex min-h-[60vh] items-center justify-center">
         <Card className="w-full max-w-md">
           <CardHeader>
-            <CardTitle className="text-center text-destructive">
+            <CardTitle className="text-destructive text-center">
               Invalid Session
             </CardTitle>
             <CardDescription className="text-center">
@@ -49,7 +49,7 @@ export default async function PaymentSuccessPage({
           <CardContent className="text-center">
             <Link href="/">
               <Button variant="outline">
-                <ArrowLeft className="w-4 h-4 mr-2" />
+                <ArrowLeft className="mr-2 h-4 w-4" />
                 Back to Home
               </Button>
             </Link>

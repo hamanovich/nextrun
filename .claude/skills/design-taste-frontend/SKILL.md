@@ -440,7 +440,7 @@ export function StickyStack({ cards }: { cards: React.ReactNode[] }) {
       {cards.map((card, i) => (
         <div
           key={i}
-          className="stack-card sticky top-0 min-h-[100dvh] flex items-center justify-center"
+          className="stack-card sticky top-0 flex min-h-[100dvh] items-center justify-center"
         >
           {card}
         </div>

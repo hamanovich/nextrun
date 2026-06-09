@@ -24,7 +24,7 @@ export const UserInformation = ({ user }: UserInformationProps) => (
   <Card className="overflow-hidden">
     <CardHeader>
       <CardTitle className="flex items-center gap-2 text-xl">
-        <User className="w-5 h-5" />
+        <User className="h-5 w-5" />
         User Information
       </CardTitle>
       <CardDescription>
@@ -40,7 +40,7 @@ export const UserInformation = ({ user }: UserInformationProps) => (
               src={user.image}
               width={72}
               height={72}
-              className="rounded-full border-2 border-border shadow-sm"
+              className="border-border rounded-full border-2 shadow-sm"
             />
           ) : (
             <div className="border-border bg-muted flex size-[72px] items-center justify-center rounded-full border-2">
@@ -54,22 +54,22 @@ export const UserInformation = ({ user }: UserInformationProps) => (
 
         <div className="flex-1 space-y-3">
           <div>
-            <h3 className="text-lg font-semibold text-foreground">
+            <h3 className="text-foreground text-lg font-semibold">
               {user.name || "Anonymous User"}
             </h3>
             <p className="text-muted-foreground flex items-center gap-1">
-              <Mail className="w-4 h-4" />
+              <Mail className="h-4 w-4" />
               {user.email || "No email provided"}
             </p>
           </div>
 
           <div className="flex flex-wrap gap-2">
             <Badge variant="default" className="flex items-center gap-1">
-              <Shield className="w-3 h-3" />
+              <Shield className="h-3 w-3" />
               Authenticated
             </Badge>
             <Badge variant="secondary" className="flex items-center gap-1">
-              <Calendar className="w-3 h-3" />
+              <Calendar className="h-3 w-3" />
               {getProviderFromEmail(user.email)}
             </Badge>
           </div>
@@ -79,21 +79,21 @@ export const UserInformation = ({ user }: UserInformationProps) => (
       <Separator />
 
       <div className="space-y-2">
-        <h4 className="text-sm font-medium text-foreground">Account Details</h4>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <h4 className="text-foreground text-sm font-medium">Account Details</h4>
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div className="space-y-2">
-            <label className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
+            <label className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
               User ID
             </label>
-            <div className="p-3 bg-muted/50 rounded-lg border">
-              <code className="text-sm font-mono text-foreground">
+            <div className="bg-muted/50 rounded-lg border p-3">
+              <code className="text-foreground font-mono text-sm">
                 {formatUserData(user.id)}
               </code>
             </div>
           </div>
 
           <div className="space-y-2">
-            <label className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
+            <label className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
               Account Status
             </label>
             <div className="bg-muted/50 rounded-lg border p-3">

@@ -20,25 +20,25 @@ export default function GlobalError({ error, reset }: GlobalErrorProps) {
     <html lang="en">
       <body className="antialiased">
         <div className="container mx-auto px-6 py-16">
-          <div className="flex flex-col items-center justify-center min-h-[60vh] text-center">
+          <div className="flex min-h-[60vh] flex-col items-center justify-center text-center">
             <div className="mb-8">
-              <div className="bg-destructive/10 dark:bg-destructive/20 rounded-full p-6 mb-4">
-                <AlertTriangle className="size-16 text-destructive" />
+              <div className="bg-destructive/10 dark:bg-destructive/20 mb-4 rounded-full p-6">
+                <AlertTriangle className="text-destructive size-16" />
               </div>
             </div>
 
             <div className="mb-8 max-w-md" role="alert">
-              <h1 className="text-3xl font-semibold mb-4">Application Error</h1>
-              <p className="text-muted-foreground text-lg mb-4">
+              <h1 className="mb-4 text-3xl font-semibold">Application Error</h1>
+              <p className="text-muted-foreground mb-4 text-lg">
                 A critical error occurred in the application. Please try
                 refreshing the page or contact support if the problem persists.
               </p>
               {process.env.NODE_ENV === "development" && (
-                <details className="text-left bg-muted p-4 rounded-lg">
-                  <summary className="cursor-pointer font-medium mb-2">
+                <details className="bg-muted rounded-lg p-4 text-left">
+                  <summary className="mb-2 cursor-pointer font-medium">
                     Error Details (Development)
                   </summary>
-                  <pre className="text-sm text-muted-foreground overflow-auto">
+                  <pre className="text-muted-foreground overflow-auto text-sm">
                     {error.message}
                     {error.stack && `\n\nStack trace:\n${error.stack}`}
                   </pre>
@@ -46,7 +46,7 @@ export default function GlobalError({ error, reset }: GlobalErrorProps) {
               )}
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-4">
+            <div className="flex flex-col gap-4 sm:flex-row">
               <Button
                 size="lg"
                 onClick={reset}
@@ -63,7 +63,7 @@ export default function GlobalError({ error, reset }: GlobalErrorProps) {
               </Button>
             </div>
 
-            <div className="mt-12 text-sm text-muted-foreground">
+            <div className="text-muted-foreground mt-12 text-sm">
               <p>
                 If this problem persists, please{" "}
                 <Link href="/about" className="text-primary hover:underline">

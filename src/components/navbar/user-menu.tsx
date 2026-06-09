@@ -51,7 +51,7 @@ export const UserMenu = ({ session, credits }: UserMenuProps) => {
       <DropdownMenuTrigger asChild>
         <Button
           variant="ghost"
-          className="h-8 px-2 py-0 hover:bg-accent hover:text-accent-foreground"
+          className="hover:bg-accent hover:text-accent-foreground h-8 px-2 py-0"
         >
           {userAvatar ? (
             <Image
@@ -64,21 +64,21 @@ export const UserMenu = ({ session, credits }: UserMenuProps) => {
           ) : (
             <div
               aria-hidden="true"
-              className="mr-1 flex size-8 items-center justify-center rounded-full bg-accent text-xs font-medium"
+              className="bg-accent mr-1 flex size-8 items-center justify-center rounded-full text-xs font-medium"
             >
               {userName.charAt(0).toUpperCase()}
             </div>
           )}
-          <ChevronDownIcon className="h-3 w-3 ml-1" />
+          <ChevronDownIcon className="ml-1 h-3 w-3" />
           <span className="sr-only">User menu</span>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-56">
         <DropdownMenuLabel>
           <div className="flex flex-col space-y-1">
-            <p className="text-sm font-medium leading-none">{userName}</p>
+            <p className="text-sm leading-none font-medium">{userName}</p>
             <div className="flex flex-col items-start gap-2">
-              <p className="text-xs leading-none text-muted-foreground">
+              <p className="text-muted-foreground text-xs leading-none">
                 {userEmail}
               </p>
               <Badge className="text-xs">

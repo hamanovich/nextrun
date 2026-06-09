@@ -13,20 +13,20 @@ export default function NotFound() {
 
   return (
     <div className="container mx-auto px-6 py-16">
-      <div className="flex flex-col items-center justify-center min-h-[60vh] text-center">
+      <div className="flex min-h-[60vh] flex-col items-center justify-center text-center">
         <div className="mb-8">
           <h1 className="text-9xl font-bold tracking-tighter">404</h1>
         </div>
 
         <div className="mb-8 max-w-md">
-          <h2 className="text-3xl font-semibold mb-4">Page Not Found</h2>
+          <h2 className="mb-4 text-3xl font-semibold">Page Not Found</h2>
           <p className="text-muted-foreground text-lg">
             Sorry, we couldn&apos;t find the page you&apos;re looking for. The
             page might have been moved, deleted, or doesn&apos;t exist.
           </p>
         </div>
 
-        <div className="flex flex-col sm:flex-row gap-4">
+        <div className="flex flex-col gap-4 sm:flex-row">
           <Button size="lg" asChild>
             <Link href="/" className="flex items-center gap-2">
               <Home className="size-4" />
@@ -50,7 +50,7 @@ export default function NotFound() {
           </Button>
         </div>
 
-        <div className="mt-12 text-sm text-muted-foreground">
+        <div className="text-muted-foreground mt-12 text-sm">
           <p>
             Need help? Check out our{" "}
             <Link href="/pricing" className="text-primary hover:underline">

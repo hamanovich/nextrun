@@ -1,6 +1,6 @@
 {
   "name": "nextrun",
-  "version": "0.7.3",
+  "version": "0.7.4",
   "private": true,
   "author": "Siarhei Hamanovich <dev.hamanovich@gmail.com>",
   "license": "ISC",
@@ -21,13 +21,14 @@
   ],
   "scripts": {
     "bot:dev": "bun --watch run src/bot/index.ts",
-    "check": "bun run ts:check && bun run lint && bun run format && bun run test",
+    "check": "bun run ts:check && bun run lint && bun run format:check && bun run test",
     "dev": "next dev --turbopack",
     "build": "next build --turbopack",
     "start": "next start",
     "lint": "eslint",
     "prepare": "husky",
     "ts:check": "bunx tsc --noEmit --skipLibCheck",
+    "format:check": "prettier --check .",
     "format": "prettier --write .",
     "db:push": "drizzle-kit push",
     "stripe:listen": "stripe listen --forward-to localhost:3000/api/webhooks/stripe",

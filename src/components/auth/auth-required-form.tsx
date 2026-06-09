@@ -45,7 +45,7 @@ export const AuthRequiredForm = ({
     return (
       <Card>
         <CardHeader>
-          <CardTitle className="text-center text-destructive">
+          <CardTitle className="text-destructive text-center">
             {title}
           </CardTitle>
           <CardDescription className="text-center">
@@ -75,8 +75,8 @@ export const AuthRequiredForm = ({
             {userCredits === 1 ? "credit" : "credits"}.
           </CardDescription>
         </CardHeader>
-        <CardContent className="text-center space-y-4">
-          <p className="text-sm text-muted-foreground">
+        <CardContent className="space-y-4 text-center">
+          <p className="text-muted-foreground text-sm">
             Purchase more credits to keep using this feature.
           </p>
           <Button asChild className="w-full">

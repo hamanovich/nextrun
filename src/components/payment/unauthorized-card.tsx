@@ -13,7 +13,7 @@ export const UnauthorizedCard = () => (
   <div className="flex min-h-[60vh] items-center justify-center">
     <Card className="w-full max-w-md">
       <CardHeader>
-        <CardTitle className="text-center text-destructive">
+        <CardTitle className="text-destructive text-center">
           Unauthorized
         </CardTitle>
         <CardDescription className="text-center">
@@ -23,7 +23,7 @@ export const UnauthorizedCard = () => (
       <CardContent className="text-center">
         <Link href="/">
           <Button variant="outline">
-            <ArrowLeft className="w-4 h-4 mr-2" />
+            <ArrowLeft className="mr-2 h-4 w-4" />
             Back to Home
           </Button>
         </Link>

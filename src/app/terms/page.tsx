@@ -6,14 +6,14 @@ export default function TermsPage() {
   return (
     <div className="container mx-auto max-w-4xl px-4 py-16">
       <div className="prose prose-gray max-w-none">
-        <h1 className="text-4xl font-bold mb-8">Terms and Conditions</h1>
+        <h1 className="mb-8 text-4xl font-bold">Terms and Conditions</h1>
 
         <div className="space-y-8">
           <section>
-            <h2 className="text-2xl font-semibold mb-4">
+            <h2 className="mb-4 text-2xl font-semibold">
               1. Acceptance of Terms
             </h2>
-            <p className="text-gray-600 leading-relaxed">
+            <p className="leading-relaxed text-gray-600">
               By accessing and using NextRun.dev (&quot;the Service&quot;), you
               accept and agree to be bound by the terms and provision of this
               agreement.
@@ -21,15 +21,15 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold mb-4">
+            <h2 className="mb-4 text-2xl font-semibold">
               2. License and Usage
             </h2>
-            <p className="text-gray-600 leading-relaxed">
+            <p className="leading-relaxed text-gray-600">
               NextRun provides a Next.js template and related services. When you
               purchase or use our template, you are granted a license to use it
               for your projects. This license includes:
             </p>
-            <ul className="list-disc list-inside text-gray-600 mt-4 space-y-2">
+            <ul className="mt-4 list-inside list-disc space-y-2 text-gray-600">
               <li>Use the template for commercial and personal projects</li>
               <li>
                 Modify and customize the template code for your specific needs
@@ -40,8 +40,8 @@ export default function TermsPage() {
                 template itself)
               </li>
             </ul>
-            <p className="text-gray-600 leading-relaxed mt-4">You may not:</p>
-            <ul className="list-disc list-inside text-gray-600 mt-2 space-y-2">
+            <p className="mt-4 leading-relaxed text-gray-600">You may not:</p>
+            <ul className="mt-2 list-inside list-disc space-y-2 text-gray-600">
               <li>Resell or redistribute the template itself</li>
               <li>Remove copyright notices or attribution</li>
               <li>Use the template to create competing template products</li>
@@ -49,10 +49,10 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold mb-4">
+            <h2 className="mb-4 text-2xl font-semibold">
               3. Service Description
             </h2>
-            <p className="text-gray-600 leading-relaxed">
+            <p className="leading-relaxed text-gray-600">
               NextRun provides a production-ready Next.js template with
               pre-configured authentication (Better Auth), payment processing
               (Stripe), and modern UI components. The template includes
@@ -63,10 +63,10 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold mb-4">
+            <h2 className="mb-4 text-2xl font-semibold">
               4. Payment and Billing
             </h2>
-            <p className="text-gray-600 leading-relaxed">
+            <p className="leading-relaxed text-gray-600">
               Payment for our template and services is processed securely
               through Stripe. All fees are non-refundable unless otherwise
               specified. You are responsible for any applicable taxes. We
@@ -75,10 +75,10 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold mb-4">
+            <h2 className="mb-4 text-2xl font-semibold">
               5. Support and Updates
             </h2>
-            <p className="text-gray-600 leading-relaxed">
+            <p className="leading-relaxed text-gray-600">
               We provide support for our template through our support channels.
               We may release updates, bug fixes, and new features for the
               template. Access to updates may be subject to your license type
@@ -87,10 +87,10 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold mb-4">
+            <h2 className="mb-4 text-2xl font-semibold">
               6. Limitation of Liability
             </h2>
-            <p className="text-gray-600 leading-relaxed">
+            <p className="leading-relaxed text-gray-600">
               In no event shall NextRun or its suppliers be liable for any
               damages (including, without limitation, damages for loss of data
               or profit, or due to business interruption) arising out of the use
@@ -101,8 +101,8 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold mb-4">7. Revisions</h2>
-            <p className="text-gray-600 leading-relaxed">
+            <h2 className="mb-4 text-2xl font-semibold">7. Revisions</h2>
+            <p className="leading-relaxed text-gray-600">
               NextRun may revise these terms of service at any time without
               notice. By using our services you are agreeing to be bound by the
               then current version of these terms of service.
@@ -110,10 +110,10 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold mb-4">
+            <h2 className="mb-4 text-2xl font-semibold">
               8. Contact Information
             </h2>
-            <p className="text-gray-600 leading-relaxed">
+            <p className="leading-relaxed text-gray-600">
               If you have any questions about these Terms and Conditions, please
               contact us at{" "}
               <a href="mailto:support@nextrun.dev" className="underline">
@@ -123,7 +123,7 @@ export default function TermsPage() {
           </section>
         </div>
 
-        <div className="mt-12 pt-8 border-t border-gray-200">
+        <div className="mt-12 border-t border-gray-200 pt-8">
           <p className="text-sm text-gray-500">Last updated: January 2025</p>
         </div>
       </div>

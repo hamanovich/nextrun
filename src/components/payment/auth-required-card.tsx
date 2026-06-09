@@ -12,7 +12,7 @@ export const AuthRequiredCard = () => (
   <div className="flex min-h-[60vh] items-center justify-center">
     <Card className="w-full max-w-md">
       <CardHeader>
-        <CardTitle className="text-center text-destructive">
+        <CardTitle className="text-destructive text-center">
           Authentication Required
         </CardTitle>
         <CardDescription className="text-center">
