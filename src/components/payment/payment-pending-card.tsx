@@ -21,7 +21,7 @@ export const PaymentPendingCard = () => (
       <CardContent className="text-center">
         <Link href="/">
           <Button variant="outline">
-            <ArrowLeft className="w-4 h-4 mr-2" />
+            <ArrowLeft className="mr-2 h-4 w-4" />
             Back to Home
           </Button>
         </Link>

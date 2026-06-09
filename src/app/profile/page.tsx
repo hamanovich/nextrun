@@ -17,8 +17,8 @@ export default async function UserPage() {
   const { user } = sessionUser;
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-4xl">
-      <div className="flex justify-between items-center mb-8">
+    <div className="container mx-auto max-w-4xl px-4 py-8">
+      <div className="mb-8 flex items-center justify-between">
         <h1 className="text-3xl font-bold">User Profile</h1>
         <SignOutButton />
       </div>

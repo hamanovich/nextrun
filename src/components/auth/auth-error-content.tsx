@@ -26,7 +26,7 @@ export const AuthErrorContent = () => {
 
   return (
     <div className="container mx-auto px-6 py-12">
-      <div className="flex flex-col items-center justify-center min-h-[60vh] text-center">
+      <div className="flex min-h-[60vh] flex-col items-center justify-center text-center">
         <div className="mb-8">
           <div className="bg-destructive/10 dark:bg-destructive/20 mb-4 rounded-full p-6">
             <AlertCircle className="text-destructive size-16" />
@@ -36,32 +36,32 @@ export const AuthErrorContent = () => {
         <div className="mb-8 max-w-md">
           {isOAuthCancellation ? (
             <>
-              <h1 className="text-3xl font-semibold mb-4">Sign-in Failed</h1>
-              <p className="text-muted-foreground text-lg mb-4">
+              <h1 className="mb-4 text-3xl font-semibold">Sign-in Failed</h1>
+              <p className="text-muted-foreground mb-4 text-lg">
                 There was a problem with the sign-in process. You&apos;ll be
                 redirected to the home page in a moment.
               </p>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-muted-foreground text-sm">
                 If you want to try signing in again, you can use the sign-in
                 button on the home page.
               </p>
             </>
           ) : (
             <>
-              <h1 className="text-3xl font-semibold mb-4">
+              <h1 className="mb-4 text-3xl font-semibold">
                 Authentication Error
               </h1>
-              <p className="text-muted-foreground text-lg mb-4">
+              <p className="text-muted-foreground mb-4 text-lg">
                 There was an error during the authentication process.
               </p>
               {error && (
-                <p className="text-sm text-muted-foreground">Error: {error}</p>
+                <p className="text-muted-foreground text-sm">Error: {error}</p>
               )}
             </>
           )}
         </div>
 
-        <div className="flex flex-col sm:flex-row gap-4">
+        <div className="flex flex-col gap-4 sm:flex-row">
           <Button size="lg" asChild>
             <Link href="/" className="flex items-center gap-2">
               <Home className="size-4" />
@@ -80,7 +80,7 @@ export const AuthErrorContent = () => {
         </div>
 
         {isOAuthCancellation && (
-          <div className="mt-8 text-sm text-muted-foreground">
+          <div className="text-muted-foreground mt-8 text-sm">
             <p>Redirecting to home page...</p>
           </div>
         )}

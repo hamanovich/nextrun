@@ -24,7 +24,7 @@ export const MobileNavigation = ({
   <Popover>
     <PopoverTrigger asChild>
       <Button
-        className="group h-8 w-8 hover:bg-accent hover:text-accent-foreground"
+        className="group hover:bg-accent hover:text-accent-foreground h-8 w-8"
         variant="ghost"
         size="icon"
         aria-label="Open main menu"
@@ -45,7 +45,7 @@ export const MobileNavigation = ({
                 <Link
                   href={link.href || "#"}
                   className={cn(
-                    "flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
+                    "hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors",
                     link.active && "bg-accent text-accent-foreground",
                   )}
                   aria-current={link.active ? "page" : undefined}

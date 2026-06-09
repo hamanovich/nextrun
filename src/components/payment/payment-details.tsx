@@ -18,7 +18,7 @@ export const PaymentDetails = ({
         {formatMoney(amountTotal, currency)} {currency?.toUpperCase()}
       </span>
     </div>
-    <div className="flex items-center justify-between mt-2">
+    <div className="mt-2 flex items-center justify-between">
       <span className="text-sm font-medium">Current Credits:</span>
       <span className="text-foreground font-semibold">{currentCredits}</span>
     </div>

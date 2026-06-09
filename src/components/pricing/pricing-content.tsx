@@ -57,7 +57,7 @@ export const PricingContent = async ({
       <section className="py-12">
         <div className="container mx-auto px-4">
           <div
-            className={`${allPlans.length === 1 ? "flex justify-center" : "grid gap-8 md:gap-4 md:grid-cols-3 lg:gap-12"}`}
+            className={`${allPlans.length === 1 ? "flex justify-center" : "grid gap-8 md:grid-cols-3 md:gap-4 lg:gap-12"}`}
           >
             {allPlans.map((plan) => (
               <Card
@@ -65,13 +65,13 @@ export const PricingContent = async ({
                 className={`relative ${allPlans.length === 1 ? "w-full max-w-sm" : ""} ${plan.popular ? "border-primary shadow-lg md:scale-105" : ""}`}
               >
                 {plan.popular && (
-                  <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
+                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 transform">
                     <Badge className="bg-primary text-primary-foreground px-4 py-1">
                       Most Popular
                     </Badge>
                   </div>
                 )}
-                <CardHeader className="text-center pb-8">
+                <CardHeader className="pb-8 text-center">
                   <CardTitle className="text-2xl">{plan.name}</CardTitle>
                   <CardDescription className="text-base">
                     {plan.description}
@@ -84,7 +84,7 @@ export const PricingContent = async ({
                       /{plan.period}
                     </span>
                   </div>
-                  <div className="text-sm text-muted-foreground">
+                  <div className="text-muted-foreground text-sm">
                     {plan.credits != null ? `${plan.credits} credits` : "N/A"}
                   </div>
                 </CardHeader>

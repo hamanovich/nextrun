@@ -35,7 +35,7 @@ export const UserPaymentInformation = ({
     <Card className="overflow-hidden">
       <CardHeader>
         <CardTitle className="flex items-center gap-2 text-xl">
-          <Wallet className="w-5 h-5" />
+          <Wallet className="h-5 w-5" />
           Payment Information
         </CardTitle>
         <CardDescription>
@@ -45,20 +45,20 @@ export const UserPaymentInformation = ({
       <CardContent className="space-y-6">
         <div className="space-y-4">
           <div
-            className={`px-6 py-3 rounded-xl border ${creditsStatus.bg} ${creditsStatus.border}`}
+            className={`rounded-xl border px-6 py-3 ${creditsStatus.bg} ${creditsStatus.border}`}
           >
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <div
-                  className={`p-3 rounded-full ${creditsStatus.bg} ${creditsStatus.border}`}
+                  className={`rounded-full p-3 ${creditsStatus.bg} ${creditsStatus.border}`}
                 >
-                  <Coins className={`w-6 h-6 ${creditsStatus.color}`} />
+                  <Coins className={`h-6 w-6 ${creditsStatus.color}`} />
                 </div>
                 <div>
-                  <h3 className="text-lg font-semibold text-foreground">
+                  <h3 className="text-foreground text-lg font-semibold">
                     Available Credits
                   </h3>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-muted-foreground text-sm">
                     {user.stripeCredits === 0
                       ? "No credits remaining"
                       : user.stripeCredits < 10
@@ -95,18 +95,18 @@ export const UserPaymentInformation = ({
         <Separator />
 
         <div className="space-y-4">
-          <h4 className="text-sm font-medium text-foreground">
+          <h4 className="text-foreground text-sm font-medium">
             Account Details
           </h4>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div className="space-y-2">
-              <label className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
+              <label className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
                 Customer ID
               </label>
-              <div className="p-3 bg-muted/50 rounded-lg border">
+              <div className="bg-muted/50 rounded-lg border p-3">
                 <div className="flex items-center gap-2">
-                  <CreditCard className="w-4 h-4 text-muted-foreground" />
-                  <code className="text-sm font-mono text-foreground">
+                  <CreditCard className="text-muted-foreground h-4 w-4" />
+                  <code className="text-foreground font-mono text-sm">
                     {formatUserData(user.stripeCustomerId, "Not created")}
                   </code>
                 </div>
@@ -114,13 +114,13 @@ export const UserPaymentInformation = ({
             </div>
 
             <div className="space-y-2">
-              <label className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
+              <label className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
                 Last Session
               </label>
-              <div className="p-3 bg-muted/50 rounded-lg border">
+              <div className="bg-muted/50 rounded-lg border p-3">
                 <div className="flex items-center gap-2">
-                  <CreditCard className="w-4 h-4 text-muted-foreground" />
-                  <code className="text-sm font-mono text-foreground">
+                  <CreditCard className="text-muted-foreground h-4 w-4" />
+                  <code className="text-foreground font-mono text-sm">
                     {formatUserData(user.stripeCheckoutSessionId, "None")}
                   </code>
                 </div>
@@ -131,10 +131,10 @@ export const UserPaymentInformation = ({
 
         <Separator />
 
-        <div className="flex flex-col sm:flex-row gap-3">
+        <div className="flex flex-col gap-3 sm:flex-row">
           <Link href="/pricing" className="flex-1">
             <Button className="w-full" size="lg">
-              <Coins className="w-4 h-4 mr-2" />
+              <Coins className="mr-2 h-4 w-4" />
               Buy Credits
             </Button>
           </Link>

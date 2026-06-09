@@ -13,12 +13,12 @@ export const AuthLoading = ({
     aria-live="polite"
     aria-busy="true"
   >
-    <div className="flex flex-col items-center justify-center min-h-[60vh] text-center">
+    <div className="flex min-h-[60vh] flex-col items-center justify-center text-center">
       <div className="mb-8">
         <Loader2 className="text-muted-foreground size-12 animate-spin" />
       </div>
       <div className="mb-8 max-w-md">
-        <h1 className="text-3xl font-semibold mb-4">Loading...</h1>
+        <h1 className="mb-4 text-3xl font-semibold">Loading...</h1>
         <p className="text-muted-foreground text-lg">{message}</p>
       </div>
     </div>

@@ -35,7 +35,7 @@ export const Faq = ({
           <h2 id="faq-heading" className="mt-2 text-4xl font-semibold">
             {heading}
           </h2>
-          <p className="mt-4 font-medium text-muted-foreground">
+          <p className="text-muted-foreground mt-4 font-medium">
             {description}
           </p>
         </div>
@@ -43,12 +43,12 @@ export const Faq = ({
           <div className="space-y-6">
             {faqs.map((faq, index) => (
               <div key={faq.question} className="flex gap-4">
-                <span className="flex size-6 shrink-0 items-center justify-center rounded-sm bg-secondary font-mono text-xs text-primary">
+                <span className="bg-secondary text-primary flex size-6 shrink-0 items-center justify-center rounded-sm font-mono text-xs">
                   {index + 1}
                 </span>
                 <div className="flex-1">
                   <h3 className="mb-2 font-medium">{faq.question}</h3>
-                  <p className="text-sm text-muted-foreground">{faq.answer}</p>
+                  <p className="text-muted-foreground text-sm">{faq.answer}</p>
                 </div>
               </div>
             ))}
