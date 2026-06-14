@@ -13,10 +13,10 @@ description: Use when the user asks to review code, check a PR, inspect changes 
 
 ## Setup — read first
 
-- `CLAUDE.md` — architecture, data flow (Sanity + Mongo + OpenAI), business context
+- `CLAUDE.md` — architecture, data flow (Drizzle/Neon + Better Auth + Stripe credits + grammY bot), business context
 - `.claude/rules/code-style.md` — coding standards and the "Never" list
 
-Sources of truth (consult instead of assuming): co-located Zod schemas (`src/components/**/*Schema.ts`), `src/actions/user.ts` (`getSessionUser`), `src/lib/rate-limit.ts`, `src/lib/env.ts`, `vitest.config.mts`, `package.json`.
+Sources of truth (consult instead of assuming): `src/actions/user.ts` (`getSessionUser`, credit helpers), `src/actions/stripe.ts` (Zod schemas), `src/db/schema.ts`, `src/lib/env.ts`, `src/lib/auth.ts`, `vitest.config.ts`, `package.json`.
 
 ## How to run the review
 
@@ -26,15 +26,15 @@ Sources of truth (consult instead of assuming): co-located Zod schemas (`src/com
    - PR# / branch → `git diff main...<branch>` (or `gh pr diff <n>`).
 2. **Run the mechanical gates first.** Prettier and types are auto-enforced (PostToolUse format hook + Stop typecheck hook). Run `bun run ts:check` and `bun run lint` on the branch and fold real failures into findings — **don't spend review budget on formatting nits the tools already handle.** Focus human attention on logic, architecture, and security.
 3. **Grep the diff for the "Never" list:**
-   - Raw Sanity client outside readers: `grep -rn 'client.fetch\|@/sanity/lib/client' <changed files>`
-   - Mongo models in components/hooks: `grep -rnE 'from "@/models' <changed files>`
+   - DB client leaking out of actions/api: `grep -rnE 'from "@/db"' <changed components/hooks>`
    - `any`: `grep -rnE ': any|<any>|as any' <changed files>`
    - `function` decls: `grep -rn 'function ' <changed files>`
    - raw `fetch` mutations: `grep -rn 'fetch(' src/actions src/components`
-   - `next/navigation` instead of `@/i18n/navigation`: `grep -rn 'from "next/navigation"' <changed files>`
+   - direct `process.env`: `grep -rn 'process.env' <changed files>`
+   - hardcoded colors / `h-screen`: `grep -rnE 'bg-(green|blue|red|yellow)-|text-(green|blue|red)-|h-screen' <changed files>`
 4. **Delegate deep dimensions** (optional, for larger changes) to the project subagents, in parallel:
-   - `security-reviewer` — session gates, role checks, AI rate-limit/credit gating, webhook signatures, secret/PII exposure.
-   - `rsc-boundary-reviewer` — Sanity-reader / Mongo-in-actions boundary + RSC client/server split + code-style.
+   - `security-reviewer` — session gates, credit deduct/refund integrity, Stripe webhook signature, bot trust boundary, secret/PII exposure.
+   - `rsc-boundary-reviewer` — DB-in-actions boundary + RSC client/server split + code-style.
      Verify each returned finding against the code before reporting it.
 5. **Write the review** in the Feedback Format below.
 
@@ -42,68 +42,67 @@ Sources of truth (consult instead of assuming): co-located Zod schemas (`src/com
 
 ### 1. Architecture & layer boundaries (violations = BLOCKER)
 
-Two read paths, one write path, **no service layer**:
+One data path, **no service layer**:
 
-- **Sanity reads** go through `src/lib/sanity/*` → `clientFetch` with cache `tags` + `revalidate`. No raw `client.fetch` in components/pages.
-- **Mongo** access lives in `src/actions/*` via Mongoose models (`src/models/*`) after `await connectDB()`. Not in components/hooks.
-- Hooks (`src/hooks/queries/*`) wrap actions via TanStack Query. No raw fetch / API routes for mutations.
-- `src/app/api/*` is only NextAuth, the Sanity/Stripe webhooks, and health.
+- **DB access** (`db` from `@/db`, schema `@/db/schema`) lives in `src/actions/*`, `src/app/api/*`, the Better Auth adapter (`src/lib/auth.ts`), and bot/db wiring (`src/db/*`, `src/bot/*`). Not in components or client hooks.
+- Hooks (`src/hooks/*`, e.g. `use-credits.ts`) wrap actions / API routes via TanStack Query. No raw fetch / ad-hoc API routes for mutations.
+- `src/app/api/*` is only the Better Auth catch-all (`auth/[...all]`), the Stripe webhook, the `credits` read, and health.
 
 ### 2. Auth & access control
 
-- User-scoped actions call `getSessionUser()` (`src/actions/user.ts`) before any logic, and scope Mongo queries to the authenticated `userId` — never to an unvalidated id from input. Admin paths check `UserRole.ADMIN`/`SUPERADMIN`.
-- AI generation gates on `checkRateLimit()` + Stripe credits and rolls the credit back on failure.
-- Webhooks verify their secret (`STRIPE_WEBHOOK_SECRET`, `SANITY_REVALIDATE_SECRET`) before mutating state.
-- No hardcoded secrets (all via `src/lib/env.ts`). No user-controlled Mongoose query operators; `ObjectId.isValid()` before `findById`.
+- User-scoped actions call `getSessionUser()` (`src/actions/user.ts`) before any logic, and scope Drizzle queries to the authenticated `userId` (`eq(users.id, userId)`) — never to an unvalidated id from input.
+- Credit spends are atomic and reversible: `consumeOneCredit` deducts under a `gte(stripeCredits, 1)` guard and checks the returned row; callers `refundOneCredit` on downstream failure.
+- The Stripe webhook verifies `STRIPE_WEBHOOK_SECRET` via `constructEvent` and only grants credits on a paid session with trusted `metadata.userId`, before mutating state.
+- No hardcoded secrets (all via `src/lib/env.ts`). Bot token / Stripe secret / DB URL never `NEXT_PUBLIC_`.
 
 ### 3. Input validation
 
-- Action inputs validated with Zod (co-located schema or inline) before any data access.
-- External inputs (form data, OpenAI/Stripe responses, webhook bodies) validated at the boundary — never trust-and-pass-through.
-- Forms: RHF + Zod resolver on the client, the **same** schema reused in the action.
+- Action inputs validated with Zod (inline or co-located) before any data access.
+- External inputs (form data, Stripe responses, webhook bodies, bot commands) validated at the boundary — never trust-and-pass-through.
+- Forms: RHF + Zod resolver on the client, the **same** schema reused in the action where one exists.
 
 ### 4. TypeScript quality
 
-- Avoid `any` — use `unknown` + narrowing. `type` for object shapes. No gratuitous `as`. Optional Sanity/Mongo fields explicitly handled (strict null checks).
+- Avoid `any` — use `unknown` + narrowing. `type` for object shapes. No gratuitous `as`. Optional/nullable DB fields explicitly handled (strict null checks).
 
 ### 5. Code style
 
-- Arrow functions only — flag `function` (allow framework-required exceptions like `generateMetadata`/`generateStaticParams`).
+- Arrow functions only — flag `function` (allow framework exceptions: Next.js page/layout default exports, `generateMetadata`/`generateStaticParams`).
 - `camelCase` vars/functions, `PascalCase` components, `[Component]Props` prop types.
-- `cn()` from `@/utils/tailwind.utils` for conditional Tailwind merging — no ad-hoc class concatenation.
+- `cn()` from `@/lib/utils` for conditional Tailwind merging — no ad-hoc class concatenation.
 - No comments except for non-obvious logic. No utility introduced for a single call site. `src/components/ui/**` (shadcn) is exempt from style nits.
 
 ### 6. Next.js App Router (if applicable)
 
 - Server Components by default; `"use client"` only for state/events/browser APIs, kept at the leaves.
-- `next/image` for images; absolute `@/...` imports (no `../../`); navigation via `@/i18n/navigation`.
-- Pages fetch server-side (Sanity readers / actions) and pass `initialData`/`placeholderData` to hooks. Mutations via Server Actions, not API routes.
+- `next/image` for images; absolute `@/...` imports (no `../../`); navigation via `next/link` + `next/navigation` (no i18n layer).
+- Pages fetch server-side (actions) and pass `initialData`/`placeholderData` to hooks. Mutations via Server Actions, not new API routes.
+- Page metadata lives in a sibling `metadata.ts`; site-wide defaults + JSON-LD in `src/app/layout.tsx`.
 
-### 7. Sanity & caching (if applicable)
+### 7. Design language (if UI changed)
 
-- New/changed readers in `src/lib/sanity/*` pass cache `tags` (and a sensible `revalidate`) so `src/app/api/revalidate/route.ts` can invalidate them.
-- GROQ projections fetch only needed fields. If a schema type changed in `sanity/schemaTypes/`, generated types in `src/types/sanity.types.ts` should be regenerated.
+- Strict monochrome: only the neutral OKLch scale with `--primary` as the single accent. No gradient text, no colored status dots, no hardcoded brand colors (`text-destructive` only for genuine errors). Use `min-h-[100dvh]`/`min-h-[60vh]`, never `h-screen`. Theme tokens come from `@theme` in `src/app/globals.css` — there is no `tailwind.config`.
 
 ### 8. Testing
 
-- New functions with branching logic or external calls (OpenAI, Stripe, Redis, Mongo) need a Vitest test (happy path + missing/malformed input + auth failure).
-- Mocks/setup live in `vitest.setup.ts` + `src/__mocks__/`; `server-only` is aliased in `vitest.config.mts`.
+- New functions with branching logic or external calls (Stripe, DB) need a Vitest test (happy path + missing/malformed input + auth failure).
+- Setup lives in `src/test/setup.ts` + `src/test/mocks/`; `server-only` is aliased in `vitest.config.ts`. Tests are **behavior-focused** — assert content/roles/behavior, not exact Tailwind classes.
 - Changes in `src/actions/` should add or update unit tests.
 
 ### 9. Error handling & observability
 
-- External calls (Mongo, OpenAI, Stripe, Redis) wrapped in try/catch — errors routed through the Sentry helpers (`src/utils/sentry-actions.ts` / `sentry-api.ts`) and `consola` logger, with a graceful user-facing result. No fire-and-forget promises without an explicit reason.
+- External calls (DB, Stripe) wrapped in try/catch — errors routed through the `logger`/`taggerLogger` (`@/lib/logger`) with a graceful user-facing result. Sanitize user-derived values with `src/lib/sanitize.ts` before logging. No fire-and-forget promises without an explicit reason.
 
 ### 10. Performance
 
-- No redundant Mongo reads per request; no N+1 across `find` loops; reuse the memoized `connectDB()`. Don't persist large OpenAI/Stripe responses verbatim — extract only needed fields. Uncached Sanity reads on hot paths are a smell.
+- No redundant per-request DB reads; no N+1 across loops. Don't persist large Stripe responses verbatim — extract only needed fields. Reuse existing actions/hooks rather than duplicating queries.
 
 ## Feedback format
 
 Severity:
 
-- **[BLOCKER]** — must fix before merge: security, missing/incorrect auth, unverified webhook, AI credit/rate-limit bypass, layer violation exposing data, data-loss risk.
-- **[ISSUE]** — should fix: convention violation, missing tests for branching logic, absent error handling, uncached Sanity read.
+- **[BLOCKER]** — must fix before merge: security, missing/incorrect auth, unverified webhook, credit deduction without refund-on-failure, layer violation exposing data, data-loss risk.
+- **[ISSUE]** — should fix: convention violation, missing tests for branching logic, absent error handling, design-language violation.
 - **[SUGGESTION]** — optional: readability, minor perf. (Skip pure formatting — tools enforce it.)
 
 For each item: quote `file.ts:42`, explain **why** (cite the rule/principle), give a concrete corrected snippet.
