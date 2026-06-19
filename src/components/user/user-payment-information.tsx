@@ -5,6 +5,7 @@ import {
   getCreditsStatus,
   hasStripeData,
 } from "@/lib/user.utils";
+import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -45,14 +46,22 @@ export const UserPaymentInformation = ({
       <CardContent className="space-y-6">
         <div className="space-y-4">
           <div
-            className={`rounded-xl border px-6 py-3 ${creditsStatus.bg} ${creditsStatus.border}`}
+            className={cn(
+              "rounded-xl border px-6 py-3",
+              creditsStatus.bg,
+              creditsStatus.border,
+            )}
           >
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <div
-                  className={`rounded-full p-3 ${creditsStatus.bg} ${creditsStatus.border}`}
+                  className={cn(
+                    "rounded-full p-3",
+                    creditsStatus.bg,
+                    creditsStatus.border,
+                  )}
                 >
-                  <Coins className={`h-6 w-6 ${creditsStatus.color}`} />
+                  <Coins className={cn("h-6 w-6", creditsStatus.color)} />
                 </div>
                 <div>
                   <h3 className="text-foreground text-lg font-semibold">
@@ -68,7 +77,7 @@ export const UserPaymentInformation = ({
                 </div>
               </div>
               <div className="text-right">
-                <div className={`text-3xl font-bold ${creditsStatus.color}`}>
+                <div className={cn("text-3xl font-bold", creditsStatus.color)}>
                   {user.stripeCredits}
                 </div>
                 <Badge

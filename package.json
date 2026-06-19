@@ -1,8 +1,8 @@
 {
   "name": "nextrun",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "private": true,
-  "description": "Nextrun is a comprehensive running app built with Next.js, PostgreSQL, Drizzle ORM, and React. It offers features like user authentication, workout tracking, and integration with Stripe for premium features.",
+  "description": "Nextrun is a comprehensive running app built with Next.js, PostgreSQL, Drizzle ORM, and React",
   "keywords": [
     "nextjs",
     "postgresql",
@@ -18,7 +18,7 @@
     "url": "https://github.com/hamanovich/nextrun/issues",
     "email": "support@nextrun.dev"
   },
-  "license": "ISC",
+  "license": "MIT",
   "author": "Siarhei Hamanovich <support@nextrun.dev>",
   "scripts": {
     "bot:dev": "bun --watch run src/bot/index.ts",
@@ -29,6 +29,7 @@
     "dev": "next dev --turbopack",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
+    "knip": "knip",
     "lint": "eslint",
     "prepare": "husky",
     "start": "next start",
@@ -76,7 +77,6 @@
   "devDependencies": {
     "@commitlint/cli": "^21.0.2",
     "@commitlint/config-conventional": "^21.0.2",
-    "@eslint/eslintrc": "^3.3.5",
     "@ianvs/prettier-plugin-sort-imports": "^4.7.1",
     "@tailwindcss/postcss": "^4.3.1",
     "@testing-library/jest-dom": "^6.9.1",
@@ -95,6 +95,7 @@
     "eslint-config-prettier": "^10.1.8",
     "husky": "^9.1.7",
     "jsdom": "^29.1.1",
+    "knip": "^6.17.1",
     "lint-staged": "^17.0.7",
     "prettier": "^3.8.4",
     "prettier-plugin-tailwindcss": "^0.8.0",

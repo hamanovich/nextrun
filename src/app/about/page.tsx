@@ -1,7 +1,9 @@
 import { Code, Eye, ShieldCheck, Target, Zap } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { CallToAction } from "@/components/call-to-action/call-to-action";
+import { MosaicGrid } from "@/components/mosaic-grid/mosaic-grid";
 import { FadeIn } from "@/components/motion/fade-in";
+import { PageHero } from "@/components/page-hero/page-hero";
 
 export { metadata } from "./metadata";
 
@@ -50,30 +52,14 @@ const values: Pillar[] = [
 export default function About() {
   return (
     <main>
-      <section className="container mx-auto px-6 pt-16 pb-12 md:pt-24">
-        <div className="max-w-2xl">
-          <FadeIn delay={0}>
-            <p className="text-muted-foreground mb-5 text-sm font-medium">
-              About NextRun
-            </p>
-          </FadeIn>
-          <FadeIn delay={0.08}>
-            <h1 className="text-4xl font-semibold tracking-tighter text-balance md:text-5xl lg:text-6xl">
-              A starter that gets out of your way
-            </h1>
-          </FadeIn>
-          <FadeIn delay={0.16}>
-            <p className="text-muted-foreground mt-6 max-w-xl text-base leading-relaxed md:text-lg">
-              NextRun removes the tedious setup. Authentication, payments,
-              database, and a Telegram bot integration come configured, so you
-              can focus on the product instead of the plumbing.
-            </p>
-          </FadeIn>
-        </div>
-      </section>
+      <PageHero
+        eyebrow="About NextRun"
+        heading="A starter that gets out of your way"
+        description="NextRun removes the tedious setup. Authentication, payments, database, and a Telegram bot integration come configured, so you can focus on the product instead of the plumbing."
+      />
 
       <section className="container mx-auto px-6 py-12">
-        <div className="bg-border grid grid-cols-1 gap-px overflow-hidden rounded-lg border md:grid-cols-2">
+        <MosaicGrid className="grid-cols-1 md:grid-cols-2">
           {purpose.map(({ icon: Icon, title, description }, index) => (
             <FadeIn
               key={title}
@@ -94,7 +80,7 @@ export default function About() {
               </div>
             </FadeIn>
           ))}
-        </div>
+        </MosaicGrid>
       </section>
 
       <section className="container mx-auto px-6 py-12">
@@ -103,7 +89,7 @@ export default function About() {
             What we value
           </h2>
         </FadeIn>
-        <div className="bg-border mt-8 grid grid-cols-1 gap-px overflow-hidden rounded-lg border sm:grid-cols-3">
+        <MosaicGrid className="mt-8 grid-cols-1 sm:grid-cols-3">
           {values.map(({ icon: Icon, title, description }, index) => (
             <FadeIn
               key={title}
@@ -124,7 +110,7 @@ export default function About() {
               </div>
             </FadeIn>
           ))}
-        </div>
+        </MosaicGrid>
       </section>
 
       <FadeIn>

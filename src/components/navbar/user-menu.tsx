@@ -8,8 +8,7 @@ import {
   LogOutIcon,
   UserIcon,
 } from "lucide-react";
-import { authClient } from "@/lib/auth-client";
-import { logger } from "@/lib/logger";
+import { useSignOut } from "@/hooks/use-sign-out";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -33,14 +32,7 @@ interface UserMenuProps {
 }
 
 export const UserMenu = ({ session, credits }: UserMenuProps) => {
-  const handleLogout = async () => {
-    try {
-      await authClient.signOut();
-      window.location.href = "/";
-    } catch (err) {
-      logger.error("Sign out failed", err);
-    }
-  };
+  const handleLogout = useSignOut();
 
   const userName = session?.user?.name || session?.user?.email || "User";
   const userEmail = session?.user?.email || "";

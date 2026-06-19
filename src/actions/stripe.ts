@@ -2,13 +2,14 @@
 
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
+import type Stripe from "stripe";
 import { z } from "zod";
 import { env } from "@/lib/env";
 import { logger } from "@/lib/logger";
 import { stripe } from "@/lib/stripe";
 import { getSessionUser, updateUserStripeData } from "./user";
 
-export interface StripeProduct {
+interface StripeProduct {
   id: string;
   object: "product";
   active: boolean;
@@ -49,7 +50,7 @@ export interface PricingProduct {
   };
 }
 
-export const createPayment = async (priceId: string) => {
+const createPayment = async (priceId: string) => {
   const origin = (await headers()).get("origin");
   const baseUrl = env.NEXT_PUBLIC_DOMAIN ?? origin;
 
@@ -73,7 +74,7 @@ export const createPayment = async (priceId: string) => {
     });
     customerId = customer.id;
 
-    await updateUserStripeData(userId, { stripeCustomerId: customerId });
+    await updateUserStripeData({ stripeCustomerId: customerId });
   }
 
   const price = await stripe.prices.retrieve(priceId, { expand: ["product"] });
@@ -97,10 +98,6 @@ export const createPayment = async (priceId: string) => {
     metadata: {
       userId: userId,
     },
-  });
-
-  await updateUserStripeData(userId, {
-    stripeCheckoutSessionId: checkoutSession.id,
   });
 
   if (!checkoutSession.url)
@@ -151,12 +148,49 @@ export const listPricingProducts = async (): Promise<PricingProduct[]> => {
   }
 };
 
-export const getCheckoutSession = async (sessionId: string) => {
+const checkoutSessionIdSchema = z.string().startsWith("cs_").max(255);
+
+export type CheckoutSessionResult =
+  | { status: "unauthenticated" }
+  | { status: "unauthorized" }
+  | { status: "pending" }
+  | { status: "paid"; amountTotal: number | null; currency: string | null };
+
+export const getCheckoutSession = async (
+  sessionId: string,
+): Promise<CheckoutSessionResult> => {
+  const parsed = checkoutSessionIdSchema.safeParse(sessionId);
+  if (!parsed.success) return { status: "unauthorized" };
+
+  const sessionUser = await getSessionUser();
+  if (!sessionUser) return { status: "unauthenticated" };
+
+  let session: Stripe.Checkout.Session;
   try {
-    const session = await stripe.checkout.sessions.retrieve(sessionId);
-    return session;
+    session = await stripe.checkout.sessions.retrieve(parsed.data);
   } catch (error) {
     logger.error("Failed to get checkout session", error);
     throw error;
   }
+
+  const sessionOwnerId = session.metadata?.userId ?? null;
+  const sessionCustomer =
+    typeof session.customer === "string"
+      ? session.customer
+      : (session.customer?.id ?? null);
+
+  if (
+    sessionOwnerId !== sessionUser.user.id &&
+    sessionCustomer !== sessionUser.user.stripeCustomerId
+  ) {
+    return { status: "unauthorized" };
+  }
+
+  if (session.payment_status !== "paid") return { status: "pending" };
+
+  return {
+    status: "paid",
+    amountTotal: session.amount_total,
+    currency: session.currency,
+  };
 };

@@ -2,7 +2,7 @@ import { headers } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/db";
 import { users } from "@/db/schema";
-import { eq, sql } from "drizzle-orm";
+import { and, eq, sql } from "drizzle-orm";
 import type Stripe from "stripe";
 import { stripe } from "@/lib/stripe";
 import "@/lib/logger";
@@ -67,29 +67,7 @@ export const POST = async (req: NextRequest) => {
             }, 0);
 
             if (totalCreditsToAdd > 0) {
-              const existing = await db
-                .select({
-                  stripeCheckoutSessionId: users.stripeCheckoutSessionId,
-                })
-                .from(users)
-                .where(eq(users.id, userId))
-                .limit(1);
-
-              if (existing.length === 0) {
-                logger.error(
-                  `User not found in database for userId: ${userId}`,
-                );
-                break;
-              }
-
-              if (existing[0].stripeCheckoutSessionId === session.id) {
-                logger.info(
-                  `Webhook already processed for session: ${session.id}`,
-                );
-                break;
-              }
-
-              await db
+              const granted = await db
                 .update(users)
                 .set({
                   stripeCredits: sql`${users.stripeCredits} + ${totalCreditsToAdd}`,
@@ -99,9 +77,22 @@ export const POST = async (req: NextRequest) => {
                       ? session.customer
                       : session.customer?.id,
                 })
-                .where(eq(users.id, userId));
+                .where(
+                  and(
+                    eq(users.id, userId),
+                    sql`${users.stripeCheckoutSessionId} is distinct from ${session.id}`,
+                  ),
+                )
+                .returning({ id: users.id });
 
-              logger.info(
+              if (granted.length === 0) {
+                logger.debug(
+                  `Webhook skipped (already processed or user missing) for session: ${session.id}`,
+                );
+                break;
+              }
+
+              logger.debug(
                 `Added ${totalCreditsToAdd} credits to user ${userId} for session: ${session.id}`,
               );
             } else {

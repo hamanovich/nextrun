@@ -49,42 +49,44 @@ export const getSessionUser = async (): Promise<SessionUser> => {
   }
 };
 
-export const updateUserStripeData = async (
-  userId: string,
-  stripeData: {
-    stripeCustomerId?: string;
-    stripeCheckoutSessionId?: string;
-    stripeCredits?: number;
-  },
-) => {
-  try {
-    const updates = Object.fromEntries(
-      Object.entries(stripeData).filter(([, v]) => v !== undefined),
-    ) as typeof stripeData;
-    if (typeof updates.stripeCredits === "number" && updates.stripeCredits < 0)
-      updates.stripeCredits = 0;
+export const updateUserStripeData = async (stripeData: {
+  stripeCustomerId?: string;
+  stripeCheckoutSessionId?: string;
+  stripeCredits?: number;
+}) => {
+  const sessionUser = await getSessionUser();
+  if (!sessionUser) throw new Error("User not authenticated");
 
-    if (Object.keys(updates).length === 0) return;
-    await db.update(users).set(updates).where(eq(users.id, userId));
-  } catch (error) {
-    throw error;
-  }
+  const updates = Object.fromEntries(
+    Object.entries(stripeData).filter(([, v]) => v !== undefined),
+  ) as typeof stripeData;
+  if (typeof updates.stripeCredits === "number" && updates.stripeCredits < 0)
+    updates.stripeCredits = 0;
+
+  if (Object.keys(updates).length === 0) return;
+  await db.update(users).set(updates).where(eq(users.id, sessionUser.userId));
 };
 
-export const consumeOneCredit = async (userId: string): Promise<boolean> => {
+export const consumeOneCredit = async (): Promise<boolean> => {
+  const sessionUser = await getSessionUser();
+  if (!sessionUser) return false;
+
   const rows = await db
     .update(users)
     .set({ stripeCredits: sql<number>`${users.stripeCredits} - 1` })
-    .where(and(eq(users.id, userId), gte(users.stripeCredits, 1)))
+    .where(and(eq(users.id, sessionUser.userId), gte(users.stripeCredits, 1)))
     .returning({ stripeCredits: users.stripeCredits });
   return rows.length === 1;
 };
 
-export const refundOneCredit = async (userId: string): Promise<void> => {
+export const refundOneCredit = async (): Promise<void> => {
+  const sessionUser = await getSessionUser();
+  if (!sessionUser) return;
+
   await db
     .update(users)
     .set({ stripeCredits: sql<number>`${users.stripeCredits} + 1` })
-    .where(eq(users.id, userId));
+    .where(eq(users.id, sessionUser.userId));
 };
 
 export const getUserCredits = async (): Promise<number> => {

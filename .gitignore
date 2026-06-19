@@ -38,6 +38,9 @@ yarn-error.log*
 # vercel
 .vercel
 
+# playwright mcp (local browser-check artifacts)
+.playwright-mcp
+
 # claude code — personal local settings only
 .claude/settings.local.json
 

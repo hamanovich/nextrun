@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { MosaicGrid } from "@/components/mosaic-grid/mosaic-grid";
 import { FadeIn } from "@/components/motion/fade-in";
 
 type Feature = {
@@ -70,7 +71,7 @@ export const Features = () => (
       </p>
     </FadeIn>
 
-    <div className="bg-border mt-12 grid grid-cols-1 gap-px overflow-hidden rounded-lg border md:grid-cols-2 lg:grid-cols-12">
+    <MosaicGrid className="mt-12 grid-cols-1 md:grid-cols-2 lg:grid-cols-12">
       {features.map(({ icon: Icon, title, description, className }, index) => (
         <FadeIn
           key={title}
@@ -94,6 +95,6 @@ export const Features = () => (
           </div>
         </FadeIn>
       ))}
-    </div>
+    </MosaicGrid>
   </section>
 );

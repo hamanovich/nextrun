@@ -151,6 +151,5 @@ export const scripts = [
 
 export const dockerBuildExample = `docker build \\
   --build-arg NEXT_PUBLIC_DOMAIN=https://your-domain.com \\
-  --build-arg DATABASE_URL=... \\
   --build-arg NEXT_PUBLIC_UMAMI_URL=https://analytics.your-domain.com \\
   -t nextrun .`;

@@ -1,38 +1,18 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
-import {
-  formatUserData,
-  getCreditsStatus,
-  hasStripeData,
-} from "@/lib/user.utils";
+import { formatUserData, hasStripeData } from "@/lib/user.utils";
 import { UserPaymentInformation } from "../user-payment-information";
 
 vi.mock("@/lib/user.utils", () => ({
   formatUserData: vi.fn((data?: string | null, noData = "Not available") =>
     data ? `${data.slice(0, 8)}…${data.slice(-4)}` : noData,
   ),
-  getCreditsStatus: vi.fn((credits: number) => {
-    if (credits === 0)
-      return {
-        status: "empty",
-        color: "text-red-600",
-        bg: "bg-red-50 dark:bg-red-950/20",
-        border: "border-red-200 dark:border-red-800",
-      };
-    if (credits < 10)
-      return {
-        status: "low",
-        color: "text-yellow-600",
-        bg: "bg-yellow-50 dark:bg-yellow-950/20",
-        border: "border-yellow-200 dark:border-yellow-800",
-      };
-    return {
-      status: "good",
-      color: "text-green-600",
-      bg: "bg-green-50 dark:bg-green-950/20",
-      border: "border-green-200 dark:border-green-800",
-    };
-  }),
+  getCreditsStatus: vi.fn((credits: number) => ({
+    status: credits === 0 ? "empty" : credits < 10 ? "low" : "good",
+    color: "text-foreground",
+    bg: "bg-muted/50",
+    border: "border-border",
+  })),
   hasStripeData: vi.fn(
     (user: unknown) =>
       user !== null && typeof user === "object" && "stripeCredits" in user,
@@ -96,12 +76,6 @@ describe("UserPaymentInformation", () => {
       };
 
       vi.mocked(hasStripeData).mockReturnValue(true);
-      vi.mocked(getCreditsStatus).mockReturnValue({
-        status: "good",
-        color: "text-green-600",
-        bg: "bg-green-50 dark:bg-green-950/20",
-        border: "border-green-200 dark:border-green-800",
-      });
 
       render(<UserPaymentInformation user={user} />);
 
@@ -119,12 +93,6 @@ describe("UserPaymentInformation", () => {
       };
 
       vi.mocked(hasStripeData).mockReturnValue(true);
-      vi.mocked(getCreditsStatus).mockReturnValue({
-        status: "low",
-        color: "text-yellow-600",
-        bg: "bg-yellow-50 dark:bg-yellow-950/20",
-        border: "border-yellow-200 dark:border-yellow-800",
-      });
 
       render(<UserPaymentInformation user={user} />);
 
@@ -141,12 +109,6 @@ describe("UserPaymentInformation", () => {
       };
 
       vi.mocked(hasStripeData).mockReturnValue(true);
-      vi.mocked(getCreditsStatus).mockReturnValue({
-        status: "empty",
-        color: "text-red-600",
-        bg: "bg-red-50 dark:bg-red-950/20",
-        border: "border-red-200 dark:border-red-800",
-      });
 
       render(<UserPaymentInformation user={user} />);
 
@@ -157,7 +119,7 @@ describe("UserPaymentInformation", () => {
   });
 
   describe("Credits Status Styling", () => {
-    it("applies correct styling for good status", () => {
+    it("uses monochrome foreground styling regardless of status", () => {
       const user = {
         stripeCredits: 50,
         stripeCustomerId: "cus_1234567890",
@@ -165,59 +127,12 @@ describe("UserPaymentInformation", () => {
       };
 
       vi.mocked(hasStripeData).mockReturnValue(true);
-      vi.mocked(getCreditsStatus).mockReturnValue({
-        status: "good",
-        color: "text-green-600",
-        bg: "bg-green-50 dark:bg-green-950/20",
-        border: "border-green-200 dark:border-green-800",
-      });
 
       render(<UserPaymentInformation user={user} />);
 
       const creditsContainer = screen.getByText("50").closest("div");
-      expect(creditsContainer).toHaveClass("text-green-600");
-    });
-
-    it("applies correct styling for low status", () => {
-      const user = {
-        stripeCredits: 5,
-        stripeCustomerId: "cus_1234567890",
-        stripeCheckoutSessionId: "cs_1234567890",
-      };
-
-      vi.mocked(hasStripeData).mockReturnValue(true);
-      vi.mocked(getCreditsStatus).mockReturnValue({
-        status: "low",
-        color: "text-yellow-600",
-        bg: "bg-yellow-50 dark:bg-yellow-950/20",
-        border: "border-yellow-200 dark:border-yellow-800",
-      });
-
-      render(<UserPaymentInformation user={user} />);
-
-      const creditsContainer = screen.getByText("5").closest("div");
-      expect(creditsContainer).toHaveClass("text-yellow-600");
-    });
-
-    it("applies correct styling for empty status", () => {
-      const user = {
-        stripeCredits: 0,
-        stripeCustomerId: "cus_1234567890",
-        stripeCheckoutSessionId: "cs_1234567890",
-      };
-
-      vi.mocked(hasStripeData).mockReturnValue(true);
-      vi.mocked(getCreditsStatus).mockReturnValue({
-        status: "empty",
-        color: "text-red-600",
-        bg: "bg-red-50 dark:bg-red-950/20",
-        border: "border-red-200 dark:border-red-800",
-      });
-
-      render(<UserPaymentInformation user={user} />);
-
-      const creditsContainer = screen.getByText("0").closest("div");
-      expect(creditsContainer).toHaveClass("text-red-600");
+      expect(creditsContainer).toHaveClass("text-foreground");
+      expect(creditsContainer).not.toHaveClass("text-green-600");
     });
   });
 

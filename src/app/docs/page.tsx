@@ -12,8 +12,11 @@ import {
   quickStartCommands,
   scripts,
 } from "@/components/docs/docs.constants";
+import { InlineCode } from "@/components/docs/inline-code";
 import { CopyCommand } from "@/components/hero/copy-command";
+import { MosaicGrid } from "@/components/mosaic-grid/mosaic-grid";
 import { FadeIn } from "@/components/motion/fade-in";
+import { PageHero } from "@/components/page-hero/page-hero";
 
 export { metadata } from "./metadata";
 export const revalidate = 3600;
@@ -21,26 +24,12 @@ export const revalidate = 3600;
 export default function DocsPage() {
   return (
     <main>
-      <section className="container mx-auto px-6 pt-16 pb-10 md:pt-24">
-        <div className="max-w-2xl">
-          <FadeIn delay={0}>
-            <p className="text-muted-foreground mb-5 text-sm font-medium">
-              Documentation
-            </p>
-          </FadeIn>
-          <FadeIn delay={0.08}>
-            <h1 className="text-4xl font-semibold tracking-tighter text-balance md:text-5xl lg:text-6xl">
-              NextRun documentation
-            </h1>
-          </FadeIn>
-          <FadeIn delay={0.16}>
-            <p className="text-muted-foreground mt-6 max-w-xl text-base leading-relaxed md:text-lg">
-              Everything you need to clone NextRun, configure the integrations,
-              and ship. Pick a section, or read top to bottom.
-            </p>
-          </FadeIn>
-        </div>
-      </section>
+      <PageHero
+        eyebrow="Documentation"
+        heading="NextRun documentation"
+        description="Everything you need to clone NextRun, configure the integrations, and ship. Pick a section, or read top to bottom."
+        className="pb-10"
+      />
 
       <div className="container mx-auto px-6 pb-20 md:pb-28">
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-[200px_minmax(0,1fr)] lg:gap-16">
@@ -89,21 +78,10 @@ export default function DocsPage() {
                 </h2>
                 <p className="text-muted-foreground mt-4 text-base leading-relaxed">
                   All configuration is validated at startup by{" "}
-                  <code className="bg-muted rounded px-1.5 py-0.5 font-mono text-sm">
-                    src/lib/env.ts
-                  </code>
-                  . Copy{" "}
-                  <code className="bg-muted rounded px-1.5 py-0.5 font-mono text-sm">
-                    .env.example
-                  </code>{" "}
-                  to{" "}
-                  <code className="bg-muted rounded px-1.5 py-0.5 font-mono text-sm">
-                    .env
-                  </code>{" "}
-                  and fill in the values below. Variables prefixed with{" "}
-                  <code className="bg-muted rounded px-1.5 py-0.5 font-mono text-sm">
-                    NEXT_PUBLIC
-                  </code>{" "}
+                  <InlineCode>src/lib/env.ts</InlineCode>. Copy{" "}
+                  <InlineCode>.env.example</InlineCode> to{" "}
+                  <InlineCode>.env</InlineCode> and fill in the values below.
+                  Variables prefixed with <InlineCode>NEXT_PUBLIC</InlineCode>{" "}
                   are exposed to the browser.
                 </p>
                 <div className="mt-6 overflow-x-auto rounded-lg border">
@@ -156,7 +134,7 @@ export default function DocsPage() {
                 <h2 className="text-2xl font-semibold tracking-tighter md:text-3xl">
                   What is included
                 </h2>
-                <div className="bg-border mt-6 grid grid-cols-1 gap-px overflow-hidden rounded-lg border sm:grid-cols-2">
+                <MosaicGrid className="mt-6 grid-cols-1 sm:grid-cols-2">
                   {includedFeatures.map((feature) => (
                     <div
                       key={feature.title}
@@ -168,7 +146,7 @@ export default function DocsPage() {
                       </p>
                     </div>
                   ))}
-                </div>
+                </MosaicGrid>
               </section>
             </FadeIn>
 
@@ -178,12 +156,8 @@ export default function DocsPage() {
                   Scripts
                 </h2>
                 <p className="text-muted-foreground mt-4 text-base leading-relaxed">
-                  Run{" "}
-                  <code className="bg-muted rounded px-1.5 py-0.5 font-mono text-sm">
-                    bun run check
-                  </code>{" "}
-                  before declaring work done. It covers types, linting,
-                  formatting, and tests.
+                  Run <InlineCode>bun run check</InlineCode> before declaring
+                  work done. It covers types, linting, formatting, and tests.
                 </p>
                 <div className="mt-6 divide-y rounded-lg border">
                   {scripts.map((script) => (
@@ -210,19 +184,20 @@ export default function DocsPage() {
                 </h2>
                 <p className="text-muted-foreground mt-4 text-base leading-relaxed">
                   NextRun ships with a multi-stage Dockerfile and a standalone
-                  build. Server secrets must be present at build time, and any{" "}
-                  <code className="bg-muted rounded px-1.5 py-0.5 font-mono text-sm">
-                    NEXT_PUBLIC
-                  </code>{" "}
-                  variable must be passed as a build argument so it is inlined
-                  into the client and the Content-Security-Policy.
+                  build. Server clients initialize lazily, so the build needs no
+                  server secrets, only <InlineCode>NEXT_PUBLIC</InlineCode>{" "}
+                  variables are passed as build arguments so they are inlined
+                  into the client and the Content-Security-Policy. Every secret
+                  is injected at runtime.
                 </p>
                 <div className="mt-6">
                   <DocsCode code={dockerBuildExample} label="shell" />
                 </div>
                 <p className="text-muted-foreground mt-4 text-sm leading-relaxed">
                   The runner stage adds curl so Coolify and similar platforms
-                  can run an in-container HTTP health check.
+                  can run an in-container HTTP health check. The full
+                  self-hosted runbook lives in{" "}
+                  <InlineCode>docs/DEPLOYMENT.md</InlineCode>.
                 </p>
               </section>
             </FadeIn>
