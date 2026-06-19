@@ -1,6 +1,6 @@
 import { vi } from "vitest";
 
-export const mockUseSession = vi.fn(() => ({
+const mockUseSession = vi.fn(() => ({
   data: null,
   isPending: false,
   error: null,

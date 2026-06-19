@@ -1,15 +1,26 @@
+import Link from "next/link";
 import { getCheckoutSession } from "@/actions/stripe";
 import { getSessionUser } from "@/actions/user";
 import { logger } from "@/lib/logger";
-import { AuthRequiredCard } from "./auth-required-card";
-import { ErrorCard } from "./error-card";
-import { PaymentPendingCard } from "./payment-pending-card";
+import { Button } from "@/components/ui/button";
+import { PaymentStatusCard } from "./payment-status-card";
 import { PaymentSuccessCard } from "./payment-success-card";
-import { UnauthorizedCard } from "./unauthorized-card";
 
 interface PaymentSuccessContentProps {
   sessionId: string;
 }
+
+const authRequiredCard = (
+  <PaymentStatusCard
+    title="Authentication Required"
+    description="Please sign in to view your payment details."
+    action={
+      <Button asChild>
+        <Link href="/auth/signin">Sign In</Link>
+      </Button>
+    }
+  />
+);
 
 export const PaymentSuccessContent = async ({
   sessionId,
@@ -17,36 +28,49 @@ export const PaymentSuccessContent = async ({
   const sessionUser = await getSessionUser();
 
   if (!sessionUser) {
-    return <AuthRequiredCard />;
+    return authRequiredCard;
   }
 
-  let session: Awaited<ReturnType<typeof getCheckoutSession>>;
+  let result: Awaited<ReturnType<typeof getCheckoutSession>>;
   try {
-    session = await getCheckoutSession(sessionId);
+    result = await getCheckoutSession(sessionId);
   } catch (error) {
     logger.error("Error fetching payment details:", error);
-    return <ErrorCard />;
+    return (
+      <PaymentStatusCard
+        title="Error"
+        description="There was an error retrieving your payment details. Please contact support."
+      />
+    );
   }
 
-  const sessionOwnerId =
-    (session.metadata?.userId as string | undefined) ?? null;
-  const sessionCustomer = (session.customer as string | null) ?? null;
-
-  if (
-    sessionOwnerId !== sessionUser.user.id &&
-    sessionCustomer !== sessionUser.user.stripeCustomerId
-  ) {
-    return <UnauthorizedCard />;
+  if (result.status === "unauthenticated") {
+    return authRequiredCard;
   }
 
-  if (session.payment_status !== "paid") {
-    return <PaymentPendingCard />;
+  if (result.status === "unauthorized") {
+    return (
+      <PaymentStatusCard
+        title="Unauthorized"
+        description="This payment session does not belong to your account."
+      />
+    );
+  }
+
+  if (result.status === "pending") {
+    return (
+      <PaymentStatusCard
+        tone="default"
+        title="Payment Pending"
+        description="Your payment is still being processed. Please check back later."
+      />
+    );
   }
 
   return (
     <PaymentSuccessCard
-      amountTotal={session.amount_total}
-      currency={session.currency}
+      amountTotal={result.amountTotal}
+      currency={result.currency}
       currentCredits={sessionUser.user.stripeCredits}
     />
   );

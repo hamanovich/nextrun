@@ -23,16 +23,15 @@ pushes it to GHCR, and Coolify only pulls + runs it.
               │                          │
               ▼                          ▼
    CI builds image → GHCR           Vercel (Hobby, free)
-   Coolify on VPS pulls + runs      nextrun.vercel.app  (DEV)
-   www.nextrun.dev  (PROD)          dev Neon branch
+   Coolify on VPS pulls + runs      your-app.vercel.app  (DEV)
+   www.your-app.dev  (PROD)          dev Neon branch
 ```
 
 ```
 VPS  (Coolify host)
-└── Coolify (Docker engine + Traefik :80/:443)   ← dashboard: panel.hamanovich.com
-    ├── NextSpend          www.nextspend.app
-    ├── NextLang           www.nextlang.co
-    └── NextRun            www.nextrun.dev        ← this project
+└── Coolify (Docker engine + Traefik :80/:443)   ← dashboard: panel.example.com
+    ├── (other apps)       ...                    ← one Coolify host can run many apps
+    └── NextRun            www.your-app.dev        ← this project
         └── nextrun-bot    (grammY Telegram bot — separate resource, no domain)
 ```
 
@@ -60,7 +59,7 @@ attach the domain and cut over from Vercel (Parts 4–5).
 
 # Part 1 — Coolify platform (set up once per server)
 
-> If NextSpend/NextLang already run on this server, skip Part 1 entirely and go to Part 4.
+> If Coolify already runs on this server (set up for another app), skip Part 1 entirely and go to Part 4.
 
 ## 1.1 Pre-flight
 
@@ -85,18 +84,18 @@ Brings up Coolify's own Docker stack (Postgres, Redis, Traefik, realtime). Open 
 **Two kinds of domain — don't confuse them:**
 
 - **Instance domain** (one per Coolify install): the dashboard URL **and** where GitHub webhooks land. Shared
-  by all projects — `panel.hamanovich.com`.
-- **App domains** (one+ per app): each site's public URL (`www.nextrun.dev`, …). Independent of the instance
+  by all projects — `panel.example.com`.
+- **App domains** (one+ per app): each site's public URL (`www.your-app.dev`, …). Independent of the instance
   domain.
 
 Set up the panel:
 
-1. DNS: `A panel.hamanovich.com → <VPS_IP>`.
+1. DNS: `A panel.example.com → <VPS_IP>`.
 2. Open the proxy ports (only `22` is open by default):
    ```bash
    sudo ufw allow 80/tcp && sudo ufw allow 443/tcp && sudo ufw status verbose
    ```
-3. Coolify → Settings → **Instance Domain / FQDN** = `https://panel.hamanovich.com`. Traefik issues a Let's
+3. Coolify → Settings → **Instance Domain / FQDN** = `https://panel.example.com`. Traefik issues a Let's
    Encrypt cert and the dashboard moves to HTTPS behind the Coolify login.
 4. The raw `:8000` is then only a break-glass fallback over an SSH tunnel
    (`ssh -L 8000:localhost:8000 deploy@<VPS_IP>`).
@@ -115,7 +114,7 @@ Traefik issues and auto-renews certs. Set the Let's Encrypt **email** once in Co
 | **HTTP-01** (default)  | fresh subdomain, no HSTS history           | needs DNS already pointing at the box + port 80 open |
 | **DNS-01 via Porkbun** | pre-provision the cert before the DNS flip | proves ownership via a DNS TXT record (Porkbun API)  |
 
-> **NextRun's domain is `www.nextrun.dev`.** The **`.dev` TLD is on the HSTS preload list** — browsers refuse
+> **NextRun's domain is `www.your-app.dev`.** The **`.dev` TLD is on the HSTS preload list** — browsers refuse
 > plain HTTP and require a valid HTTPS cert on the very first hit. So you **must** have the cert in place
 > before any browser reaches the live domain. Prefer **DNS-01 (pre-provision the cert before the DNS flip)**,
 > or first attach the domain to the temp Coolify URL and confirm HTTPS is green, then flip DNS. The app also
@@ -132,11 +131,11 @@ PORKBUN_SECRET_API_KEY=sk1_...
 ## 1.5 GitHub App + GHCR pull access (reusable for every repo)
 
 **a) GitHub App** (push-to-deploy source). Register **once, after** the instance domain exists: New Resource →
-**Private Repository (with GitHub App)** → Automated Installation → endpoint `https://panel.hamanovich.com` →
+**Private Repository (with GitHub App)** → Automated Installation → endpoint `https://panel.example.com` →
 create the App → grant it the repos. One App authorizes many repos.
 
 **b) GHCR pull token** (for private images). Create a GitHub **PAT (classic)** with scope `read:packages`
-only. Coolify → Keys & Tokens / Registries → add `ghcr.io`, username `hamanovich`, password = the PAT. One
+only. Coolify → Keys & Tokens / Registries → add `ghcr.io`, username `<your-user>`, password = the PAT. One
 token serves every private image across all projects.
 
 ## 1.6 Backups & capacity
@@ -224,7 +223,7 @@ mv .env .env.bak
 env -u DATABASE_URL -u OPENAI_API_KEY -u STRIPE_SECRET_KEY -u STRIPE_WEBHOOK_SECRET \
     -u GOOGLE_CLIENT_ID -u GOOGLE_CLIENT_SECRET -u BETTER_AUTH_SECRET -u BETTER_AUTH_URL \
     -u TELEGRAM_BOT_TOKEN -u HEALTH_CHECK_SECRET \
-  SKIP_ENV_VALIDATION=1 NEXT_PUBLIC_DOMAIN=https://www.nextrun.dev bun run build
+  SKIP_ENV_VALIDATION=1 NEXT_PUBLIC_DOMAIN=https://www.your-app.dev bun run build
 mv .env.bak .env
 # → ✓ Compiled successfully, pages generated
 ```
@@ -256,7 +255,7 @@ deliberately kept out of the build so they never land in the GitHub Actions buil
 | `DATABASE_URL`                 |              —              |       ✅        | secret; Neon — lazy client, not needed at build     |
 | `OPENAI_API_KEY`               |              —              |       ✅        | secret                                              |
 | `GOOGLE_CLIENT_ID` / `_SECRET` |              —              |       ✅        | OAuth                                               |
-| `BETTER_AUTH_URL`              |              —              |       ✅        | = the prod origin (`https://www.nextrun.dev`)       |
+| `BETTER_AUTH_URL`              |              —              |       ✅        | = the prod origin (`https://www.your-app.dev`)      |
 | `BETTER_AUTH_SECRET`           |              —              |       ✅        | secret; min 32 chars                                |
 | `STRIPE_SECRET_KEY`            |              —              |       ✅        | secret                                              |
 | `STRIPE_WEBHOOK_SECRET`        |              —              |       ✅        | secret; depends on the webhook endpoint (see §5)    |
@@ -313,12 +312,12 @@ The `deploy` job also prunes GHCR to the 5 most recent versions (`actions/delete
 ## 4.1–4.6 The web app
 
 1. New Resource → connect the repo (for metadata) → set source to **Docker Image** =
-   `ghcr.io/hamanovich/nextrun:latest`. Coolify only pulls — it does not build.
+   `ghcr.io/<your-user>/nextrun:latest`. Coolify only pulls — it does not build.
 2. **Disable** GitHub-App auto-deploy-on-push for this app (the CI webhook drives deploys — avoids a double
    trigger).
 3. **Runtime env:** paste the full set of secrets from §2.6 (all server secrets + `HEALTH_CHECK_SECRET` +
    `NEXT_PUBLIC_DOMAIN` + the `NEXT_PUBLIC_UMAMI_*` pair if used). This is the only place secrets live.
-   `BETTER_AUTH_URL = https://www.nextrun.dev`.
+   `BETTER_AUTH_URL = https://www.your-app.dev`.
 4. **Domain:** start with the Coolify-generated URL for testing; attach the real domain at cutover (Part 5).
    Because `.dev` is HSTS-preloaded, confirm HTTPS is green before any browser hits the apex/www (§1.4).
 5. **Health check** path `/api/health`. The route returns **401 without
@@ -358,8 +357,8 @@ Run during a quiet window.
 ```
 1. (Strongly advised for .dev) DNS-01 (Porkbun): pre-provision the cert for www + apex BEFORE touching DNS.
 2. Lower the Porkbun TTL on the A records to 300s a day ahead (so caches expire).
-3. Coolify: attach www.nextrun.dev (+ apex); confirm HTTPS is green on the temp URL.
-4. Flip the Porkbun A records: nextrun.dev + www → <VPS_IP>.
+3. Coolify: attach www.your-app.dev (+ apex); confirm HTTPS is green on the temp URL.
+4. Flip the Porkbun A records: your-app.dev + www → <VPS_IP>.
 5. Verify on the live domain (below).
 6. Reconfigure Vercel.
 ```
@@ -371,7 +370,7 @@ Run during a quiet window.
 - HTTPS valid; `http://` and apex redirect to `https://www.…`.
 - **Google sign-in** works: add the prod-origin redirect URI to the Google OAuth client; `BETTER_AUTH_URL`
   points at the prod origin.
-- **Stripe webhook:** point the Stripe Dashboard endpoint at `https://www.nextrun.dev/api/webhooks/stripe`,
+- **Stripe webhook:** point the Stripe Dashboard endpoint at `https://www.your-app.dev/api/webhooks/stripe`,
   update `STRIPE_WEBHOOK_SECRET` in Coolify, send a test event (credit purchase → credits applied).
 - **Telegram bot:** message the bot; confirm it responds and the bot resource log shows
   `Bot started as @…`.
@@ -441,13 +440,13 @@ exposed secrets.
 
 | What         | Value                                                                                             |
 | ------------ | ------------------------------------------------------------------------------------------------- |
-| Platform     | Coolify (Docker + Traefik); dashboard `https://panel.hamanovich.com`; `:8000` SSH-tunnel fallback |
-| Prod         | `www.nextrun.dev`, branch `main`; image built in CI → GHCR; Coolify pulls + runs                  |
-| Dev          | Vercel Hobby — `nextrun.vercel.app`, branch `develop` (separate Neon branch)                      |
+| Platform     | Coolify (Docker + Traefik); dashboard `https://panel.example.com`; `:8000` SSH-tunnel fallback    |
+| Prod         | `www.your-app.dev`, branch `main`; image built in CI → GHCR; Coolify pulls + runs                 |
+| Dev          | Vercel Hobby — `your-app.vercel.app`, branch `develop` (separate Neon branch)                     |
 | Runtime      | `node server.js` (Next.js standalone, `node:24-slim`), port 3000 behind Traefik; `sharp`          |
 | Bot          | grammY long-polling, separate Coolify resource from `Dockerfile.bot` (`bun run src/bot/index.ts`) |
 | App data     | Neon serverless Postgres (Drizzle, neon-http); `bun run db:push` for schema                       |
-| Image        | `ghcr.io/hamanovich/nextrun:latest` (+ `sha-<commit>`)                                            |
+| Image        | `ghcr.io/<your-user>/nextrun:latest` (+ `sha-<commit>`)                                           |
 | TLS          | Let's Encrypt via Traefik; `.dev` IS HSTS-preloaded → pre-provision the cert (DNS-01) before flip |
 | Secrets      | runtime-only in Coolify; build-args are `NEXT_PUBLIC_*`; off-box encrypted backup                 |
 | Health check | `GET /api/health` (Bearer `HEALTH_CHECK_SECRET`; 401 otherwise) — database/openai/stripe          |

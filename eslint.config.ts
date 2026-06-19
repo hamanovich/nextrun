@@ -9,7 +9,6 @@ const eslintConfig = defineConfig([
   prettier,
   {
     rules: {
-      "react-hooks/exhaustive-deps": "off",
       "react-hooks/set-state-in-effect": "off",
     },
   },

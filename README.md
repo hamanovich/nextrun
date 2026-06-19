@@ -173,7 +173,9 @@ A production-ready Next.js template with pre-configured authentication, payments
 ### Payments & Infrastructure
 
 - **Stripe** - Payment processing
-- **Vercel** - Deployment platform
+- **Docker** - Multi-stage build, standalone output (Node runner)
+- **GitHub Actions** - CI builds the image and pushes it to GHCR
+- **Coolify / Vercel** - Self-hosted (prod) or Vercel (dev sandbox)
 
 ## 📁 Project Structure
 
@@ -243,13 +245,23 @@ src/
 
 ### Deployment
 
-- Deploy to Vercel, Netlify, or any Node.js hosting
-- Environment variables are configured
-- Database migrations are included
+- **Self-hosted (recommended):** a multi-stage `Dockerfile` (bun builds, Node runs the standalone server) builds the image in CI, pushes it to GHCR, and Coolify pulls + runs it. Server clients initialize lazily, so the build carries **no** server secrets — only `NEXT_PUBLIC_*` are build args; every secret is injected at runtime. The grammY bot runs as a separate process from `Dockerfile.bot`.
+- **Vercel:** works as-is (it ignores `output: "standalone"`); handy as a `develop` dev sandbox.
+- **Full runbook:** see [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md) for the end-to-end Coolify migration, the env contract (build-arg vs runtime), and the cutover checklist.
+
+## 📚 Documentation
+
+Per-integration guides live in [`docs/`](docs):
+
+- [`NEON_DRIZZLE_INTEGRATION.md`](docs/NEON_DRIZZLE_INTEGRATION.md) — database layer: Drizzle ORM on Neon Postgres, the two clients (HTTP app / WebSocket bot), schema, and `db:push`.
+- [`BETTER_AUTH_INTEGRATION.md`](docs/BETTER_AUTH_INTEGRATION.md) — auth: Better Auth + Google OAuth, server/client session reads, and route protection.
+- [`STRIPE_INTEGRATION.md`](docs/STRIPE_INTEGRATION.md) — payments: Stripe checkout, webhooks, and the credit system.
+- [`GRAMMY_BOT_INTEGRATION.md`](docs/GRAMMY_BOT_INTEGRATION.md) — the optional grammY Telegram bot (standalone long-polling process).
+- [`DEPLOYMENT.md`](docs/DEPLOYMENT.md) — self-hosted Coolify runbook (CI → GHCR → pull + run).
 
 ## 📄 License
 
-This project is licensed under the ISC License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## 👨‍💻 Author
 
@@ -263,9 +275,11 @@ This project is licensed under the ISC License - see the [LICENSE](LICENSE) file
 
 If you find a bug, please open an issue on [GitHub](https://github.com/hamanovich/nextrun/issues) or email us at support@nextrun.dev.
 
+For **security** vulnerabilities, do **not** open a public issue - follow [`SECURITY.md`](SECURITY.md).
+
 ## 🤝 Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+Contributions are welcome! Please read [`CONTRIBUTING.md`](CONTRIBUTING.md) for local setup, the coding conventions, the commit format (Conventional Commits), and the PR checklist, then submit a Pull Request.
 
 ## 📞 Support
 

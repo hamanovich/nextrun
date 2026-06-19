@@ -44,7 +44,7 @@ export const Hero = () => (
           </div>
         </FadeIn>
       </div>
-      <FadeIn delay={0.2}>
+      <FadeIn delay={0.2} className="min-w-0">
         <CopyCommand commands={commands} />
       </FadeIn>
     </div>

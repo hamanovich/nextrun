@@ -2,6 +2,7 @@ import Link from "next/link";
 import { createPaymentAction, listPricingProducts } from "@/actions/stripe";
 import { getSessionUser } from "@/actions/user";
 import { Check, KeyRound } from "lucide-react";
+import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -58,7 +59,11 @@ export const PricingContent = async ({
       <section className="py-12">
         <div className="container mx-auto px-4">
           <div
-            className={`${allPlans.length === 1 ? "flex justify-center" : "grid gap-8 md:grid-cols-3 md:gap-4 lg:gap-12"}`}
+            className={cn(
+              allPlans.length === 1
+                ? "flex justify-center"
+                : "grid gap-8 md:grid-cols-3 md:gap-4 lg:gap-12",
+            )}
           >
             {allPlans.map((plan, index) => (
               <FadeIn
@@ -67,7 +72,10 @@ export const PricingContent = async ({
                 className={allPlans.length === 1 ? "w-full max-w-sm" : ""}
               >
                 <Card
-                  className={`relative h-full ${plan.popular ? "border-primary shadow-lg md:scale-105" : ""}`}
+                  className={cn(
+                    "relative h-full",
+                    plan.popular && "border-primary shadow-lg md:scale-105",
+                  )}
                 >
                   {plan.popular && (
                     <div className="absolute -top-4 left-1/2 -translate-x-1/2 transform">

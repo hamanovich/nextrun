@@ -8,7 +8,7 @@ export const OG_SIZE = {
 
 export const OG_CONTENT_TYPE = "image/png";
 
-export const ogColors = {
+const ogColors = {
   background: "#0a0a0a",
   title: "#fafafa",
   body: "#a1a1aa",

@@ -39,6 +39,7 @@ Always verify changes with `bun run ts:check`, `bun run lint`, and `bun run test
 - **Auth:** read the session server-side with `getSessionUser()` (`src/actions/user.ts`); on the client use `authClient` (`src/lib/auth-client.ts`). Route protection is in `src/proxy.ts` (Next.js middleware — guards `/profile`). There is **no i18n / locale routing**.
 - **Client data fetching** uses **TanStack Query** hooks in `src/hooks/*` (e.g. `use-credits.ts`) wrapping Server Actions / API routes.
 - **Env:** never read `process.env` directly for required config — import the validated `env` from `src/lib/env.ts` (Zod-validated at startup; the full list is in `.env.example`).
+- **Lazy server clients:** `db` (`src/db`), `stripe` (`src/lib/stripe.ts`), and `auth` (`src/lib/auth.ts`) are wrapped in `lazyClient()` (`src/lib/lazy.ts`) so they construct on first use, not at import — `next build` (and the Docker image) needs **no** server secrets. Any new module-level client that throws on empty config must be wrapped the same way.
 - **API routes** (`src/app/api/*`): `auth/[...all]`, `credits`, `health`, `webhooks/stripe`.
 - **Metadata/SEO:** each page keeps its metadata in a sibling `metadata.ts`; site-wide defaults + JSON-LD `@graph` live in `src/app/layout.tsx`.
 
@@ -68,3 +69,4 @@ Two transitive versions are pinned in `package.json` to keep the build and tests
 
 - Never commit real secrets. Only `.env.example` (placeholders) is tracked; `.gitignore` ignores `.env` and `.env.*`.
 - All required env vars are validated at startup by `src/lib/env.ts` and listed in `.env.example`.
+- **Deployment:** self-hosted via Docker → GHCR → Coolify (`Dockerfile`, `Dockerfile.bot`, `.github/workflows/ci.yml`). Only `NEXT_PUBLIC_*` are build args; every secret is runtime-only. Full runbook: `docs/DEPLOYMENT.md`.

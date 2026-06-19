@@ -4,6 +4,7 @@ import "./globals.css";
 import type { ReactNode } from "react";
 import Script from "next/script";
 import { env } from "@/lib/env";
+import { cn } from "@/lib/utils";
 import { Toaster } from "@/components/ui/sonner";
 import { Footer } from "@/components/footer/footer";
 import { Navbar } from "@/components/navbar/navbar";
@@ -152,7 +153,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={cn(geistSans.variable, geistMono.variable, "antialiased")}
         suppressHydrationWarning
       >
         <Providers>

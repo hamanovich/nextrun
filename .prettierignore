@@ -1,0 +1,13 @@
+# Drizzle migrations and generated files
+drizzle/
+
+# Other common ignores
+package-lock.json
+bun.lock
+build
+coverage
+.husky
+.next
+public
+.claude
+docs

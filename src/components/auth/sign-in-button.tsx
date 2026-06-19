@@ -11,6 +11,7 @@ interface SignInButtonProps {
   children?: ReactNode;
   size?: VariantProps<typeof buttonVariants>["size"];
   variant?: VariantProps<typeof buttonVariants>["variant"];
+  callbackURL?: string;
 }
 
 export const SignInButton = ({
@@ -18,6 +19,7 @@ export const SignInButton = ({
   children = "Sign in",
   size,
   variant,
+  callbackURL,
 }: SignInButtonProps) => (
   <Button
     className={cn(className)}
@@ -26,7 +28,7 @@ export const SignInButton = ({
     onClick={() =>
       authClient.signIn.social({
         provider: "google",
-        callbackURL: window.location.href,
+        callbackURL: callbackURL ?? window.location.href,
       })
     }
   >
