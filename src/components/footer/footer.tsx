@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { version } from "@app";
 import { Logo } from "@/components/navbar/logo";
 import { footerLegalLinks, footerSections } from "./footer.constants";
 
@@ -7,10 +8,15 @@ export const Footer = () => (
     <div className="container mx-auto max-w-screen-2xl px-6 py-12">
       <div className="flex flex-col justify-between gap-10 lg:flex-row">
         <div className="max-w-sm">
-          <Link href="/" className="text-foreground flex items-center gap-2">
-            <Logo />
-            <span className="text-lg font-semibold">NextRun.dev</span>
-          </Link>
+          <div className="flex items-center gap-2">
+            <Link href="/" className="text-foreground flex items-center gap-2">
+              <Logo />
+              <span className="text-lg font-semibold">NextRun</span>
+            </Link>
+            <span className="text-muted-foreground text-xs font-normal">
+              v{version}
+            </span>
+          </div>
           <p className="text-muted-foreground mt-4 text-sm leading-relaxed">
             A production-ready Next.js starter with authentication, payments,
             and a Telegram bot. Clone it and build the part that matters.

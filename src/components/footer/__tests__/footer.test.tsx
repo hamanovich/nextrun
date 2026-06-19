@@ -35,7 +35,7 @@ describe("Footer Component", () => {
       render(<Footer />);
 
       expect(screen.getByTestId("logo")).toBeInTheDocument();
-      expect(screen.getByText("NextRun.dev")).toBeInTheDocument();
+      expect(screen.getByText("NextRun")).toBeInTheDocument();
     });
 
     it("renders the tagline", () => {
