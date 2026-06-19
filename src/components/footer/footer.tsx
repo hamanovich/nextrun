@@ -49,7 +49,18 @@ export const Footer = () => (
         </div>
       </div>
       <div className="text-muted-foreground mt-12 flex flex-col items-center justify-between gap-4 border-t pt-8 text-xs sm:flex-row">
-        <p>© {new Date().getFullYear()} NextRun.dev. All rights reserved.</p>
+        <p>
+          © {new Date().getFullYear()} NextRun.dev. All rights reserved. Built
+          by{" "}
+          <a
+            href="https://www.hamanovich.com/"
+            className="hover:text-foreground transition-colors"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Hamanovich
+          </a>
+        </p>
         <ul className="flex gap-6">
           {footerLegalLinks.map((link) => (
             <li key={link.href || link.name}>

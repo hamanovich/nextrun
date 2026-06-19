@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { FadeIn } from "@/components/motion/fade-in";
 
 type Feature = {
   icon: LucideIcon;
@@ -59,7 +60,7 @@ const features: Feature[] = [
 
 export const Features = () => (
   <section className="container mx-auto px-6 py-20 md:py-28">
-    <div className="max-w-2xl">
+    <FadeIn className="max-w-2xl">
       <h2 className="text-3xl font-semibold tracking-tighter md:text-4xl">
         Everything is already wired up
       </h2>
@@ -67,12 +68,14 @@ export const Features = () => (
         The integrations you would spend the first week configuring, done and
         tested. Delete what you do not need.
       </p>
-    </div>
+    </FadeIn>
 
     <div className="bg-border mt-12 grid grid-cols-1 gap-px overflow-hidden rounded-lg border md:grid-cols-2 lg:grid-cols-12">
-      {features.map(({ icon: Icon, title, description, className }) => (
-        <div
+      {features.map(({ icon: Icon, title, description, className }, index) => (
+        <FadeIn
           key={title}
+          y={0}
+          delay={index * 0.06}
           className={cn(
             "bg-background flex flex-col gap-4 p-6 md:p-8",
             className,
@@ -89,7 +92,7 @@ export const Features = () => (
               {description}
             </p>
           </div>
-        </div>
+        </FadeIn>
       ))}
     </div>
   </section>

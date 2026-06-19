@@ -1,20 +1,26 @@
-import Image from "next/image";
-import LogoImg from "@/public/logo.png";
-
 export const Logo = ({
   size = 30,
   alt = "NextRun.dev",
-  priority = false,
+  className,
 }: {
   size?: number;
   alt?: string;
-  priority?: boolean;
+  className?: string;
 }) => (
-  <Image
-    src={LogoImg}
-    alt={alt}
+  <svg
     width={size}
     height={size}
-    priority={priority}
-  />
+    viewBox="0 0 256 256"
+    fill="none"
+    role="img"
+    aria-label={alt}
+    className={className}
+  >
+    <path
+      fill="currentColor"
+      fillRule="evenodd"
+      clipRule="evenodd"
+      d="M56 0h144a56 56 0 0 1 56 56v144a56 56 0 0 1-56 56H56a56 56 0 0 1-56-56V56A56 56 0 0 1 56 0Zm18 64h44l30 54v-54h34v128h-44l-30-54v54H74V64Z"
+    />
+  </svg>
 );

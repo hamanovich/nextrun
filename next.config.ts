@@ -1,12 +1,18 @@
 import type { NextConfig } from "next";
 
+const umamiOrigin = (process.env.NEXT_PUBLIC_UMAMI_URL ?? "").replace(
+  /\/+$/,
+  "",
+);
+const umamiSrc = umamiOrigin ? ` ${umamiOrigin}` : "";
+
 const ContentSecurityPolicy = `
   default-src 'self' *.nextrun.dev;
-  script-src 'self' 'unsafe-eval' 'unsafe-inline' blob: js.stripe.com vercel.live va.vercel-scripts.com cdn.vercel-insights.com;
+  script-src 'self' 'unsafe-eval' 'unsafe-inline' blob: js.stripe.com vercel.live va.vercel-scripts.com cdn.vercel-insights.com${umamiSrc};
   style-src 'self' 'unsafe-inline';
   img-src 'self' blob: data: cdn.jsdelivr.net *.googleusercontent.com authjs.dev;
   media-src 'none';
-  connect-src 'self' https://api.stripe.com https://api.openai.com https://vitals.vercel-insights.com;
+  connect-src 'self' https://api.stripe.com https://api.openai.com https://vitals.vercel-insights.com${umamiSrc};
   font-src 'self' data:;
   frame-src 'self' js.stripe.com vercel.live;
   frame-ancestors 'self';
@@ -31,6 +37,14 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "**.googleusercontent.com" },
       { protocol: "https", hostname: "cdn.jsdelivr.net" },
     ],
+  },
+  async rewrites() {
+    return [
+      {
+        source: "/.well-known/security.txt",
+        destination: "/security.txt",
+      },
+    ];
   },
   async headers() {
     return [

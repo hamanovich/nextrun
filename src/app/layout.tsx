@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import type { ReactNode } from "react";
+import Script from "next/script";
 import { env } from "@/lib/env";
 import { Toaster } from "@/components/ui/sonner";
 import { Footer } from "@/components/footer/footer";
@@ -160,6 +161,13 @@ export default function RootLayout({
           <Footer />
           <Toaster />
         </Providers>
+        {env.NEXT_PUBLIC_UMAMI_URL && env.NEXT_PUBLIC_UMAMI_WEBSITE_ID && (
+          <Script
+            src={`${env.NEXT_PUBLIC_UMAMI_URL}/script.js`}
+            data-website-id={env.NEXT_PUBLIC_UMAMI_WEBSITE_ID}
+            strategy="afterInteractive"
+          />
+        )}
       </body>
     </html>
   );

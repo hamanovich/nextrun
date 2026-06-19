@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { FadeIn } from "@/components/motion/fade-in";
 
 type Tech = {
   slug: string;
@@ -24,20 +25,24 @@ const iconUrl = (slug: string) =>
 export const TechStack = () => (
   <section className="container mx-auto px-6 py-20 md:py-24">
     <div className="border-y py-12">
-      <p className="text-muted-foreground text-center text-sm">
-        Built on a modern, boring stack
-      </p>
+      <FadeIn>
+        <p className="text-muted-foreground text-center text-sm">
+          Built on a modern, boring stack
+        </p>
+      </FadeIn>
       <ul className="mt-8 flex flex-wrap items-center justify-center gap-x-10 gap-y-8 md:gap-x-14">
-        {stack.map(({ slug, name }) => (
+        {stack.map(({ slug, name }, index) => (
           <li key={slug}>
-            <Image
-              src={iconUrl(slug)}
-              alt={name}
-              width={28}
-              height={28}
-              unoptimized
-              className="h-6 w-auto opacity-60 grayscale transition-opacity hover:opacity-100 dark:invert"
-            />
+            <FadeIn y={0} delay={index * 0.05}>
+              <Image
+                src={iconUrl(slug)}
+                alt={name}
+                width={28}
+                height={28}
+                unoptimized
+                className="h-6 w-auto opacity-60 grayscale transition-opacity hover:opacity-100 dark:invert"
+              />
+            </FadeIn>
           </li>
         ))}
       </ul>

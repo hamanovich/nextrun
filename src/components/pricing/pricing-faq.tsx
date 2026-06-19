@@ -1,4 +1,5 @@
 import { Faq } from "@/components/faq/faq";
+import { FadeIn } from "@/components/motion/fade-in";
 
 const pricingFaqs = [
   {
@@ -36,12 +37,14 @@ const pricingFaqs = [
 export const PricingFaq = () => (
   <section className="py-6">
     <div className="container mx-auto px-4">
-      <Faq
-        badge="Pricing FAQ"
-        heading="Frequently Asked Questions"
-        description="Everything you need to know about our pricing and plans."
-        faqs={pricingFaqs}
-      />
+      <FadeIn>
+        <Faq
+          badge="Pricing FAQ"
+          heading="Frequently Asked Questions"
+          description="Everything you need to know about our pricing and plans."
+          faqs={pricingFaqs}
+        />
+      </FadeIn>
     </div>
   </section>
 );

@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Terms and Conditions - NextRun Legal",
   description:
-    "Read NextRun's terms and conditions to understand the license, usage rights, and legal terms for using our Next.js template and services.",
+    "Read NextRun's terms and conditions to understand the license, usage rights, and legal terms for using the NextRun open-source boilerplate and hosted service.",
   keywords: [
     "terms and conditions",
     "legal",
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Terms and Conditions - NextRun Legal",
     description:
-      "Read NextRun's terms and conditions to understand the license, usage rights, and legal terms for using our Next.js template and services.",
+      "Read NextRun's terms and conditions to understand the license, usage rights, and legal terms for using the NextRun open-source boilerplate and hosted service.",
     url: "https://nextrun.dev/terms",
     siteName: "NextRun",
     locale: "en_US",

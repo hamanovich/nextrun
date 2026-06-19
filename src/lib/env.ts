@@ -1,5 +1,7 @@
 import { z } from "zod";
 
+const emptyToUndefined = (v: unknown) => (v === "" ? undefined : v);
+
 const envSchema = z.object({
   DATABASE_URL: z.string().min(1, { message: "DATABASE_URL is required" }),
   OPENAI_API_KEY: z.string().min(1, { message: "OPENAI_API_KEY is required" }),
@@ -30,6 +32,19 @@ const envSchema = z.object({
   TELEGRAM_BOT_TOKEN: z
     .string()
     .min(1, { message: "TELEGRAM_BOT_TOKEN is required" }),
+  NEXT_PUBLIC_UMAMI_URL: z.preprocess(
+    emptyToUndefined,
+    z
+      .url({
+        message: "NEXT_PUBLIC_UMAMI_URL must be an absolute URL",
+      })
+      .transform((v) => v.replace(/\/+$/, ""))
+      .optional(),
+  ),
+  NEXT_PUBLIC_UMAMI_WEBSITE_ID: z.preprocess(
+    emptyToUndefined,
+    z.uuid().optional(),
+  ),
 });
 
 export type Env = z.infer<typeof envSchema>;
