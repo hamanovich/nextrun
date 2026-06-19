@@ -41,6 +41,7 @@
 - **Never** use `function` declarations for app code — arrow functions only (Next.js page/layout exports and framework hooks excepted).
 - **Never** mix client logic into Server Components or vice versa — respect the RSC boundary; `"use client"` lives at the leaves.
 - **Never** hand-edit `src/components/ui/**` to match these rules — it is shadcn-generated and lint-excluded.
+- **No em dash:** Never use the em dash character `—` (U+2014) in any `.ts` or `.html` file (string literals, prompts, test names, everything). Use a hyphen (`-`), a comma, a colon, or parentheses instead. Markdown docs (`*.md`) are exempt. Existing em dashes are tolerated until next touch; clean opportunistically on every adjacent edit.
 
 ## Design language
 

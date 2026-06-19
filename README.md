@@ -96,7 +96,18 @@ A production-ready Next.js template with pre-configured authentication, payments
 
    # Health-check endpoint auth (min 32 chars)
    HEALTH_CHECK_SECRET="min-32-char-random-secret"
+
+   # Umami analytics (optional — leave empty to disable)
+   NEXT_PUBLIC_UMAMI_URL="https://analytics.example.com"
+   NEXT_PUBLIC_UMAMI_WEBSITE_ID="00000000-0000-0000-0000-000000000000"
    ```
+
+   > **Analytics (Umami).** Both `NEXT_PUBLIC_UMAMI_*` vars are optional — the
+   > tracking script is injected only when both are set. The site's
+   > Content-Security-Policy is built from `NEXT_PUBLIC_UMAMI_URL`, and with
+   > `output: "standalone"` the CSP is baked at build time — so in Docker you
+   > must pass `NEXT_PUBLIC_UMAMI_URL` as a `--build-arg` (it is already wired
+   > as an `ARG` in the `Dockerfile`), in addition to providing it at runtime.
 
 4. **Set up the database**
 
@@ -244,13 +255,13 @@ This project is licensed under the ISC License - see the [LICENSE](LICENSE) file
 
 **Siarhei Hamanovich**
 
-- Email: dev.hamanovich@gmail.com
+- Email: support@nextrun.dev
 - LinkedIn: [hamanovich](https://www.linkedin.com/in/hamanovich/)
 - Website: [nextrun.dev](https://www.nextrun.dev)
 
 ## 🐛 Bug Reports
 
-If you find a bug, please open an issue on [GitHub](https://github.com/hamanovich/nextrun/issues) or email us at dev.hamanovich@gmail.com.
+If you find a bug, please open an issue on [GitHub](https://github.com/hamanovich/nextrun/issues) or email us at support@nextrun.dev.
 
 ## 🤝 Contributing
 
@@ -258,7 +269,7 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## 📞 Support
 
-- Email: dev.hamanovich@gmail.com
+- Email: support@nextrun.dev
 - GitHub Issues: [Create an issue](https://github.com/hamanovich/nextrun/issues)
 
 ---

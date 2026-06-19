@@ -35,7 +35,7 @@ describe("Footer Component", () => {
       render(<Footer />);
 
       expect(screen.getByTestId("logo")).toBeInTheDocument();
-      expect(screen.getByText("NextRun.dev")).toBeInTheDocument();
+      expect(screen.getByText("NextRun")).toBeInTheDocument();
     });
 
     it("renders the tagline", () => {
@@ -93,21 +93,30 @@ describe("Footer Component", () => {
 
       const year = new Date().getFullYear();
       expect(
-        screen.getByText(`© ${year} NextRun.dev. All rights reserved.`),
+        screen.getByText(
+          new RegExp(`© ${year} NextRun.dev. All rights reserved.`),
+        ),
       ).toBeInTheDocument();
+    });
+
+    it("renders the author credit linking to hamanovich.com", () => {
+      render(<Footer />);
+
+      const author = screen.getByRole("link", { name: "Hamanovich" });
+      expect(author).toHaveAttribute("href", "https://www.hamanovich.com/");
+      expect(author).toHaveAttribute("target", "_blank");
+      expect(author).toHaveAttribute("rel", "noopener noreferrer");
     });
 
     it("renders legal links with correct hrefs", () => {
       render(<Footer />);
 
-      expect(screen.getByRole("link", { name: "Terms" })).toHaveAttribute(
-        "href",
-        "/terms",
-      );
-      expect(screen.getByRole("link", { name: "Privacy" })).toHaveAttribute(
-        "href",
-        "/privacy",
-      );
+      expect(
+        screen.getByRole("link", { name: "Terms and Conditions" }),
+      ).toHaveAttribute("href", "/terms");
+      expect(
+        screen.getByRole("link", { name: "Privacy Policy" }),
+      ).toHaveAttribute("href", "/privacy");
     });
   });
 

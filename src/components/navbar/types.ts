@@ -1,4 +1,4 @@
-import type { ComponentType, ReactNode } from "react";
+import type { ComponentType, ReactNode, Ref } from "react";
 
 export interface NavbarNavItem {
   href?: string;
@@ -17,4 +17,5 @@ export interface NavbarProps {
   navigationLinks?: NavbarNavItem[];
   onNavItemClick?: (href?: string) => void;
   className?: string;
+  ref?: Ref<HTMLElement>;
 }

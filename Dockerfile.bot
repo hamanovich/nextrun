@@ -1,0 +1,23 @@
+# syntax=docker/dockerfile:1
+
+# The grammY Telegram bot is a long-running long-polling process (bot.start()), NOT part
+# of the Next.js request path — so it ships as its own image and runs as a separate
+# Coolify resource. It needs no inbound port or domain (polling dials out to Telegram).
+#
+# It runs the TypeScript entrypoint directly under bun. No NEXT_PUBLIC_* build args: the
+# bot has no build step and no client bundle. All secrets are injected at runtime by
+# Coolify — env.ts validates the FULL schema at import, so give this container the same
+# runtime env set as the web app.
+
+FROM oven/bun:1-slim AS bot
+WORKDIR /app
+
+COPY package.json bun.lock ./
+RUN bun install --frozen-lockfile
+
+COPY . .
+
+ENV NODE_ENV=production
+
+USER bun
+CMD ["bun", "run", "src/bot/index.ts"]

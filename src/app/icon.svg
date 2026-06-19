@@ -1,0 +1,21 @@
+<svg
+  width="256"
+  height="256"
+  viewBox="0 0 256 256"
+  xmlns="http://www.w3.org/2000/svg"
+  role="img"
+  aria-label="NextRun"
+>
+  <style>
+    .badge { fill: #0a0a0a; }
+    @media (prefers-color-scheme: dark) {
+      .badge { fill: #fafafa; }
+    }
+  </style>
+  <path
+    class="badge"
+    fill-rule="evenodd"
+    clip-rule="evenodd"
+    d="M56 0h144a56 56 0 0 1 56 56v144a56 56 0 0 1-56 56H56a56 56 0 0 1-56-56V56A56 56 0 0 1 56 0Zm18 64h44l30 54v-54h34v128h-44l-30-54v54H74V64Z"
+  />
+</svg>

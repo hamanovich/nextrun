@@ -1,0 +1,16 @@
+<svg
+  width="256"
+  height="256"
+  viewBox="0 0 256 256"
+  fill="none"
+  xmlns="http://www.w3.org/2000/svg"
+  role="img"
+  aria-label="NextRun"
+>
+  <path
+    fill="currentColor"
+    fill-rule="evenodd"
+    clip-rule="evenodd"
+    d="M56 0h144a56 56 0 0 1 56 56v144a56 56 0 0 1-56 56H56a56 56 0 0 1-56-56V56A56 56 0 0 1 56 0Zm18 64h44l30 54v-54h34v128h-44l-30-54v54H74V64Z"
+  />
+</svg>

@@ -1,6 +1,7 @@
 import { Code, Eye, ShieldCheck, Target, Zap } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { CallToAction } from "@/components/call-to-action/call-to-action";
+import { FadeIn } from "@/components/motion/fade-in";
 
 export { metadata } from "./metadata";
 
@@ -51,24 +52,35 @@ export default function About() {
     <main>
       <section className="container mx-auto px-6 pt-16 pb-12 md:pt-24">
         <div className="max-w-2xl">
-          <p className="text-muted-foreground mb-5 text-sm font-medium">
-            About NextRun
-          </p>
-          <h1 className="text-4xl font-semibold tracking-tighter text-balance md:text-5xl lg:text-6xl">
-            A starter that gets out of your way
-          </h1>
-          <p className="text-muted-foreground mt-6 max-w-xl text-base leading-relaxed md:text-lg">
-            NextRun removes the tedious setup. Authentication, payments,
-            database, and a Telegram bot integration come configured, so you can
-            focus on the product instead of the plumbing.
-          </p>
+          <FadeIn delay={0}>
+            <p className="text-muted-foreground mb-5 text-sm font-medium">
+              About NextRun
+            </p>
+          </FadeIn>
+          <FadeIn delay={0.08}>
+            <h1 className="text-4xl font-semibold tracking-tighter text-balance md:text-5xl lg:text-6xl">
+              A starter that gets out of your way
+            </h1>
+          </FadeIn>
+          <FadeIn delay={0.16}>
+            <p className="text-muted-foreground mt-6 max-w-xl text-base leading-relaxed md:text-lg">
+              NextRun removes the tedious setup. Authentication, payments,
+              database, and a Telegram bot integration come configured, so you
+              can focus on the product instead of the plumbing.
+            </p>
+          </FadeIn>
         </div>
       </section>
 
       <section className="container mx-auto px-6 py-12">
         <div className="bg-border grid grid-cols-1 gap-px overflow-hidden rounded-lg border md:grid-cols-2">
-          {purpose.map(({ icon: Icon, title, description }) => (
-            <div key={title} className="bg-background flex flex-col gap-4 p-8">
+          {purpose.map(({ icon: Icon, title, description }, index) => (
+            <FadeIn
+              key={title}
+              y={0}
+              delay={index * 0.1}
+              className="bg-background flex flex-col gap-4 p-8"
+            >
               <Icon
                 className="size-5 shrink-0"
                 aria-hidden={true}
@@ -80,18 +92,25 @@ export default function About() {
                   {description}
                 </p>
               </div>
-            </div>
+            </FadeIn>
           ))}
         </div>
       </section>
 
       <section className="container mx-auto px-6 py-12">
-        <h2 className="text-2xl font-semibold tracking-tighter md:text-3xl">
-          What we value
-        </h2>
+        <FadeIn>
+          <h2 className="text-2xl font-semibold tracking-tighter md:text-3xl">
+            What we value
+          </h2>
+        </FadeIn>
         <div className="bg-border mt-8 grid grid-cols-1 gap-px overflow-hidden rounded-lg border sm:grid-cols-3">
-          {values.map(({ icon: Icon, title, description }) => (
-            <div key={title} className="bg-background flex flex-col gap-4 p-8">
+          {values.map(({ icon: Icon, title, description }, index) => (
+            <FadeIn
+              key={title}
+              y={0}
+              delay={index * 0.08}
+              className="bg-background flex flex-col gap-4 p-8"
+            >
               <Icon
                 className="size-5 shrink-0"
                 aria-hidden={true}
@@ -103,12 +122,14 @@ export default function About() {
                   {description}
                 </p>
               </div>
-            </div>
+            </FadeIn>
           ))}
         </div>
       </section>
 
-      <CallToAction />
+      <FadeIn>
+        <CallToAction />
+      </FadeIn>
     </main>
   );
 }

@@ -4,6 +4,7 @@ import { env } from "@/lib/env";
 const routes = [
   { path: "", changeFrequency: "weekly", priority: 1 },
   { path: "/about", changeFrequency: "monthly", priority: 0.8 },
+  { path: "/docs", changeFrequency: "monthly", priority: 0.7 },
   { path: "/pricing", changeFrequency: "weekly", priority: 0.8 },
   { path: "/privacy", changeFrequency: "yearly", priority: 0.3 },
   { path: "/terms", changeFrequency: "yearly", priority: 0.3 },
