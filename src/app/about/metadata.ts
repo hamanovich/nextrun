@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     title: "About NextRun - Modern Next.js Template with Telegram Bot",
     description:
       "Learn about NextRun's mission to accelerate web development with production-ready Next.js templates and integrated Telegram bots.",
-    url: "https://nextrun.dev/about",
+    url: "/about",
     siteName: "NextRun",
     locale: "en_US",
     type: "website",

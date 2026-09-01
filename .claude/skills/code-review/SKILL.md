@@ -38,7 +38,7 @@ Read these to ground the review in current project state:
 1. `CLAUDE.md` — architecture, data flow (Drizzle/Neon + Better Auth + Stripe credits + grammY bot), business context
 2. `.claude/rules/code-style.md` — coding standards and the "Never" list
 
-Sources of truth (consult instead of assuming): `src/actions/user.ts` (`getSessionUser`, `consumeOneCredit`, `refundOneCredit`, `updateUserStripeData`), `src/actions/stripe.ts` (Zod schemas), `src/db/schema.ts`, `src/lib/env.ts`, `src/lib/auth.ts`, `src/lib/logger.ts`, `src/lib/sanitize.ts`, `vitest.config.ts`, `package.json`.
+Sources of truth (consult instead of assuming): `src/actions/user.ts` (`getSessionUser`, `consumeOneCredit`, `refundOneCredit`, `updateUserStripeData`), `src/actions/stripe.ts` (Zod schemas), `src/db/schema.ts`, `src/lib/env.ts`, `src/lib/auth.ts`, `src/lib/logger.ts`, `src/lib/sanitize.ts`, `vitest.config.mts`, `package.json`.
 
 **Precedence when artifacts disagree:** shipped code is the source of truth. If `CLAUDE.md` describes a layer but `src/` has none, the finding is "doc drift in CLAUDE.md" (filed against the doc), NOT "missing layer in code". Code wins, docs catch up.
 
@@ -262,11 +262,11 @@ One data path, **no service layer**.
 
 ### §11. Test Discipline
 
-`src/test/` holds setup + mocks; tests are co-located (`*.test.tsx` / `__tests__/`). The project gates on `bun run check` (ts:check + lint + format:check + test) and has coverage thresholds (50%) in `vitest.config.ts`.
+`src/test/` holds setup + mocks; tests are co-located (`*.test.tsx` / `__tests__/`). The project gates on `bun run check` (ts:check + lint + format:check + test) and has coverage thresholds (50%) in `vitest.config.mts`.
 
 - **Tests ship with the change.** New action / branching logic without a colocated test → ISSUE. New action in the credit/checkout/webhook path with zero tests → BLOCKER.
 - **Bugfix ⇒ regression test** that fails on old code, passes on new. Bugfix with no test → ISSUE unless pure typo/formatting with explicit justification.
-- **External calls mocked from shared setup** (`src/test/setup.ts` + `src/test/mocks/`); `server-only` aliased in `vitest.config.ts`. Hand-rolled duplicate of an existing mock → ISSUE.
+- **External calls mocked from shared setup** (`src/test/setup.ts` + `src/test/mocks/`); `server-only` aliased in `vitest.config.mts`. Hand-rolled duplicate of an existing mock → ISSUE.
 - **Tests assert behavior, not implementation.** Each anti-pattern → ISSUE:
   - Test body with zero `expect(...)`.
   - Test asserting only `.not.toThrow()` with no state assertion (exempt: a constructor/factory smoke test that ALSO has one minimal post-construction assertion).

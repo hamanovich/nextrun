@@ -1,6 +1,7 @@
 "use server";
 
 import { headers } from "next/headers";
+import { unstable_rethrow } from "next/navigation";
 import { db } from "@/db";
 import { users } from "@/db/schema";
 import { and, eq, gte, sql } from "drizzle-orm";
@@ -44,6 +45,7 @@ export const getSessionUser = async (): Promise<SessionUser> => {
       userId: session.user.id,
     };
   } catch (error) {
+    unstable_rethrow(error);
     log.error("Failed to get session user:", error);
     return null;
   }
@@ -106,7 +108,8 @@ export const getUserCredits = async (): Promise<number> => {
     if (userData.length === 0) return 0;
 
     return userData[0].stripeCredits;
-  } catch {
+  } catch (error) {
+    unstable_rethrow(error);
     return 0;
   }
 };

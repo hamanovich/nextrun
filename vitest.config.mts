@@ -6,10 +6,13 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
-      "@/public": path.resolve(__dirname, "./public"),
-      "@": path.resolve(__dirname, "./src"),
-      "@app": path.resolve(__dirname, "./package.json"),
-      "server-only": path.resolve(__dirname, "./src/test/mocks/server-only.ts"),
+      "@/public": path.resolve(import.meta.dirname, "./public"),
+      "@": path.resolve(import.meta.dirname, "./src"),
+      "@app": path.resolve(import.meta.dirname, "./package.json"),
+      "server-only": path.resolve(
+        import.meta.dirname,
+        "./src/test/mocks/server-only.ts",
+      ),
     },
   },
   test: {

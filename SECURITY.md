@@ -17,7 +17,7 @@ This is an actively developed template; security fixes land on the latest `main`
 
 Report privately via either channel:
 
-- **Email:** [support@nextrun.dev](mailto:support@nextrun.dev) - put `SECURITY` in the subject.
+- **Email:** [nextrun@hamanovich.com](mailto:nextrun@hamanovich.com) - put `SECURITY` in the subject.
 - **GitHub:** Security → **Report a vulnerability** (private advisory) on the repository.
 
 Please include:

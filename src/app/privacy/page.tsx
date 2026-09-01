@@ -4,8 +4,25 @@ export { metadata } from "./metadata";
 
 export default function PrivacyPage() {
   return (
-    <LegalPage title="Privacy Policy" lastUpdated="June 2026">
-      <section>
+    <LegalPage
+      title="Privacy Policy"
+      description="How NextRun handles account, payment, and usage information in the hosted service."
+      lastUpdated="June 2026"
+      sections={[
+        { id: "information-we-collect", label: "Information We Collect" },
+        { id: "how-we-use-information", label: "How We Use Information" },
+        { id: "information-sharing", label: "Information Sharing" },
+        { id: "data-security", label: "Data Security" },
+        { id: "data-retention", label: "Data Retention" },
+        { id: "cookies-and-tracking", label: "Cookies and Tracking" },
+        { id: "third-party-services", label: "Third-Party Services" },
+        { id: "your-rights", label: "Your Rights" },
+        { id: "childrens-privacy", label: "Children's Privacy" },
+        { id: "changes-to-this-policy", label: "Changes to This Policy" },
+        { id: "contact-us", label: "Contact Us" },
+      ]}
+    >
+      <section id="information-we-collect">
         <h2 className="mb-4 text-2xl font-semibold">
           1. Information We Collect
         </h2>
@@ -32,7 +49,7 @@ export default function PrivacyPage() {
         </ul>
       </section>
 
-      <section>
+      <section id="how-we-use-information">
         <h2 className="mb-4 text-2xl font-semibold">
           2. How We Use Your Information
         </h2>
@@ -49,7 +66,7 @@ export default function PrivacyPage() {
         </ul>
       </section>
 
-      <section>
+      <section id="information-sharing">
         <h2 className="mb-4 text-2xl font-semibold">3. Information Sharing</h2>
         <p className="text-muted-foreground leading-relaxed">
           We do not sell or rent your personal information. We share it only in
@@ -65,7 +82,7 @@ export default function PrivacyPage() {
         </ul>
       </section>
 
-      <section>
+      <section id="data-security">
         <h2 className="mb-4 text-2xl font-semibold">4. Data Security</h2>
         <p className="text-muted-foreground leading-relaxed">
           We implement appropriate security measures to protect your personal
@@ -75,7 +92,7 @@ export default function PrivacyPage() {
         </p>
       </section>
 
-      <section>
+      <section id="data-retention">
         <h2 className="mb-4 text-2xl font-semibold">5. Data Retention</h2>
         <p className="text-muted-foreground leading-relaxed">
           We retain your personal information for as long as necessary to
@@ -85,7 +102,7 @@ export default function PrivacyPage() {
         </p>
       </section>
 
-      <section>
+      <section id="cookies-and-tracking">
         <h2 className="mb-4 text-2xl font-semibold">6. Cookies and Tracking</h2>
         <p className="text-muted-foreground leading-relaxed">
           We use cookies and similar technologies for authentication sessions
@@ -95,7 +112,7 @@ export default function PrivacyPage() {
         </p>
       </section>
 
-      <section>
+      <section id="third-party-services">
         <h2 className="mb-4 text-2xl font-semibold">7. Third-Party Services</h2>
         <p className="text-muted-foreground leading-relaxed">
           The service integrates with third-party providers, including Stripe
@@ -105,7 +122,7 @@ export default function PrivacyPage() {
         </p>
       </section>
 
-      <section>
+      <section id="your-rights">
         <h2 className="mb-4 text-2xl font-semibold">8. Your Rights</h2>
         <p className="text-muted-foreground leading-relaxed">
           You have the right to:
@@ -119,7 +136,7 @@ export default function PrivacyPage() {
         </ul>
       </section>
 
-      <section>
+      <section id="childrens-privacy">
         <h2 className="mb-4 text-2xl font-semibold">
           9. Children&apos;s Privacy
         </h2>
@@ -129,7 +146,7 @@ export default function PrivacyPage() {
         </p>
       </section>
 
-      <section>
+      <section id="changes-to-this-policy">
         <h2 className="mb-4 text-2xl font-semibold">
           10. Changes to This Policy
         </h2>
@@ -140,12 +157,12 @@ export default function PrivacyPage() {
         </p>
       </section>
 
-      <section>
+      <section id="contact-us">
         <h2 className="mb-4 text-2xl font-semibold">11. Contact Us</h2>
         <p className="text-muted-foreground leading-relaxed">
           If you have any questions about this Privacy Policy, contact us at{" "}
-          <a href="mailto:support@nextrun.dev" className="underline">
-            support@nextrun.dev
+          <a href="mailto:nextrun@hamanovich.com" className="underline">
+            nextrun@hamanovich.com
           </a>
           .
         </p>

@@ -7,7 +7,7 @@ const umamiOrigin = (process.env.NEXT_PUBLIC_UMAMI_URL ?? "").replace(
 const umamiSrc = umamiOrigin ? ` ${umamiOrigin}` : "";
 
 const ContentSecurityPolicy = `
-  default-src 'self' *.nextrun.dev;
+  default-src 'self' *.hamanovich.com;
   script-src 'self' 'unsafe-eval' 'unsafe-inline' blob: js.stripe.com vercel.live va.vercel-scripts.com cdn.vercel-insights.com${umamiSrc};
   style-src 'self' 'unsafe-inline';
   img-src 'self' blob: data: cdn.jsdelivr.net *.googleusercontent.com authjs.dev;

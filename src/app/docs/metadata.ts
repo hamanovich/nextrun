@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     title: "Documentation - NextRun Next.js Starter",
     description:
       "Quick start, environment variables, project structure, scripts, and deployment for the NextRun Next.js 16 starter.",
-    url: "https://nextrun.dev/docs",
+    url: "/docs",
     siteName: "NextRun",
     locale: "en_US",
     type: "website",

@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     title: "User Profile - NextRun Dashboard",
     description:
       "Manage your NextRun account, view payment information, and access your user dashboard. Secure profile management with authentication and payment details.",
-    url: "https://nextrun.dev/profile",
+    url: "/profile",
     siteName: "NextRun",
     locale: "en_US",
     type: "website",

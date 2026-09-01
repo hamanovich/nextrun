@@ -23,8 +23,10 @@ const geistMono = Geist_Mono({
 const SITE_DESCRIPTION =
   "Get your next web application and Telegram bot up and running in minutes with our production-ready Next.js template. Includes authentication, payments, and modern UI components.";
 
+const SITE_URL = env.NEXT_PUBLIC_DOMAIN || "https://nextrun.hamanovich.com";
+
 export const metadata: Metadata = {
-  metadataBase: new URL(env.NEXT_PUBLIC_DOMAIN || "https://nextrun.dev"),
+  metadataBase: new URL(SITE_URL),
   title: "NextRun - Production-Ready Next.js Template & Telegram Bot",
   description: SITE_DESCRIPTION,
   applicationName: "NextRun",
@@ -52,12 +54,12 @@ const jsonLd = {
   "@graph": [
     {
       "@type": "Organization",
-      "@id": "https://nextrun.dev/#organization",
+      "@id": `${SITE_URL}/#organization`,
       name: "NextRun",
-      url: "https://nextrun.dev",
+      url: SITE_URL,
       logo: {
         "@type": "ImageObject",
-        url: "https://nextrun.dev/logo.png",
+        url: `${SITE_URL}/logo.png`,
         width: 512,
         height: 512,
       },
@@ -72,20 +74,20 @@ const jsonLd = {
     },
     {
       "@type": "WebSite",
-      "@id": "https://nextrun.dev/#website",
-      url: "https://nextrun.dev",
+      "@id": `${SITE_URL}/#website`,
+      url: SITE_URL,
       name: "NextRun",
       description: SITE_DESCRIPTION,
       publisher: {
-        "@id": "https://nextrun.dev/#organization",
+        "@id": `${SITE_URL}/#organization`,
       },
     },
     {
       "@type": "SoftwareApplication",
-      "@id": "https://nextrun.dev/#software",
+      "@id": `${SITE_URL}/#software`,
       name: "NextRun",
       description: SITE_DESCRIPTION,
-      url: "https://nextrun.dev",
+      url: SITE_URL,
       applicationCategory: "DeveloperApplication",
       operatingSystem: "Web",
       offers: {
@@ -94,7 +96,7 @@ const jsonLd = {
         priceCurrency: "USD",
       },
       author: {
-        "@id": "https://nextrun.dev/#organization",
+        "@id": `${SITE_URL}/#organization`,
       },
       keywords: [
         "nextrun",
@@ -113,18 +115,18 @@ const jsonLd = {
     },
     {
       "@type": "WebPage",
-      "@id": "https://nextrun.dev/#webpage",
-      url: "https://nextrun.dev",
+      "@id": `${SITE_URL}/#webpage`,
+      url: SITE_URL,
       name: "NextRun - Next.js Template",
       description: SITE_DESCRIPTION,
       isPartOf: {
-        "@id": "https://nextrun.dev/#website",
+        "@id": `${SITE_URL}/#website`,
       },
       about: {
-        "@id": "https://nextrun.dev/#software",
+        "@id": `${SITE_URL}/#software`,
       },
       publisher: {
-        "@id": "https://nextrun.dev/#organization",
+        "@id": `${SITE_URL}/#organization`,
       },
     },
   ],

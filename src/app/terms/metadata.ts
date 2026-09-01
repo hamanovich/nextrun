@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     title: "Terms and Conditions - NextRun Legal",
     description:
       "Read NextRun's terms and conditions to understand the license, usage rights, and legal terms for using the NextRun open-source boilerplate and hosted service.",
-    url: "https://nextrun.dev/terms",
+    url: "/terms",
     siteName: "NextRun",
     locale: "en_US",
     type: "website",
