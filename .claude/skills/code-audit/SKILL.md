@@ -42,7 +42,7 @@ Read these files to ground the audit in current project state:
 
 Source-of-truth files (read instead of trusting numbers in this skill — they drift):
 
-3. `vitest.config.ts` — test setup, `server-only` alias, mocks, coverage thresholds
+3. `vitest.config.mts` — test setup, `server-only` alias, mocks, coverage thresholds
 4. `package.json` — exact dependency pins and scripts (incl. the intentional `kysely@0.28.17` and `vite` pins documented in CLAUDE.md — do not flag those as outdated)
 5. `src/lib/env.ts` — the env contract (Zod schema, parsed at startup, throws on missing vars)
 6. `src/db/schema.ts` — the Drizzle table definitions (users, sessions, accounts, verifications, credits)
@@ -303,7 +303,7 @@ One data path, **no service layer**.
 | --- | -------------------------------------------------------------------------------------------------------------------------- | -------------------- |
 | J1  | Branching logic and external calls (Stripe, DB, auth, bot) are covered                                                     | HIGH                 |
 | J2  | Global setup in `src/test/setup.ts` + `src/test/mocks/`; `server-only` aliased in `vitest.config.ts`                       | HIGH                 |
-| J3  | Coverage thresholds present in `vitest.config.ts` (currently 50%); flag if removed or unmet                                | MEDIUM               |
+| J3  | Coverage thresholds present in `vitest.config.mts` (currently 50%); flag if removed or unmet                                | MEDIUM               |
 | J4  | Tests assert behavior (content/roles/behavior), not exact Tailwind classes (`src/components/ui/**` excluded from coverage) | MEDIUM               |
 | J5  | No `.skip` / `.only` / `xit` / `xdescribe` left in committed code                                                          | MEDIUM               |
 | J6  | Every behavioral bugfix has a regression test                                                                              | HIGH                 |

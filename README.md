@@ -267,13 +267,13 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 **Siarhei Hamanovich**
 
-- Email: support@nextrun.dev
+- Email: nextrun@hamanovich.com
 - LinkedIn: [hamanovich](https://www.linkedin.com/in/hamanovich/)
-- Website: [nextrun.dev](https://www.nextrun.dev)
+- Website: [nextrun.hamanovich.com](https://nextrun.hamanovich.com)
 
 ## 🐛 Bug Reports
 
-If you find a bug, please open an issue on [GitHub](https://github.com/hamanovich/nextrun/issues) or email us at support@nextrun.dev.
+If you find a bug, please open an issue on [GitHub](https://github.com/hamanovich/nextrun/issues) or email us at nextrun@hamanovich.com.
 
 For **security** vulnerabilities, do **not** open a public issue - follow [`SECURITY.md`](SECURITY.md).
 
@@ -283,7 +283,7 @@ Contributions are welcome! Please read [`CONTRIBUTING.md`](CONTRIBUTING.md) for 
 
 ## 📞 Support
 
-- Email: support@nextrun.dev
+- Email: nextrun@hamanovich.com
 - GitHub Issues: [Create an issue](https://github.com/hamanovich/nextrun/issues)
 
 ---

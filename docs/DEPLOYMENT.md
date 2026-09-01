@@ -114,11 +114,22 @@ Traefik issues and auto-renews certs. Set the Let's Encrypt **email** once in Co
 | **HTTP-01** (default)  | fresh subdomain, no HSTS history           | needs DNS already pointing at the box + port 80 open |
 | **DNS-01 via Porkbun** | pre-provision the cert before the DNS flip | proves ownership via a DNS TXT record (Porkbun API)  |
 
-> **NextRun's domain is `www.your-app.dev`.** The **`.dev` TLD is on the HSTS preload list** — browsers refuse
-> plain HTTP and require a valid HTTPS cert on the very first hit. So you **must** have the cert in place
-> before any browser reaches the live domain. Prefer **DNS-01 (pre-provision the cert before the DNS flip)**,
-> or first attach the domain to the temp Coolify URL and confirm HTTPS is green, then flip DNS. The app also
-> sends `Strict-Transport-Security: …; preload`, which only reinforces this.
+> **Check whether your hostname is under HSTS before you attach it.** Two cases force HTTPS on the very first
+> hit, so a missing or not-yet-issued cert becomes a hard error with no click-through — and browsers cache that
+> failure:
+>
+> 1. **A preloaded TLD.** `.dev` and `.app` are on the HSTS preload list in their entirety — every domain under
+>    them, in every browser, from the very first request.
+> 2. **A parent zone with `includeSubDomains`.** If `example.com` serves
+>    `Strict-Transport-Security: …; includeSubDomains`, then every browser that has visited it already enforces
+>    HTTPS on `anything.example.com` — including a subdomain you are attaching right now.
+>
+> Check with `curl -sI https://<parent-domain> | grep -i strict-transport` and
+> `https://hstspreload.org/api/v2/status?domain=<domain>`. If either applies, the cert must be green **before**
+> a browser reaches the hostname: for a brand-new subdomain, point DNS at the box, let Traefik issue over
+> HTTP-01, and only then open it. Use **DNS-01** when the hostname already resolves elsewhere and you cannot
+> afford a gap. NextRun's own app sends `Strict-Transport-Security: …; includeSubDomains; preload`, so the
+> second case applies to any sibling subdomain you add later.
 
 DNS-01 (Porkbun): create an API key (Porkbun → Account → API Access; enable API on the domain), then in
 Coolify → Servers → Proxy add to the `coolify-proxy` environment:
@@ -319,7 +330,8 @@ The `deploy` job also prunes GHCR to the 5 most recent versions (`actions/delete
    `NEXT_PUBLIC_DOMAIN` + the `NEXT_PUBLIC_UMAMI_*` pair if used). This is the only place secrets live.
    `BETTER_AUTH_URL = https://www.your-app.dev`.
 4. **Domain:** start with the Coolify-generated URL for testing; attach the real domain at cutover (Part 5).
-   Because `.dev` is HSTS-preloaded, confirm HTTPS is green before any browser hits the apex/www (§1.4).
+   If the TLD is preloaded or the parent zone sends HSTS with `includeSubDomains`, confirm HTTPS is green
+   before any browser hits the hostname (§1.4).
 5. **Health check** path `/api/health`. The route returns **401 without
    `Authorization: Bearer <HEALTH_CHECK_SECRET>`** — either give Coolify a custom check command with the
    header, or treat 401 as the expected liveness signal. It probes database, OpenAI status, and Stripe.
@@ -416,10 +428,11 @@ The default `next/image` optimizer needs `sharp`. Confirm the runner copies `nod
 The temp URL isn't a registered OAuth redirect URI. Test auth only after attaching the real domain, or
 temporarily add the temp URL to the Google OAuth client.
 
-**HTTPS error / `ERR_SSL` right after the DNS flip (`.dev`).**
-`.dev` is HSTS-preloaded — browsers force HTTPS and refuse a missing/invalid cert on first contact. Attach the
-domain to Coolify and confirm green HTTPS on the temp URL first, or pre-provision the cert via DNS-01 (§1.4)
-before flipping DNS.
+**HTTPS error / `ERR_SSL` on a freshly attached hostname.**
+The hostname is under HSTS — either a preloaded TLD (`.dev`, `.app`) or a parent zone sending
+`includeSubDomains` (§1.4). Browsers then force HTTPS and refuse a missing or invalid cert on first contact,
+and cache the failure with no click-through. Attach the domain to Coolify and let Traefik finish issuing
+**before** opening it in a browser, or pre-provision via DNS-01.
 
 **A container is reachable from the internet despite UFW.**
 Docker publishes ports via iptables, bypassing UFW. Route web apps through Traefik; bind admin ports to
@@ -447,7 +460,7 @@ exposed secrets.
 | Bot          | grammY long-polling, separate Coolify resource from `Dockerfile.bot` (`bun run src/bot/index.ts`) |
 | App data     | Neon serverless Postgres (Drizzle, neon-http); `bun run db:push` for schema                       |
 | Image        | `ghcr.io/<your-user>/nextrun:latest` (+ `sha-<commit>`)                                           |
-| TLS          | Let's Encrypt via Traefik; `.dev` IS HSTS-preloaded → pre-provision the cert (DNS-01) before flip |
+| TLS          | Let's Encrypt via Traefik; check HSTS preload / parent `includeSubDomains` → cert green first hit |
 | Secrets      | runtime-only in Coolify; build-args are `NEXT_PUBLIC_*`; off-box encrypted backup                 |
 | Health check | `GET /api/health` (Bearer `HEALTH_CHECK_SECRET`; 401 otherwise) — database/openai/stripe          |
 | CI/CD        | `.github/workflows/ci.yml` — check (all) · build (PR→main) · deploy (push main → GHCR → Coolify)  |

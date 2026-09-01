@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     title: "NextRun - Production-Ready Next.js Template & Telegram Bot",
     description:
       "Get your next web application and Telegram bot up and running in minutes with our production-ready Next.js template. Includes authentication, payments, and modern UI components.",
-    url: "https://nextrun.dev",
+    url: "/",
     siteName: "NextRun",
     locale: "en_US",
     type: "website",

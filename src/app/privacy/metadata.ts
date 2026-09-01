@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     title: "Privacy Policy - NextRun Data Protection",
     description:
       "Read NextRun's privacy policy to understand how we collect, use, and protect your personal information. Learn about our data practices and your privacy rights.",
-    url: "https://nextrun.dev/privacy",
+    url: "/privacy",
     siteName: "NextRun",
     locale: "en_US",
     type: "website",

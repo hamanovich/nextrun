@@ -4,8 +4,26 @@ export { metadata } from "./metadata";
 
 export default function TermsPage() {
   return (
-    <LegalPage title="Terms and Conditions" lastUpdated="June 2026">
-      <section>
+    <LegalPage
+      title="Terms and Conditions"
+      description="The terms that apply to the NextRun boilerplate, hosted service, accounts, and credits."
+      lastUpdated="June 2026"
+      sections={[
+        { id: "acceptance-of-terms", label: "Acceptance of Terms" },
+        { id: "open-source-boilerplate", label: "The Open-Source Boilerplate" },
+        {
+          id: "accounts-and-authentication",
+          label: "Accounts and Authentication",
+        },
+        { id: "credits-and-billing", label: "Credits and Billing" },
+        { id: "acceptable-use", label: "Acceptable Use" },
+        { id: "disclaimer-of-warranties", label: "Disclaimer of Warranties" },
+        { id: "limitation-of-liability", label: "Limitation of Liability" },
+        { id: "changes-to-terms", label: "Changes to Terms" },
+        { id: "contact-information", label: "Contact Information" },
+      ]}
+    >
+      <section id="acceptance-of-terms">
         <h2 className="mb-4 text-2xl font-semibold">1. Acceptance of Terms</h2>
         <p className="text-muted-foreground leading-relaxed">
           By accessing or using NextRun (&quot;the Project&quot; and &quot;the
@@ -14,7 +32,7 @@ export default function TermsPage() {
         </p>
       </section>
 
-      <section>
+      <section id="open-source-boilerplate">
         <h2 className="mb-4 text-2xl font-semibold">
           2. The Open-Source Boilerplate
         </h2>
@@ -45,7 +63,7 @@ export default function TermsPage() {
         </p>
       </section>
 
-      <section>
+      <section id="accounts-and-authentication">
         <h2 className="mb-4 text-2xl font-semibold">
           3. Accounts and Authentication
         </h2>
@@ -57,7 +75,7 @@ export default function TermsPage() {
         </p>
       </section>
 
-      <section>
+      <section id="credits-and-billing">
         <h2 className="mb-4 text-2xl font-semibold">4. Credits and Billing</h2>
         <p className="text-muted-foreground leading-relaxed">
           The hosted service offers a credit-based system. Credits are purchased
@@ -69,7 +87,7 @@ export default function TermsPage() {
         </p>
       </section>
 
-      <section>
+      <section id="acceptable-use">
         <h2 className="mb-4 text-2xl font-semibold">5. Acceptable Use</h2>
         <p className="text-muted-foreground leading-relaxed">
           You agree not to misuse the Service, including attempting to disrupt
@@ -78,7 +96,7 @@ export default function TermsPage() {
         </p>
       </section>
 
-      <section>
+      <section id="disclaimer-of-warranties">
         <h2 className="mb-4 text-2xl font-semibold">
           6. Disclaimer of Warranties
         </h2>
@@ -91,7 +109,7 @@ export default function TermsPage() {
         </p>
       </section>
 
-      <section>
+      <section id="limitation-of-liability">
         <h2 className="mb-4 text-2xl font-semibold">
           7. Limitation of Liability
         </h2>
@@ -104,7 +122,7 @@ export default function TermsPage() {
         </p>
       </section>
 
-      <section>
+      <section id="changes-to-terms">
         <h2 className="mb-4 text-2xl font-semibold">8. Changes to Terms</h2>
         <p className="text-muted-foreground leading-relaxed">
           We may revise these terms from time to time. Continued use of the
@@ -113,13 +131,13 @@ export default function TermsPage() {
         </p>
       </section>
 
-      <section>
+      <section id="contact-information">
         <h2 className="mb-4 text-2xl font-semibold">9. Contact Information</h2>
         <p className="text-muted-foreground leading-relaxed">
           If you have any questions about these Terms and Conditions, contact us
           at{" "}
-          <a href="mailto:support@nextrun.dev" className="underline">
-            support@nextrun.dev
+          <a href="mailto:nextrun@hamanovich.com" className="underline">
+            nextrun@hamanovich.com
           </a>
           .
         </p>
