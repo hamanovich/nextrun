@@ -37,19 +37,19 @@ Don't praise the codebase. Hunt for rot, bloat, boundary violations, and hidden 
 
 Read these files to ground the audit in current project state:
 
-1. `CLAUDE.md` — architecture, data flow (Drizzle/Neon + Better Auth + Stripe credits + grammY bot), App Router conventions, business context
-2. `.claude/rules/code-style.md` — coding standards and the "Never" list
+1. `AGENTS.md` — architecture, data flow (Drizzle/Neon + Better Auth + Stripe credits + grammY bot), App Router conventions, business context
+2. `.agents/rules/code-style.md` — coding standards and the "Never" list
 
 Source-of-truth files (read instead of trusting numbers in this skill — they drift):
 
 3. `vitest.config.mts` — test setup, `server-only` alias, mocks, coverage thresholds
-4. `package.json` — exact dependency pins and scripts (incl. the intentional `kysely@0.28.17` and `vite` pins documented in CLAUDE.md — do not flag those as outdated)
+4. `package.json` — exact dependency pins and scripts (incl. the intentional `kysely@0.28.17` and `vite` pins documented in AGENTS.md — do not flag those as outdated)
 5. `src/lib/env.ts` — the env contract (Zod schema, parsed at startup, throws on missing vars)
 6. `src/db/schema.ts` — the Drizzle table definitions (users, sessions, accounts, verifications, credits)
 7. `src/actions/user.ts` — `getSessionUser`, `consumeOneCredit`, `refundOneCredit`, `updateUserStripeData`
 8. `src/lib/auth.ts` / `src/lib/auth-client.ts` — Better Auth server config + client
 
-**Precedence when artifacts disagree:** shipped code is the source of truth. If `CLAUDE.md` describes a layer but `src/` has none, the finding is "doc drift in CLAUDE.md", NOT "missing layer in code". Same rule for all rules files and SSoT docs — code wins, docs catch up.
+**Precedence when artifacts disagree:** shipped code is the source of truth. If `AGENTS.md` describes a layer but `src/` has none, the finding is "doc drift in AGENTS.md", NOT "missing layer in code". Same rule for all rules files and SSoT docs — code wins, docs catch up.
 
 ---
 
@@ -162,7 +162,7 @@ grep -rEn "\bF-[0-9]{3}\b|\bP-[0-9]+\.[0-9]+\b|plan_[a-z0-9_]+\.md" src/ docs/ -
   | grep -v 'docs/planning/' | grep -vE 'docs/.*-audit-' || true
 
 # 17. bun discipline — npm/npx/yarn/pnpm in scripts or docs
-grep -rnE "\b(npm|npx|yarn|pnpm) " package.json docs/ .claude/ --include='*.json' --include='*.md' | grep -v 'bunx' || true
+grep -rnE "\b(npm|npx|yarn|pnpm) " package.json docs/ .agents/ --include='*.json' --include='*.md' | grep -v 'bunx' || true
 
 # 18. Secret/PUBLIC leak — server secrets must never be NEXT_PUBLIC_  (CRITICAL if a server secret is exposed)
 grep -rnE "NEXT_PUBLIC_.*(SECRET|TOKEN|KEY|PASSWORD|DATABASE_URL)" src/ .env.example --include='*.ts' --include='*.tsx' || true
@@ -312,7 +312,7 @@ One data path, **no service layer**.
 
 | #   | Check                                                                                                                                   | Severity |
 | --- | --------------------------------------------------------------------------------------------------------------------------------------- | -------- |
-| K1  | User-facing feature change (credit flow, bot command, pricing/tier, auth surface, setting) with no diff in `CLAUDE.md` business context | MEDIUM   |
+| K1  | User-facing feature change (credit flow, bot command, pricing/tier, auth surface, setting) with no diff in `AGENTS.md` business context | MEDIUM   |
 | K2  | Stripe-flow change with no diff in `docs/STRIPE_INTEGRATION.md`                                                                         | MEDIUM   |
 
 **Method:**

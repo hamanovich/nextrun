@@ -9,32 +9,6 @@ import { logger } from "@/lib/logger";
 import { stripe } from "@/lib/stripe";
 import { getSessionUser, updateUserStripeData } from "./user";
 
-interface StripeProduct {
-  id: string;
-  object: "product";
-  active: boolean;
-  attributes: string[];
-  created: number;
-  default_price: string;
-  description: string;
-  images: string[];
-  livemode: boolean;
-  marketing_features: { name: string; description?: string }[];
-  metadata: {
-    credits?: string;
-    [key: string]: string | undefined;
-  };
-  name: string;
-  package_dimensions: null;
-  shippable: null;
-  statement_descriptor: null;
-  tax_code: null;
-  type: "service";
-  unit_label: null;
-  updated: number;
-  url: null;
-}
-
 export interface PricingProduct {
   id: string;
   amount: number | null;
@@ -84,7 +58,7 @@ const createPayment = async (priceId: string) => {
 
   const checkoutSession = await stripe.checkout.sessions.create({
     customer: customerId,
-    payment_method_types: ["card"],
+    allowed_payment_method_types: ["card"],
     line_items: [
       {
         price: priceId,
@@ -125,7 +99,7 @@ export const listPricingProducts = async (): Promise<PricingProduct[]> => {
     return products.data
       .filter((price) => price.unit_amount != null)
       .map((price) => {
-        const product = price.product as StripeProduct;
+        const product = price.product as Stripe.Product;
 
         return {
           id: price.id,
@@ -135,10 +109,12 @@ export const listPricingProducts = async (): Promise<PricingProduct[]> => {
           product: {
             id: product.id,
             name: product.name,
-            description: product.description,
+            description: product.description ?? "",
             images: product.images,
             credits: product.metadata.credits,
-            marketing_features: product.marketing_features ?? [],
+            marketing_features: product.marketing_features.flatMap(
+              ({ name }) => (name ? [{ name }] : []),
+            ),
           },
         };
       });

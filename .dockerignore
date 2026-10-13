@@ -8,4 +8,8 @@ coverage
 .env*
 docs
 .claude
+.agents
+.codex
+AGENTS.md
+CLAUDE.md
 .husky
