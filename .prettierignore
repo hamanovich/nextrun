@@ -11,3 +11,5 @@ coverage
 public
 .claude
 docs
+.agents
+.codex
