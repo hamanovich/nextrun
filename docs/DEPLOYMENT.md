@@ -1,6 +1,6 @@
 ---
 title: Deploying NextRun to self-hosted Coolify (migration runbook)
-paired_rule: CLAUDE.md
+paired_rule: AGENTS.md
 code_root: .
 status: live
 language: en
@@ -49,7 +49,7 @@ The code-side migration (Part 2) is already committed — no need to repeat it:
 - `src/lib/lazy.ts` + lazy clients in `src/db`, `src/lib/stripe.ts`, `src/lib/auth.ts` (see §2.4) ✅
 - `Dockerfile` (multi-stage, bun builds / Node runs, sharp, no secrets in the build) ✅
 - `Dockerfile.bot` (the grammY long-polling bot, run separately under bun) ✅
-- `.dockerignore` (excludes `.env*`, `node_modules`, `.next`, `.git`, `docs`, `.claude`, `.husky`, …) ✅
+- `.dockerignore` (excludes `.env*`, `node_modules`, `.next`, `.git`, `docs`, `.claude`, `.agents`, `.codex`, `.husky`, …) ✅
 - `.github/workflows/ci.yml` — `check` / `build` / `deploy` jobs ✅
 
 **What remains is infrastructure:** configure the app in Coolify, populate the GitHub `Coolify` environment,
@@ -192,7 +192,7 @@ Full file — `./Dockerfile` in the repo root. The bot has its own `./Dockerfile
 ## 2.3 `.dockerignore`
 
 `.env*` is excluded deliberately — secrets never enter the build context. Also excluded: `node_modules`,
-`.next`, `.git`, `.github`, `coverage`, `docs`, `.claude`, `.husky`.
+`.next`, `.git`, `.github`, `coverage`, `docs`, `.claude`, `.agents`, `.codex`, `.husky`.
 
 ## 2.4 Lazy clients — why the build needs no secrets
 

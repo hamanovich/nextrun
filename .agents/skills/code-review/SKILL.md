@@ -35,12 +35,12 @@ Every line of changed code is guilty until proven correct. Don't look for what w
 
 Read these to ground the review in current project state:
 
-1. `CLAUDE.md` — architecture, data flow (Drizzle/Neon + Better Auth + Stripe credits + grammY bot), business context
-2. `.claude/rules/code-style.md` — coding standards and the "Never" list
+1. `AGENTS.md` — architecture, data flow (Drizzle/Neon + Better Auth + Stripe credits + grammY bot), business context
+2. `.agents/rules/code-style.md` — coding standards and the "Never" list
 
 Sources of truth (consult instead of assuming): `src/actions/user.ts` (`getSessionUser`, `consumeOneCredit`, `refundOneCredit`, `updateUserStripeData`), `src/actions/stripe.ts` (Zod schemas), `src/db/schema.ts`, `src/lib/env.ts`, `src/lib/auth.ts`, `src/lib/logger.ts`, `src/lib/sanitize.ts`, `vitest.config.mts`, `package.json`.
 
-**Precedence when artifacts disagree:** shipped code is the source of truth. If `CLAUDE.md` describes a layer but `src/` has none, the finding is "doc drift in CLAUDE.md" (filed against the doc), NOT "missing layer in code". Code wins, docs catch up.
+**Precedence when artifacts disagree:** shipped code is the source of truth. If `AGENTS.md` describes a layer but `src/` has none, the finding is "doc drift in AGENTS.md" (filed against the doc), NOT "missing layer in code". Code wins, docs catch up.
 
 ---
 
@@ -286,9 +286,9 @@ The diff must update the matching SSoT in the same change. Run `git diff --name-
 
 | If diff changes…                                                                                | …it MUST also change                                                    | Severity if missing |
 | ----------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------- | ------------------- |
-| `src/db/schema.ts` (new/changed column on a behavioural path)                                   | `bun run db:push` applied + `CLAUDE.md` business context if user-facing | ISSUE               |
+| `src/db/schema.ts` (new/changed column on a behavioural path)                                   | `bun run db:push` applied + `AGENTS.md` business context if user-facing | ISSUE               |
 | The Stripe / credit flow                                                                        | `docs/STRIPE_INTEGRATION.md`                                            | ISSUE               |
-| Any user-facing surface (credit flow, bot command, pricing/tier, auth surface, settings toggle) | `CLAUDE.md` business context                                            | ISSUE               |
+| Any user-facing surface (credit flow, bot command, pricing/tier, auth surface, settings toggle) | `AGENTS.md` business context                                            | ISSUE               |
 
 **Escape — internal change exemption.** The requirement applies only when the diff changes documented behavior or external contract. Exempt: internal rename/extract/inline of a private symbol; a bug fix restoring already-documented behavior; test-only change; comment/string-only change with no semantic effect. When invoking, record one line in `## Exemptions & Skipped Checks`: `[§13 exempt: internal refactor of src/actions/user.ts — no schema or contract change]`. The reviewer owns the call; the user can challenge with a counter-example.
 
