@@ -36,6 +36,7 @@
 
 - **Never** use raw `fetch` for mutations — always use Server Actions (`"use server"`) or the dedicated API routes (`src/app/api/*`).
 - **Never** skip Zod validation for user-supplied input in a Server Action.
+- **Never** export a privileged helper (one taking a `userId` or a credit/Stripe value) from a `"use server"` file - put it in a `server-only` module in `src/lib` (see `src/lib/credits.ts`).
 - **Never** read `process.env` directly for required config — import the validated `env` from `src/lib/env.ts`.
 - **Never** call the raw database client from a component — go through a Server Action or hook.
 - **Never** use `function` declarations for app code — arrow functions only (Next.js page/layout exports and framework hooks excepted).

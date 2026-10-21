@@ -16,7 +16,6 @@ const stack: Tech[] = [
   { slug: "stripe", name: "Stripe" },
   { slug: "telegram", name: "Telegram" },
   { slug: "bun", name: "Bun" },
-  { slug: "openai", name: "OpenAI" },
 ];
 
 const iconUrl = (slug: string) =>

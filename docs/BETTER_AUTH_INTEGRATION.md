@@ -6,7 +6,7 @@ This document outlines authentication in the NextRun application, implemented wi
 
 - **Better Auth** handles sessions, OAuth, and the auth API routes.
 - Storage is the **Drizzle adapter** over Neon Postgres - the `user`, `session`, `account`, and `verification` tables in `src/db/schema.ts` are the auth contract (see `NEON_DRIZZLE_INTEGRATION.md`).
-- The only social provider configured is **Google** (offline access, account chooser + consent).
+- The only social provider configured is **Google** (account chooser only: no offline access, so no Google refresh tokens are requested; add `accessType: "offline"` only if the app calls Google APIs on the user's behalf).
 - Read the session **server-side** with `getSessionUser()`; on the **client** use `authClient`.
 
 ## Server config (`src/lib/auth.ts`)
@@ -38,8 +38,7 @@ export const auth = lazyClient(() =>
       google: {
         clientId: env.GOOGLE_CLIENT_ID,
         clientSecret: env.GOOGLE_CLIENT_SECRET,
-        accessType: "offline",
-        prompt: "select_account consent",
+        prompt: "select_account",
       },
     },
   }),
@@ -74,7 +73,7 @@ Use `authClient` in Client Components (`"use client"`) for `signIn`, `signOut`, 
 
 ## Reading the session server-side
 
-In Server Components and Server Actions, use `getSessionUser()` (`src/actions/user.ts`) - it wraps `auth.api.getSession({ headers })` and enriches the user with the Stripe/credit columns from the database:
+In Server Components and Server Actions, use `getSessionUser()` (`src/actions/user.ts`) - it wraps `auth.api.getSession({ headers })` and enriches the user with the Stripe/credit columns from the database. It returns `null` only when there is no session (or the user row is gone); database errors propagate to the nearest error boundary instead of looking like a sign-out:
 
 ```ts
 const session = await getSessionUser();
@@ -121,7 +120,7 @@ BETTER_AUTH_SECRET=...                       # min 32 chars - used to sign sessi
 
 ### For Users
 
-1. Click sign in -> redirected to Google -> choose account + consent.
+1. Click sign in -> redirected to Google -> choose account.
 2. Returned to the app authenticated; a `session` row is created.
 
 ### For Developers

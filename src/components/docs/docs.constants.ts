@@ -64,11 +64,6 @@ export const envVars = [
     description: "Token for the grammY Telegram bot.",
   },
   {
-    name: "OPENAI_API_KEY",
-    required: true,
-    description: "Used by the health-check endpoint.",
-  },
-  {
     name: "HEALTH_CHECK_SECRET",
     required: true,
     description: "Guards the health endpoint (min 32 characters).",

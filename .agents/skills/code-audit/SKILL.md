@@ -46,7 +46,7 @@ Source-of-truth files (read instead of trusting numbers in this skill — they d
 4. `package.json` — exact dependency pins and scripts (incl. the intentional `kysely@0.28.17` and `vite` pins documented in AGENTS.md — do not flag those as outdated)
 5. `src/lib/env.ts` — the env contract (Zod schema, parsed at startup, throws on missing vars)
 6. `src/db/schema.ts` — the Drizzle table definitions (users, sessions, accounts, verifications, credits)
-7. `src/actions/user.ts` — `getSessionUser`, `consumeOneCredit`, `refundOneCredit`, `updateUserStripeData`
+7. `src/actions/user.ts` — `getSessionUser`; `src/lib/credits.ts` (`server-only`, never `"use server"`) — `consumeOneCredit`, `refundOneCredit`, `updateUserStripeData`
 8. `src/lib/auth.ts` / `src/lib/auth-client.ts` — Better Auth server config + client
 
 **Precedence when artifacts disagree:** shipped code is the source of truth. If `AGENTS.md` describes a layer but `src/` has none, the finding is "doc drift in AGENTS.md", NOT "missing layer in code". Same rule for all rules files and SSoT docs — code wins, docs catch up.

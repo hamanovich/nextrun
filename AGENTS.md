@@ -21,7 +21,7 @@ Guidance for AI coding agents (Codex, Claude Code, ...) and contributors working
 ```bash
 bun run dev            # dev server (Turbopack)
 bun run build          # production build
-bun run check          # ts:check + lint + format + test  ← run before declaring work done
+bun run check          # ts:check + lint + format + knip + test  ← run before declaring work done
 bun run ts:check       # tsc --noEmit
 bun run lint           # eslint
 bun run test           # vitest run
@@ -36,6 +36,7 @@ Always verify changes with `bun run ts:check`, `bun run lint`, and `bun run test
 
 - **Server Components by default.** `"use client"` lives only at leaf components (forms, motion, anything using hooks/session/theme).
 - **Database** access goes through **Drizzle** inside **Server Actions** (`src/actions/*`). There is intentionally no `src/services/` layer. No raw DB client calls from components.
+- **Privileged writes are never Server Actions.** Every export of a `"use server"` file can become a client-callable endpoint, so helpers that take a `userId` or arbitrary values (credit grants, Stripe ids) live in `server-only` modules in `src/lib` (e.g. `src/lib/credits.ts`). Actions resolve `getSessionUser()`, validate with Zod, then call them with the session's `userId`.
 - **Auth:** read the session server-side with `getSessionUser()` (`src/actions/user.ts`); on the client use `authClient` (`src/lib/auth-client.ts`). Route protection is in `src/proxy.ts` (Next.js middleware — guards `/profile`). There is **no i18n / locale routing**.
 - **Client data fetching** uses **TanStack Query** hooks in `src/hooks/*` (e.g. `use-credits.ts`) wrapping Server Actions / API routes.
 - **Env:** never read `process.env` directly for required config — import the validated `env` from `src/lib/env.ts` (Zod-validated at startup; the full list is in `.env.example`).

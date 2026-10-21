@@ -231,7 +231,7 @@ Verification (what CI/Docker does) — the build passes with no server vars:
 
 ```bash
 mv .env .env.bak
-env -u DATABASE_URL -u OPENAI_API_KEY -u STRIPE_SECRET_KEY -u STRIPE_WEBHOOK_SECRET \
+env -u DATABASE_URL -u STRIPE_SECRET_KEY -u STRIPE_WEBHOOK_SECRET \
     -u GOOGLE_CLIENT_ID -u GOOGLE_CLIENT_SECRET -u BETTER_AUTH_SECRET -u BETTER_AUTH_URL \
     -u TELEGRAM_BOT_TOKEN -u HEALTH_CHECK_SECRET \
   SKIP_ENV_VALIDATION=1 NEXT_PUBLIC_DOMAIN=https://www.your-app.dev bun run build
@@ -264,7 +264,6 @@ deliberately kept out of the build so they never land in the GitHub Actions buil
 | `NEXT_PUBLIC_UMAMI_URL`        |             ✅              |       ✅        | public Umami analytics origin; optional             |
 | `NEXT_PUBLIC_UMAMI_WEBSITE_ID` |             ✅              |       ✅        | public Umami site id; optional                      |
 | `DATABASE_URL`                 |              —              |       ✅        | secret; Neon — lazy client, not needed at build     |
-| `OPENAI_API_KEY`               |              —              |       ✅        | secret                                              |
 | `GOOGLE_CLIENT_ID` / `_SECRET` |              —              |       ✅        | OAuth                                               |
 | `BETTER_AUTH_URL`              |              —              |       ✅        | = the prod origin (`https://www.your-app.dev`)      |
 | `BETTER_AUTH_SECRET`           |              —              |       ✅        | secret; min 32 chars                                |
@@ -334,7 +333,7 @@ The `deploy` job also prunes GHCR to the 5 most recent versions (`actions/delete
    before any browser hits the hostname (§1.4).
 5. **Health check** path `/api/health`. The route returns **401 without
    `Authorization: Bearer <HEALTH_CHECK_SECRET>`** — either give Coolify a custom check command with the
-   header, or treat 401 as the expected liveness signal. It probes database, OpenAI status, and Stripe.
+   header, or treat 401 as the expected liveness signal. It probes the database and Stripe.
 6. **Deploy webhook:** copy the app's `…/api/v1/deploy?uuid=…` URL into the `COOLIFY_WEBHOOK_URL` secret and an
    API token into `COOLIFY_API_TOKEN` (Part 3).
 
@@ -377,7 +376,7 @@ Run during a quiet window.
 
 **Verify on the live domain:**
 
-- `GET /api/health` with the Bearer header → all services `healthy` (database, openai, stripe; no header →
+- `GET /api/health` with the Bearer header → all services `healthy` (database, stripe; no header →
   401; unhealthy → 503).
 - HTTPS valid; `http://` and apex redirect to `https://www.…`.
 - **Google sign-in** works: add the prod-origin redirect URI to the Google OAuth client; `BETTER_AUTH_URL`
@@ -462,5 +461,5 @@ exposed secrets.
 | Image        | `ghcr.io/<your-user>/nextrun:latest` (+ `sha-<commit>`)                                           |
 | TLS          | Let's Encrypt via Traefik; check HSTS preload / parent `includeSubDomains` → cert green first hit |
 | Secrets      | runtime-only in Coolify; build-args are `NEXT_PUBLIC_*`; off-box encrypted backup                 |
-| Health check | `GET /api/health` (Bearer `HEALTH_CHECK_SECRET`; 401 otherwise) — database/openai/stripe          |
+| Health check | `GET /api/health` (Bearer `HEALTH_CHECK_SECRET`; 401 otherwise) — database/stripe                 |
 | CI/CD        | `.github/workflows/ci.yml` — check (all) · build (PR→main) · deploy (push main → GHCR → Coolify)  |
