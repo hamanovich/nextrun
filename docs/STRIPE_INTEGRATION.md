@@ -10,10 +10,10 @@ This document outlines the Stripe payment integration implemented in the NextRun
 - Added `stripeCustomerId` (text, nullable) - Stripe customer ID
 - Added `stripeCheckoutSessionId` (text, nullable) - last checkout session ID
 
-### 2. User Actions (`src/actions/user.ts`)
+### 2. User Actions and Credit Helpers
 
-- `getSessionUser()` - Enhanced to include Stripe data from database
-- `updateUserStripeData()` - Updates user's Stripe information
+- `getSessionUser()` (`src/actions/user.ts`) - Enhanced to include Stripe data from database
+- `updateUserStripeData(userId, data)`, `consumeOneCredit(userId)`, `refundOneCredit(userId)` (`src/lib/credits.ts`) - privileged writes. The module is `server-only` and is deliberately **not** a `"use server"` file: every export of a `"use server"` module can become a client-callable endpoint, and these take arbitrary input. Call them only after resolving `getSessionUser()` and pass the session's `userId`.
 
 ### 3. Stripe Actions (`src/actions/stripe.ts`)
 
@@ -83,7 +83,7 @@ UPDATE "user" SET "stripeCredits" = 5 WHERE "stripeCredits" IS NULL;
 
 1. Use `getSessionUser()` to get user with Stripe data
 2. Use `createPayment(priceId)` to initiate payments
-3. Use `updateUserStripeData()` to update user's Stripe information
+3. Use `updateUserStripeData(userId, data)` from `src/lib/credits.ts` to update user's Stripe information
 
 ## Credit System
 

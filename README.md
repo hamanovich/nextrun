@@ -44,7 +44,6 @@ A production-ready Next.js template with pre-configured authentication, payments
 - Stripe account (for payments)
 - Google OAuth credentials (for authentication)
 - Telegram Bot Token (for the bot)
-- OpenAI API key (used by the health-check endpoint)
 
 ### Installation
 
@@ -90,9 +89,6 @@ A production-ready Next.js template with pre-configured authentication, payments
 
    # Telegram Bot
    TELEGRAM_BOT_TOKEN="your_telegram_bot_token"
-
-   # OpenAI (used by the health-check endpoint)
-   OPENAI_API_KEY="sk-..."
 
    # Health-check endpoint auth (min 32 chars)
    HEALTH_CHECK_SECRET="min-32-char-random-secret"
@@ -161,7 +157,6 @@ A production-ready Next.js template with pre-configured authentication, payments
 - **Neon PostgreSQL** - Serverless Postgres
 - **Server Actions** - Type-safe server-side logic
 - **Zod** - Runtime validation for inputs and environment variables
-- **OpenAI** - Used by the health-check endpoint
 
 ### Telegram Bot
 

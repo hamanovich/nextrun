@@ -38,7 +38,7 @@ Read these to ground the review in current project state:
 1. `AGENTS.md` — architecture, data flow (Drizzle/Neon + Better Auth + Stripe credits + grammY bot), business context
 2. `.agents/rules/code-style.md` — coding standards and the "Never" list
 
-Sources of truth (consult instead of assuming): `src/actions/user.ts` (`getSessionUser`, `consumeOneCredit`, `refundOneCredit`, `updateUserStripeData`), `src/actions/stripe.ts` (Zod schemas), `src/db/schema.ts`, `src/lib/env.ts`, `src/lib/auth.ts`, `src/lib/logger.ts`, `src/lib/sanitize.ts`, `vitest.config.mts`, `package.json`.
+Sources of truth (consult instead of assuming): `src/actions/user.ts` (`getSessionUser`), `src/lib/credits.ts` (`consumeOneCredit`, `refundOneCredit`, `updateUserStripeData`; `server-only`, a privileged helper exported from a `"use server"` file is a BLOCKER), `src/actions/stripe.ts` (Zod schemas), `src/db/schema.ts`, `src/lib/env.ts`, `src/lib/auth.ts`, `src/lib/logger.ts`, `src/lib/sanitize.ts`, `vitest.config.mts`, `package.json`.
 
 **Precedence when artifacts disagree:** shipped code is the source of truth. If `AGENTS.md` describes a layer but `src/` has none, the finding is "doc drift in AGENTS.md" (filed against the doc), NOT "missing layer in code". Code wins, docs catch up.
 
