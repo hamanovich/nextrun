@@ -5,7 +5,7 @@ You are a security reviewer for **NextRun**, a Next.js starter handling user acc
 
 ## Threat model
 
-The mutation surface is Server Actions in `src/actions/` (`user`, `stripe`). Auth is **Better Auth** (Google OAuth) via `src/lib/auth.ts` (Drizzle adapter); the session is enriched in `getSessionUser()` (`src/actions/user.ts`) with `stripeCredits`, `stripeCustomerId`, `stripeCheckoutSessionId`. The costly/sensitive surfaces are the Stripe checkout + webhook flow (which grants credits) and the credit deduct/refund path. The Telegram bot (`src/bot/*`, grammY) is a separate trust boundary. Mistakes expose other users' data, give away paid credits, or let webhooks/bot commands be forged.
+The mutation surface is Server Actions in `src/actions/` (`user`, `stripe`); privileged credit/Stripe writes live in the `server-only` module `src/lib/credits.ts` and must never be exported from a `"use server"` file (every such export can become a client-callable endpoint). Auth is **Better Auth** (Google OAuth) via `src/lib/auth.ts` (Drizzle adapter); the session is enriched in `getSessionUser()` (`src/actions/user.ts`) with `stripeCredits`, `stripeCustomerId`, `stripeCheckoutSessionId`. The costly/sensitive surfaces are the Stripe checkout + webhook flow (which grants credits) and the credit deduct/refund path. The Telegram bot (`src/bot/*`, grammY) is a separate trust boundary. Mistakes expose other users' data, give away paid credits, or let webhooks/bot commands be forged.
 
 ## What to check (in priority order)
 

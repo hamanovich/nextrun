@@ -4,10 +4,11 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import type Stripe from "stripe";
 import { z } from "zod";
+import { updateUserStripeData } from "@/lib/credits";
 import { env } from "@/lib/env";
 import { logger } from "@/lib/logger";
 import { stripe } from "@/lib/stripe";
-import { getSessionUser, updateUserStripeData } from "./user";
+import { getSessionUser } from "./user";
 
 export interface PricingProduct {
   id: string;
@@ -48,7 +49,7 @@ const createPayment = async (priceId: string) => {
     });
     customerId = customer.id;
 
-    await updateUserStripeData({ stripeCustomerId: customerId });
+    await updateUserStripeData(userId, { stripeCustomerId: customerId });
   }
 
   const price = await stripe.prices.retrieve(priceId, { expand: ["product"] });

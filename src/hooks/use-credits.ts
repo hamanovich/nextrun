@@ -43,7 +43,7 @@ export const useCredits = () => {
     queryKey: ["credits", session?.user?.id],
     queryFn: ({ signal }) => fetchCredits({ signal }),
     enabled: !!session?.user?.id,
-    staleTime: 5 * 60 * 1000, // 5 minutes
+    staleTime: 5 * 60 * 1000,
     retry: 3,
   });
 };

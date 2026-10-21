@@ -5,16 +5,17 @@ const umamiOrigin = (process.env.NEXT_PUBLIC_UMAMI_URL ?? "").replace(
   "",
 );
 const umamiSrc = umamiOrigin ? ` ${umamiOrigin}` : "";
+const devEval = process.env.NODE_ENV === "development" ? " 'unsafe-eval'" : "";
 
 const ContentSecurityPolicy = `
-  default-src 'self' *.hamanovich.com;
-  script-src 'self' 'unsafe-eval' 'unsafe-inline' blob: js.stripe.com vercel.live va.vercel-scripts.com cdn.vercel-insights.com${umamiSrc};
+  default-src 'self';
+  script-src 'self'${devEval} 'unsafe-inline' blob: js.stripe.com${umamiSrc};
   style-src 'self' 'unsafe-inline';
-  img-src 'self' blob: data: cdn.jsdelivr.net *.googleusercontent.com authjs.dev;
+  img-src 'self' blob: data: cdn.jsdelivr.net *.googleusercontent.com;
   media-src 'none';
-  connect-src 'self' https://api.stripe.com https://api.openai.com https://vitals.vercel-insights.com${umamiSrc};
+  connect-src 'self' https://api.stripe.com${umamiSrc};
   font-src 'self' data:;
-  frame-src 'self' js.stripe.com vercel.live;
+  frame-src 'self' js.stripe.com;
   frame-ancestors 'self';
   form-action 'self';
   base-uri 'self';

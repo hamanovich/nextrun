@@ -4,6 +4,7 @@ import app from "@app";
 import { sql } from "drizzle-orm";
 import { env } from "@/lib/env";
 import { logger } from "@/lib/logger";
+import { secretEquals } from "@/lib/secret-equals";
 
 interface HealthCheckResult {
   status: "healthy" | "unhealthy" | "degraded";
@@ -14,7 +15,6 @@ interface HealthCheckResult {
   responseTime: number;
   services: {
     database: ServiceStatus;
-    openai: ServiceStatus;
     stripe: ServiceStatus;
   };
 }
@@ -43,29 +43,6 @@ const checkDatabase = async (): Promise<ServiceStatus> => {
       status: "unhealthy",
       responseTime: Date.now() - start,
       error: error instanceof Error ? error.message : "Unknown database error",
-    };
-  }
-};
-
-const checkOpenAI = async (): Promise<ServiceStatus> => {
-  const start = Date.now();
-  try {
-    const response = await fetch(
-      "https://status.openai.com/api/v2/status.json",
-      {
-        signal: AbortSignal.timeout(3000),
-        cache: "no-store",
-      },
-    );
-    return {
-      status: response.ok ? "healthy" : "degraded",
-      responseTime: Date.now() - start,
-    };
-  } catch (error) {
-    return {
-      status: "unhealthy",
-      responseTime: Date.now() - start,
-      error: error instanceof Error ? error.message : "Check failed",
     };
   }
 };
@@ -100,21 +77,20 @@ const checkStripe = async (): Promise<ServiceStatus> => {
 
 export const GET = async (req: NextRequest) => {
   const authHeader = req.headers.get("authorization");
-  if (authHeader !== `Bearer ${env.HEALTH_CHECK_SECRET}`)
+  if (!secretEquals(authHeader, `Bearer ${env.HEALTH_CHECK_SECRET}`))
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   const startTime = Date.now();
 
   try {
-    const [database, openai, stripe] = await Promise.all([
+    const [database, stripe] = await Promise.all([
       checkDatabase(),
-      checkOpenAI(),
       checkStripe(),
     ]);
 
     const responseTime = Date.now() - startTime;
 
-    const serviceStatuses = [database, openai, stripe];
+    const serviceStatuses = [database, stripe];
     const unhealthyServices = serviceStatuses.filter(
       (s) => s.status === "unhealthy",
     );
@@ -140,7 +116,6 @@ export const GET = async (req: NextRequest) => {
       responseTime,
       services: {
         database,
-        openai,
         stripe,
       },
     };
@@ -163,7 +138,6 @@ export const GET = async (req: NextRequest) => {
       responseTime,
       services: {
         database: { status: "unhealthy", error: "Health check failed" },
-        openai: { status: "unhealthy", error: "Health check failed" },
         stripe: { status: "unhealthy", error: "Health check failed" },
       },
     };

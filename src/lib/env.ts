@@ -4,7 +4,6 @@ const emptyToUndefined = (v: unknown) => (v === "" ? undefined : v);
 
 const envSchema = z.object({
   DATABASE_URL: z.string().min(1, { message: "DATABASE_URL is required" }),
-  OPENAI_API_KEY: z.string().min(1, { message: "OPENAI_API_KEY is required" }),
   GOOGLE_CLIENT_ID: z
     .string()
     .min(1, { message: "GOOGLE_CLIENT_ID is required" }),

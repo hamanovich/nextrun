@@ -22,8 +22,7 @@ export const auth = lazyClient(() =>
       google: {
         clientId: env.GOOGLE_CLIENT_ID,
         clientSecret: env.GOOGLE_CLIENT_SECRET,
-        accessType: "offline",
-        prompt: "select_account consent",
+        prompt: "select_account",
       },
     },
   }),
