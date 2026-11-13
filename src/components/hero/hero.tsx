@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/brand/button";
 import { CopyCommand } from "@/components/hero/copy-command";
 import { FadeIn } from "@/components/motion/fade-in";
 
@@ -12,26 +12,26 @@ const commands = [
 ];
 
 export const Hero = () => (
-  <section className="container mx-auto px-6 pt-16 pb-20 md:pt-24 md:pb-28">
+  <section className="site-container px-6 pt-16 pb-20 md:pt-24 md:pb-28">
     <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
       <div className="max-w-xl">
-        <FadeIn delay={0}>
+        <FadeIn>
           <p className="text-muted-foreground mb-5 text-sm font-medium">
             Next.js 16 starter
           </p>
         </FadeIn>
-        <FadeIn delay={0.08}>
-          <h1 className="text-4xl font-semibold tracking-tighter text-balance md:text-5xl lg:text-6xl">
+        <FadeIn>
+          <h1 className="brand-public-title">
             Skip the setup. Ship the product.
           </h1>
         </FadeIn>
-        <FadeIn delay={0.16}>
+        <FadeIn>
           <p className="text-muted-foreground mt-6 max-w-md text-base leading-relaxed md:text-lg">
             Auth, payments, database, and a Telegram bot, configured and typed.
             Clone NextRun and build the part that matters.
           </p>
         </FadeIn>
-        <FadeIn delay={0.24}>
+        <FadeIn>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <Button size="lg" asChild className="h-11 px-6">
               <Link href="/pricing">
@@ -44,7 +44,7 @@ export const Hero = () => (
           </div>
         </FadeIn>
       </div>
-      <FadeIn delay={0.2} className="min-w-0">
+      <FadeIn className="min-w-0">
         <CopyCommand commands={commands} />
       </FadeIn>
     </div>

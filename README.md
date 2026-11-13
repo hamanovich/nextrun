@@ -19,7 +19,7 @@ A production-ready Next.js template with pre-configured authentication, payments
 ### 💳 **Payment Processing**
 
 - **Stripe Integration**: Complete payment processing setup
-- **Subscription Management**: Handle recurring payments
+- **Credit Purchases**: Add usage credits through Stripe Checkout
 - **Webhook Support**: Secure payment event handling
 
 ### 🤖 **Telegram Bot**
@@ -34,6 +34,20 @@ A production-ready Next.js template with pre-configured authentication, payments
 - **Tailwind CSS**: Utility-first styling
 - **Dark Mode**: Built-in theme switching
 - **Responsive Design**: Mobile-first approach
+
+## Design and customization
+
+The default design is based on [Hamanovich Brand](https://hamanovich.com/brand), using the neutral Mono palette, light and dark themes, spacious public pages and compact account screens. Adapt the identity and content to your product.
+
+- Theme tokens, typography, density and link styles: `src/app/globals.css`.
+- Application buttons: `src/components/brand/button.tsx`, composed from shadcn/ui. Generated primitives live in `src/components/ui/`.
+- Fonts: `src/lib/fonts.ts`; IBM Plex Sans for interface/body, Literata for expressive public headings and Geist Mono for code. Keep the bundled font license files when redistributing fonts.
+- Social cards: `src/lib/og/og-image.tsx`.
+- Phone icons: `bun run brand:maskable` makes the existing phone PNGs opaque and regenerates the maskable icon without changing the logo.
+
+Header controls stay compact on every page. Reuse the shared navigation, FAQ, link and code-block compositions when adding pages; retain visible keyboard focus, scrollable long content and 44×44 px touch targets.
+
+Before publishing a derived product, update the logo, favicon, phone icons, manifest, metadata, social cards, public copy and integration settings. Review the Privacy and Terms pages for your own service.
 
 ## 🚀 Getting Started
 

@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { AlertCircle, ArrowLeft, Home } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/brand/button";
 
 export const AuthErrorContent = () => {
   const searchParams = useSearchParams();
@@ -25,7 +25,7 @@ export const AuthErrorContent = () => {
     error === "OAuthCallbackError" || error === "AccessDenied";
 
   return (
-    <div className="container mx-auto px-6 py-12">
+    <div className="site-container px-6 py-12">
       <div className="flex min-h-[60vh] flex-col items-center justify-center text-center">
         <div className="mb-8">
           <div className="bg-destructive/10 dark:bg-destructive/20 mb-4 rounded-full p-6">

@@ -4,7 +4,7 @@ Guidance for AI coding agents (Codex, Claude Code, ...) and contributors working
 
 ## Project
 
-**NextRun** — a production-ready Next.js 16 starter / boilerplate: Better Auth (Google OAuth), Stripe payments with a credit system, a grammY Telegram bot, Drizzle ORM on Neon Postgres, and a shadcn/ui component library. The marketing surface (home, about, pricing) follows a strict monochrome design language meant to be reusable as a starting point for other projects.
+**NextRun** — a production-ready Next.js 16 starter / boilerplate: Better Auth (Google OAuth), Stripe payments with a credit system, a grammY Telegram bot, Drizzle ORM on Neon Postgres, and a shadcn/ui component library. The marketing surface (home, about, pricing) uses Hamanovich Brand v1: Mono, Spacious public pages and Compact account screens, as a reusable starting point for other products.
 
 ## Tech stack
 
@@ -34,7 +34,7 @@ Always verify changes with `bun run ts:check`, `bun run lint`, and `bun run test
 
 ## Architecture & data flow
 
-- **Server Components by default.** `"use client"` lives only at leaf components (forms, motion, anything using hooks/session/theme).
+- **Server Components by default.** `"use client"` lives only at leaf components (forms and anything using hooks/session/theme).
 - **Database** access goes through **Drizzle** inside **Server Actions** (`src/actions/*`). There is intentionally no `src/services/` layer. No raw DB client calls from components.
 - **Privileged writes are never Server Actions.** Every export of a `"use server"` file can become a client-callable endpoint, so helpers that take a `userId` or arbitrary values (credit grants, Stripe ids) live in `server-only` modules in `src/lib` (e.g. `src/lib/credits.ts`). Actions resolve `getSessionUser()`, validate with Zod, then call them with the session's `userId`.
 - **Auth:** read the session server-side with `getSessionUser()` (`src/actions/user.ts`); on the client use `authClient` (`src/lib/auth-client.ts`). Route protection is in `src/proxy.ts` (Next.js middleware — guards `/profile`). There is **no i18n / locale routing**.
@@ -52,7 +52,7 @@ Full rules: `.agents/rules/code-style.md`. Highlights:
 - Merge classes with **`cn()` from `@/lib/utils`**. Import aliases: `@/*` → `src/*`, `@/public/*` → `public/*`, `@app` → `package.json`.
 - `Link` from `next/link`; `redirect`/`useRouter`/`usePathname` from `next/navigation`.
 - Validate all user input with Zod in Server Actions. No comments unless documenting non-obvious logic.
-- **Design is strict monochrome:** only the neutral OKLch scale with `--primary` as the single accent; no gradient text, no colored status dots, no hardcoded brand colors (`text-destructive` only for genuine errors). Use `min-h-[100dvh]`/`min-h-[60vh]`, never `h-screen`.
+- **Design:** Hamanovich Brand v1, Mono palette, Spacious public pages and Compact account screens. IBM Plex Sans handles interface/body/metadata; Literata handles expressive public H1 at 36/44 px on mobile and 48/56 px from 768 px, weight 600, normal tracking. Geist Mono is code-only. Header controls remain Compact independently of page density. Preserve the existing NextRun mark. Use shared brand compositions outside generated `src/components/ui/`. Buttons do not scale or lift; the header remains visible; content has no entrance motion. See README’s Design and customization section for implementation entry points. Use `min-h-[100dvh]`/`min-h-[60vh]`, never `h-screen`.
 
 ## Testing
 
@@ -72,3 +72,7 @@ Two transitive versions are pinned in `package.json` to keep the build and tests
 - Never commit real secrets. Only `.env.example` (placeholders) is tracked; `.gitignore` ignores `.env` and `.env.*`.
 - All required env vars are validated at startup by `src/lib/env.ts` and listed in `.env.example`.
 - **Deployment:** self-hosted via Docker → GHCR → Coolify (`Dockerfile`, `Dockerfile.bot`, `.github/workflows/ci.yml`). Only `NEXT_PUBLIC_*` are build args; every secret is runtime-only. Full runbook: `docs/DEPLOYMENT.md`.
+
+## Public template documentation
+
+Write documentation for developers downloading and adapting NextRun. Describe current behavior, setup and customization; keep internal approval history, owner conversations, temporary preview paths and task-status reports out of the repository and public pages. Use repository-relative paths and portable commands. Hamanovich Brand describes the default design, not a requirement for derived products to retain NextRun’s identity. Preserve required license notices and attributions.

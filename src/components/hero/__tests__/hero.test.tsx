@@ -42,10 +42,11 @@ describe("Hero", () => {
     it("renders the clone and install commands", () => {
       render(<Hero />);
 
-      expect(
-        screen.getByText("git clone https://github.com/hamanovich/nextrun"),
-      ).toBeInTheDocument();
-      expect(screen.getByText("bun install")).toBeInTheDocument();
+      const code = document.querySelector("pre code");
+      expect(code).toHaveTextContent(
+        "git clone https://github.com/hamanovich/nextrun",
+      );
+      expect(code).toHaveTextContent("bun install");
     });
 
     it("exposes a copy button for the commands", () => {

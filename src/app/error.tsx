@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import Link from "next/link";
 import { AlertTriangle, ArrowLeft, Home, RefreshCw } from "lucide-react";
 import { logger } from "@/lib/logger";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/brand/button";
 
 interface ErrorProps {
   error: Error & { digest?: string };
@@ -17,7 +17,7 @@ export default function AppError({ error, reset }: ErrorProps) {
   }, [error]);
 
   return (
-    <div className="container mx-auto px-6 py-16">
+    <main className="site-container product-compact px-6 py-16">
       <div className="flex min-h-[60vh] flex-col items-center justify-center text-center">
         <div className="mb-8">
           <div className="bg-destructive/10 dark:bg-destructive/20 mb-4 rounded-full p-6">
@@ -25,18 +25,22 @@ export default function AppError({ error, reset }: ErrorProps) {
           </div>
         </div>
 
-        <div className="mb-8 max-w-md" role="alert">
+        <div className="mb-8 w-full max-w-md min-w-0" role="alert">
           <h1 className="mb-4 text-3xl font-semibold">Something went wrong!</h1>
           <p className="text-muted-foreground mb-4 text-lg">
-            We encountered an unexpected error. Don&apos;t worry, our team has
-            been notified and we&apos;re working to fix it.
+            We encountered an unexpected error. Try again or return to the home
+            page.
           </p>
           {process.env.NODE_ENV === "development" && (
             <details className="bg-muted rounded-lg p-4 text-left">
               <summary className="mb-2 cursor-pointer font-medium">
                 Error Details (Development)
               </summary>
-              <pre className="text-muted-foreground overflow-auto text-sm">
+              <pre
+                tabIndex={0}
+                aria-label="Error details"
+                className="text-muted-foreground max-h-60 overflow-auto font-mono text-sm"
+              >
                 {error.message}
                 {error.stack && `\n\nStack trace:\n${error.stack}`}
               </pre>
@@ -69,17 +73,17 @@ export default function AppError({ error, reset }: ErrorProps) {
         <div className="text-muted-foreground mt-12 text-sm">
           <p>
             If this problem persists, please{" "}
-            <Link href="/about" className="text-primary hover:underline">
+            <Link href="/about" className="brand-inline-link">
               contact support
             </Link>{" "}
             or check our{" "}
-            <Link href="/pricing" className="text-primary hover:underline">
+            <Link href="/pricing" className="brand-inline-link">
               pricing
             </Link>{" "}
             page.
           </p>
         </div>
       </div>
-    </div>
+    </main>
   );
 }

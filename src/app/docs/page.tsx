@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/brand/button";
 import { DocsCode } from "@/components/docs/docs-code";
 import { DocsToc } from "@/components/docs/docs-toc";
 import {
@@ -23,7 +23,7 @@ export const revalidate = 3600;
 
 export default function DocsPage() {
   return (
-    <main>
+    <main className="public-page">
       <PageHero
         eyebrow="Documentation"
         heading="NextRun documentation"
@@ -31,30 +31,29 @@ export default function DocsPage() {
         className="pb-10"
       />
 
-      <div className="container mx-auto px-6 pb-20 md:pb-28">
+      <div className="site-container px-6 pb-20 md:pb-28">
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-[200px_minmax(0,1fr)] lg:gap-16">
           <DocsToc sections={docsSections} />
 
           <div className="max-w-3xl min-w-0 space-y-16">
             <FadeIn>
               <section id="overview" className="scroll-mt-24">
-                <h2 className="text-2xl font-semibold tracking-tighter md:text-3xl">
-                  Overview
-                </h2>
+                <h2 className="text-2xl font-semibold md:text-3xl">Overview</h2>
                 <p className="text-muted-foreground mt-4 text-base leading-relaxed">
                   NextRun is a production-ready Next.js 16 starter.
                   Authentication, payments, a Postgres database, and a Telegram
                   bot come configured, typed, and tested, so you can delete what
                   you do not need and build the part that matters. The marketing
-                  surface follows a strict monochrome design language meant to
-                  be reused as a starting point for other projects.
+                  surface follows a Hamanovich Brand design language with Mono,
+                  spacious public pages and compact interfaces, meant to be
+                  reused as a starting point for other projects.
                 </p>
               </section>
             </FadeIn>
 
             <FadeIn>
               <section id="quick-start" className="scroll-mt-24">
-                <h2 className="text-2xl font-semibold tracking-tighter md:text-3xl">
+                <h2 className="text-2xl font-semibold md:text-3xl">
                   Quick start
                 </h2>
                 <p className="text-muted-foreground mt-4 text-base leading-relaxed">
@@ -73,7 +72,7 @@ export default function DocsPage() {
 
             <FadeIn>
               <section id="environment" className="scroll-mt-24">
-                <h2 className="text-2xl font-semibold tracking-tighter md:text-3xl">
+                <h2 className="text-2xl font-semibold md:text-3xl">
                   Environment variables
                 </h2>
                 <p className="text-muted-foreground mt-4 text-base leading-relaxed">
@@ -84,7 +83,12 @@ export default function DocsPage() {
                   Variables prefixed with <InlineCode>NEXT_PUBLIC</InlineCode>{" "}
                   are exposed to the browser.
                 </p>
-                <div className="mt-6 overflow-x-auto rounded-lg border">
+                <div
+                  className="mt-6 overflow-x-auto rounded-3xl border"
+                  tabIndex={0}
+                  role="region"
+                  aria-label="Environment variables"
+                >
                   <table className="w-full text-left text-sm">
                     <thead className="text-muted-foreground border-b">
                       <tr>
@@ -96,7 +100,7 @@ export default function DocsPage() {
                     <tbody className="divide-y">
                       {envVars.map((variable) => (
                         <tr key={variable.name}>
-                          <td className="px-4 py-3 font-mono text-xs whitespace-nowrap">
+                          <td className="px-4 py-3 text-xs whitespace-nowrap">
                             {variable.name}
                           </td>
                           <td className="text-muted-foreground px-4 py-3">
@@ -115,7 +119,7 @@ export default function DocsPage() {
 
             <FadeIn>
               <section id="project-structure" className="scroll-mt-24">
-                <h2 className="text-2xl font-semibold tracking-tighter md:text-3xl">
+                <h2 className="text-2xl font-semibold md:text-3xl">
                   Project structure
                 </h2>
                 <p className="text-muted-foreground mt-4 text-base leading-relaxed">
@@ -131,7 +135,7 @@ export default function DocsPage() {
 
             <FadeIn>
               <section id="whats-included" className="scroll-mt-24">
-                <h2 className="text-2xl font-semibold tracking-tighter md:text-3xl">
+                <h2 className="text-2xl font-semibold md:text-3xl">
                   What is included
                 </h2>
                 <MosaicGrid className="mt-6 grid-cols-1 sm:grid-cols-2">
@@ -152,20 +156,18 @@ export default function DocsPage() {
 
             <FadeIn>
               <section id="scripts" className="scroll-mt-24">
-                <h2 className="text-2xl font-semibold tracking-tighter md:text-3xl">
-                  Scripts
-                </h2>
+                <h2 className="text-2xl font-semibold md:text-3xl">Scripts</h2>
                 <p className="text-muted-foreground mt-4 text-base leading-relaxed">
                   Run <InlineCode>bun run check</InlineCode> before declaring
                   work done. It covers types, linting, formatting, and tests.
                 </p>
-                <div className="mt-6 divide-y rounded-lg border">
+                <div className="mt-6 divide-y rounded-3xl border">
                   {scripts.map((script) => (
                     <div
                       key={script.command}
                       className="flex flex-col gap-1 px-4 py-3 sm:flex-row sm:items-center sm:gap-4"
                     >
-                      <code className="shrink-0 font-mono text-xs sm:w-44">
+                      <code className="shrink-0 text-xs sm:w-44">
                         {script.command}
                       </code>
                       <span className="text-muted-foreground text-sm">
@@ -179,7 +181,7 @@ export default function DocsPage() {
 
             <FadeIn>
               <section id="deployment" className="scroll-mt-24">
-                <h2 className="text-2xl font-semibold tracking-tighter md:text-3xl">
+                <h2 className="text-2xl font-semibold md:text-3xl">
                   Deployment
                 </h2>
                 <p className="text-muted-foreground mt-4 text-base leading-relaxed">
@@ -203,8 +205,8 @@ export default function DocsPage() {
             </FadeIn>
 
             <FadeIn>
-              <div className="bg-muted rounded-lg border px-6 py-8">
-                <h2 className="text-xl font-semibold tracking-tighter">
+              <div className="bg-muted rounded-3xl border px-6 py-8">
+                <h2 className="text-xl font-semibold">
                   Need the full reference?
                 </h2>
                 <p className="text-muted-foreground mt-2 max-w-xl text-sm leading-relaxed">
@@ -219,6 +221,7 @@ export default function DocsPage() {
                       rel="noopener noreferrer"
                     >
                       Open the README{" "}
+                      <span className="sr-only"> (opens in a new tab)</span>{" "}
                       <ArrowRight className="size-4" aria-hidden={true} />
                     </Link>
                   </Button>

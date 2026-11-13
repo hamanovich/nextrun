@@ -60,9 +60,9 @@ const features: Feature[] = [
 ];
 
 export const Features = () => (
-  <section className="container mx-auto px-6 py-20 md:py-28">
+  <section className="site-container px-6 py-12 md:py-16">
     <FadeIn className="max-w-2xl">
-      <h2 className="text-3xl font-semibold tracking-tighter md:text-4xl">
+      <h2 className="text-3xl font-semibold md:text-4xl">
         Everything is already wired up
       </h2>
       <p className="text-muted-foreground mt-3 text-base leading-relaxed md:text-lg">
@@ -72,11 +72,9 @@ export const Features = () => (
     </FadeIn>
 
     <MosaicGrid className="mt-12 grid-cols-1 md:grid-cols-2 lg:grid-cols-12">
-      {features.map(({ icon: Icon, title, description, className }, index) => (
+      {features.map(({ icon: Icon, title, description, className }) => (
         <FadeIn
           key={title}
-          y={0}
-          delay={index * 0.06}
           className={cn(
             "bg-background flex flex-col gap-4 p-6 md:p-8",
             className,

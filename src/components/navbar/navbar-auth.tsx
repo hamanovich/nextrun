@@ -1,6 +1,5 @@
 "use client";
 
-import { KeyRound } from "lucide-react";
 import { authClient } from "@/lib/auth-client";
 import { useCredits } from "@/hooks/use-credits";
 import { SignInButton } from "@/components/auth/sign-in-button";
@@ -11,17 +10,12 @@ export const NavbarAuth = () => {
   const { data: credits = 0 } = useCredits();
 
   if (isPending) {
-    return <div className="bg-muted size-8 animate-pulse rounded-full" />;
+    return <span className="brand-auth-placeholder" aria-hidden="true" />;
   }
 
   if (session) {
     return <UserMenu session={session} credits={credits} />;
   }
 
-  return (
-    <SignInButton>
-      <KeyRound />
-      Sign in
-    </SignInButton>
-  );
+  return <SignInButton className="brand-header-sign-in" />;
 };

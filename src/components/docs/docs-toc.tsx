@@ -30,7 +30,10 @@ export const DocsToc = ({ sections }: DocsTocProps) => {
   }, [sections]);
 
   return (
-    <nav aria-label="On this page" className="sticky top-24 hidden lg:block">
+    <nav
+      aria-label="On this page"
+      className="brand-toc sticky top-20 hidden self-start lg:block"
+    >
       <p className="text-muted-foreground mb-4 text-xs font-medium">
         On this page
       </p>
@@ -41,10 +44,10 @@ export const DocsToc = ({ sections }: DocsTocProps) => {
               href={`#${id}`}
               aria-current={activeId === id ? "true" : undefined}
               className={cn(
-                "-ml-px block border-l py-1.5 pl-4 text-sm transition-colors",
+                "brand-nav-link -ml-px block border-l py-1.5 pl-4 text-sm",
                 activeId === id
                   ? "border-foreground text-foreground font-medium"
-                  : "text-muted-foreground hover:text-foreground border-transparent",
+                  : "border-transparent",
               )}
             >
               {title}

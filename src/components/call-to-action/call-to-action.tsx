@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { ArrowRight, Check } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/brand/button";
 
 interface CallToActionProps {
   title?: string;
@@ -23,12 +23,10 @@ export const CallToAction = ({
     "Tailwind CSS v4",
   ],
 }: CallToActionProps) => (
-  <section className="container mx-auto px-6 pt-6 pb-24 md:pb-32">
-    <div className="bg-muted mx-auto flex max-w-5xl flex-col justify-between gap-10 rounded-lg border px-6 py-12 md:flex-row md:items-center md:px-12 lg:px-16">
+  <section className="site-container px-6 pt-6 pb-24 md:pb-32">
+    <div className="bg-muted mx-auto flex max-w-5xl flex-col justify-between gap-10 rounded-3xl border px-6 py-12 md:flex-row md:items-center md:px-12 lg:px-16">
       <div className="max-w-md">
-        <h2 className="text-2xl font-semibold tracking-tighter md:text-3xl">
-          {title}
-        </h2>
+        <h2 className="text-2xl font-semibold md:text-3xl">{title}</h2>
         <p className="text-muted-foreground mt-3 text-base leading-relaxed">
           {description}
         </p>

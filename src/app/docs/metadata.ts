@@ -30,9 +30,18 @@ export const metadata: Metadata = {
     siteName: "NextRun",
     locale: "en_US",
     type: "website",
+    images: [
+      {
+        url: "/docs/opengraph-image",
+        width: 1200,
+        height: 630,
+        alt: "NextRun - Docs",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
+    images: [{ url: "/docs/opengraph-image", alt: "NextRun - Docs" }],
     title: "Documentation - NextRun Next.js Starter",
     description:
       "Quick start, environment variables, project structure, scripts, and deployment for the NextRun Next.js 16 starter.",

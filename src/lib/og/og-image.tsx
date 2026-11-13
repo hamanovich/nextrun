@@ -1,3 +1,5 @@
+import { readFile } from "node:fs/promises";
+import { join } from "node:path";
 import type { ReactElement } from "react";
 import { ImageResponse } from "next/og";
 
@@ -14,7 +16,7 @@ const ogColors = {
   body: "#a1a1aa",
   pillBackground: "rgba(255, 255, 255, 0.04)",
   pillBorder: "rgba(255, 255, 255, 0.14)",
-  pillText: "#e4e4e7",
+  pillText: "#e5e5e5",
 };
 
 const NextRunLogo = (
@@ -40,13 +42,17 @@ interface OgImageConfig {
   size?: { width: number; height: number };
 }
 
-export const renderOgImage = ({
+export const renderOgImage = async ({
   title,
   description,
   pills,
   size = OG_SIZE,
-}: OgImageConfig): ImageResponse =>
-  new ImageResponse(
+}: OgImageConfig): Promise<ImageResponse> => {
+  const [regular, semibold] = await Promise.all([
+    readFile(join(process.cwd(), "public/fonts/og/IBMPlexSans-Regular.ttf")),
+    readFile(join(process.cwd(), "public/fonts/og/IBMPlexSans-SemiBold.ttf")),
+  ]);
+  return new ImageResponse(
     <div
       style={{
         width: "100%",
@@ -57,7 +63,7 @@ export const renderOgImage = ({
         alignItems: "center",
         justifyContent: "center",
         padding: "64px 80px",
-        fontFamily: "system-ui, sans-serif",
+        fontFamily: "IBM Plex Sans",
       }}
     >
       <div
@@ -71,9 +77,9 @@ export const renderOgImage = ({
         <div
           style={{
             fontSize: "30px",
-            fontWeight: 700,
+            fontWeight: 600,
             color: ogColors.title,
-            letterSpacing: "-0.01em",
+
             marginTop: "16px",
           }}
         >
@@ -84,10 +90,10 @@ export const renderOgImage = ({
       <div
         style={{
           fontSize: "64px",
-          fontWeight: 800,
+          fontWeight: 600,
           color: ogColors.title,
           lineHeight: 1.15,
-          letterSpacing: "-0.02em",
+
           marginTop: "44px",
           maxWidth: "1000px",
           textAlign: "center",
@@ -145,5 +151,12 @@ export const renderOgImage = ({
         </div>
       )}
     </div>,
-    size,
+    {
+      ...size,
+      fonts: [
+        { name: "IBM Plex Sans", data: regular, weight: 400 },
+        { name: "IBM Plex Sans", data: semibold, weight: 600 },
+      ],
+    },
   );
+};

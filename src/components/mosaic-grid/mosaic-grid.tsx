@@ -9,7 +9,7 @@ interface MosaicGridProps {
 export const MosaicGrid = ({ className, children }: MosaicGridProps) => (
   <div
     className={cn(
-      "bg-border grid gap-px overflow-hidden rounded-lg border",
+      "bg-border grid gap-px overflow-hidden rounded-3xl border",
       className,
     )}
   >

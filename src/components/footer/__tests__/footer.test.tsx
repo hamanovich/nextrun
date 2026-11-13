@@ -77,7 +77,9 @@ describe("Footer Component", () => {
     it("renders external links with security attributes", () => {
       render(<Footer />);
 
-      const github = screen.getByRole("link", { name: "GitHub" });
+      const github = screen.getByRole("link", {
+        name: "GitHub (opens in a new tab)",
+      });
       expect(github).toHaveAttribute(
         "href",
         "https://github.com/hamanovich/nextrun",
@@ -93,16 +95,16 @@ describe("Footer Component", () => {
 
       const year = new Date().getFullYear();
       expect(
-        screen.getByText(
-          new RegExp(`© ${year} NextRun.dev. All rights reserved.`),
-        ),
+        screen.getByText(new RegExp(`© ${year} NextRun. All rights reserved.`)),
       ).toBeInTheDocument();
     });
 
     it("renders the author credit linking to hamanovich.com", () => {
       render(<Footer />);
 
-      const author = screen.getByRole("link", { name: "Hamanovich" });
+      const author = screen.getByRole("link", {
+        name: "by Hamanovich (opens in a new tab)",
+      });
       expect(author).toHaveAttribute("href", "https://www.hamanovich.com/");
       expect(author).toHaveAttribute("target", "_blank");
       expect(author).toHaveAttribute("rel", "noopener noreferrer");

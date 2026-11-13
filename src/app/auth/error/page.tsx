@@ -3,6 +3,8 @@ import { AuthErrorContent } from "@/components/auth/auth-error-content";
 import { AuthLoading } from "@/components/auth/auth-loading";
 import { AuthRedirectGuard } from "@/components/auth/auth-redirect-guard";
 
+export { metadata } from "./metadata";
+
 export default function AuthErrorPage() {
   return (
     <AuthRedirectGuard>

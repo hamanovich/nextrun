@@ -1,67 +1,113 @@
+"use client";
+
+import { useEffect, useState, type ReactNode } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
 import {
-  NavigationMenu,
-  NavigationMenuItem,
-  NavigationMenuList,
-} from "@/components/ui/navigation-menu";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { HamburgerIcon } from "./hamburger-icon";
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer";
+import { Button } from "@/components/brand/button";
+import { MobileAccount } from "./mobile-account";
 import type { NavbarNavItem } from "./types";
 
-interface MobileNavigationProps {
-  navigationLinks: NavbarNavItem[];
-}
+type MobileNavigationProps = {
+  navigationLinks: (Omit<NavbarNavItem, "icon"> & { icon: ReactNode })[];
+  logo: ReactNode;
+  logoHref: string;
+};
 
 export const MobileNavigation = ({
   navigationLinks,
-}: MobileNavigationProps) => (
-  <Popover>
-    <PopoverTrigger asChild>
-      <Button
-        className="group hover:bg-accent hover:text-accent-foreground h-8 w-8"
-        variant="ghost"
-        size="icon"
-        aria-label="Open main menu"
-      >
-        <HamburgerIcon />
-      </Button>
-    </PopoverTrigger>
-    <PopoverContent align="start" className="w-64 p-1">
-      <NavigationMenu className="max-w-none">
-        <NavigationMenuList className="flex-col items-start gap-0">
-          {navigationLinks.map((link, index) => {
-            const Icon = link.icon;
-            return (
-              <NavigationMenuItem
-                key={link.href ?? `${index}-${link.label}`}
-                className="w-full"
-              >
-                <Link
-                  href={link.href || "#"}
-                  className={cn(
-                    "hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors",
-                    link.active && "bg-accent text-accent-foreground",
-                  )}
-                  aria-current={link.active ? "page" : undefined}
-                >
-                  <Icon
-                    size={16}
-                    className="text-muted-foreground"
-                    aria-hidden={true}
-                  />
-                  <span>{link.label}</span>
-                </Link>
-              </NavigationMenuItem>
-            );
-          })}
-        </NavigationMenuList>
-      </NavigationMenu>
-    </PopoverContent>
-  </Popover>
-);
+  logo,
+  logoHref,
+}: MobileNavigationProps) => {
+  const pathname = usePathname();
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => setOpen(false), [pathname]);
+  useEffect(() => {
+    const desktop = window.matchMedia("(min-width: 768px)");
+    const closeOnDesktop = () => {
+      if (desktop.matches) setOpen(false);
+    };
+    desktop.addEventListener("change", closeOnDesktop);
+    return () => desktop.removeEventListener("change", closeOnDesktop);
+  }, []);
+
+  return (
+    <Drawer
+      autoFocus
+      open={open}
+      onOpenChange={setOpen}
+      direction="left"
+      shouldScaleBackground={false}
+      preventScrollRestoration
+    >
+      <DrawerTrigger asChild>
+        <Button variant="ghost" size="icon" aria-label="Open main menu">
+          <Menu aria-hidden />
+        </Button>
+      </DrawerTrigger>
+      <DrawerContent className="product-compact brand-mobile-navigation">
+        <div className="brand-mobile-header">
+          <DrawerTitle className="sr-only">Main menu</DrawerTitle>
+          <Link
+            href={logoHref}
+            aria-label="NextRun home"
+            onClick={() => setOpen(false)}
+            className="brand-logo-link flex items-center gap-2"
+          >
+            {logo}
+            <span className="text-base font-semibold">NextRun</span>
+          </Link>
+          <DrawerClose asChild>
+            <Button variant="ghost" size="icon" aria-label="Close main menu">
+              <X />
+            </Button>
+          </DrawerClose>
+        </div>
+        <DrawerDescription className="sr-only">
+          Main navigation and account
+        </DrawerDescription>
+        <nav aria-label="Main" className="brand-mobile-links">
+          <ul className="flex flex-col gap-1">
+            {navigationLinks.map((link) => {
+              const active =
+                link.active ||
+                pathname === link.href ||
+                (link.href &&
+                  link.href !== "/" &&
+                  pathname.startsWith(`${link.href}/`));
+              return (
+                <li key={link.href ?? link.label}>
+                  <Link
+                    href={link.href || "#"}
+                    onClick={() => setOpen(false)}
+                    aria-current={active ? "page" : undefined}
+                    className={cn(
+                      "brand-mobile-link",
+                      active && "brand-mobile-link-active",
+                    )}
+                  >
+                    {link.icon}
+                    {link.label}
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+        </nav>
+        <div className="brand-mobile-account">
+          <MobileAccount onNavigate={() => setOpen(false)} />
+        </div>
+      </DrawerContent>
+    </Drawer>
+  );
+};

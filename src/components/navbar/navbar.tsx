@@ -15,27 +15,46 @@ export const Navbar = ({
   navigationLinks = defaultNavigationLinks,
 }: NavbarProps) => (
   <NavbarShell className={className}>
-    <div className="container mx-auto flex h-16 max-w-screen-2xl items-center justify-between gap-4">
-      <div className="flex items-center gap-2 md:gap-6">
+    <div className="site-container flex h-16 items-center justify-between gap-4">
+      <div className="flex min-w-0 items-center gap-2 md:gap-6">
         <span className="md:hidden">
-          <MobileNavigation navigationLinks={navigationLinks} />
+          <MobileNavigation
+            logo={logo}
+            logoHref={logoHref}
+            navigationLinks={navigationLinks.map(({ icon: Icon, ...link }) => ({
+              ...link,
+              icon: (
+                <Icon
+                  size={16}
+                  className="text-muted-foreground"
+                  aria-hidden={true}
+                />
+              ),
+            }))}
+          />
         </span>
         <Link
           href={logoHref}
-          className="text-foreground flex items-center gap-2"
+          className="brand-logo-link text-foreground flex shrink-0 items-center gap-2"
         >
           {logo}
-          <span className="hidden text-lg font-semibold sm:inline-block">
-            NextRun
-          </span>
+          <span className="text-base font-semibold sm:text-lg">NextRun</span>
         </Link>
-        <nav aria-label="Main" className="hidden md:block">
-          <DesktopNavigation navigationLinks={navigationLinks} />
-        </nav>
+        <div className="hidden md:block">
+          <DesktopNavigation
+            navigationLinks={navigationLinks.map(({ href, label, active }) => ({
+              href,
+              label,
+              active,
+            }))}
+          />
+        </div>
       </div>
-      <div className="flex items-center gap-2">
+      <div className="flex shrink-0 items-center gap-3">
         <ThemeToggle />
-        <NavbarAuth />
+        <div className="brand-auth-slot">
+          <NavbarAuth />
+        </div>
       </div>
     </div>
   </NavbarShell>

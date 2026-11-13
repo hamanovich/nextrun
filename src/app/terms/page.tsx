@@ -44,7 +44,7 @@ export default function TermsPage() {
             rel="noopener noreferrer"
             className="underline"
           >
-            GitHub
+            GitHub <span className="sr-only"> (opens in a new tab)</span>
           </a>
           . The source code is provided under the license stated in the
           repository. Subject to that license, you may:

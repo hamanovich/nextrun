@@ -26,7 +26,11 @@ export const PaymentSuccessCard = ({
         <div className="bg-muted mx-auto mb-4 flex size-16 items-center justify-center rounded-full">
           <CheckCircle className="text-foreground size-8" />
         </div>
-        <CardTitle>Payment Successful!</CardTitle>
+        <CardTitle>
+          <h1 className="text-3xl leading-9 font-semibold">
+            Payment Successful!
+          </h1>
+        </CardTitle>
         <CardDescription>
           Thank you for your purchase. Your credits have been added to your
           account.

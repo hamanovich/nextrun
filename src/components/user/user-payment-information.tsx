@@ -1,154 +1,94 @@
 import Link from "next/link";
-import { Coins, CreditCard, Wallet } from "lucide-react";
-import {
-  formatUserData,
-  getCreditsStatus,
-  hasStripeData,
-} from "@/lib/user.utils";
-import { cn } from "@/lib/utils";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { ChevronDown } from "lucide-react";
+import { getCreditsStatus, hasStripeData } from "@/lib/user.utils";
 import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
+import { Button } from "@/components/brand/button";
 
-export interface UserPaymentInformationProps {
+export type UserPaymentInformationProps = {
   user: {
     stripeCredits?: number;
     stripeCustomerId?: string | null;
     stripeCheckoutSessionId?: string | null;
   };
-}
+};
 
 export const UserPaymentInformation = ({
   user,
 }: UserPaymentInformationProps) => {
   if (!hasStripeData(user)) return null;
-
-  const creditsStatus = getCreditsStatus(user.stripeCredits);
+  const { status } = getCreditsStatus(user.stripeCredits);
+  const description =
+    status === "empty"
+      ? "No credits remaining"
+      : status === "low"
+        ? "Low credit balance"
+        : "Credits available for use";
 
   return (
-    <Card className="overflow-hidden">
+    <Card>
       <CardHeader>
-        <CardTitle className="flex items-center gap-2 text-xl">
-          <Wallet className="h-5 w-5" />
-          Payment Information
+        <CardTitle>
+          <h2>Credits</h2>
         </CardTitle>
         <CardDescription>
-          Your Stripe account details and credit balance
+          View your balance and add credits when you need them.
         </CardDescription>
       </CardHeader>
-      <CardContent className="space-y-6">
-        <div className="space-y-4">
-          <div
-            className={cn(
-              "rounded-xl border px-6 py-3",
-              creditsStatus.bg,
-              creditsStatus.border,
-            )}
-          >
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div
-                  className={cn(
-                    "rounded-full p-3",
-                    creditsStatus.bg,
-                    creditsStatus.border,
-                  )}
-                >
-                  <Coins className={cn("h-6 w-6", creditsStatus.color)} />
-                </div>
-                <div>
-                  <h3 className="text-foreground text-lg font-semibold">
-                    Available Credits
-                  </h3>
-                  <p className="text-muted-foreground text-sm">
-                    {user.stripeCredits === 0
-                      ? "No credits remaining"
-                      : user.stripeCredits < 10
-                        ? "Low credit balance"
-                        : "Credits available for use"}
-                  </p>
-                </div>
-              </div>
-              <div className="text-right">
-                <div className={cn("text-3xl font-bold", creditsStatus.color)}>
-                  {user.stripeCredits}
-                </div>
-                <Badge
-                  variant={
-                    creditsStatus.status === "empty"
-                      ? "destructive"
-                      : creditsStatus.status === "low"
-                        ? "secondary"
-                        : "default"
-                  }
-                  className="text-xs"
-                >
-                  {creditsStatus.status === "empty"
-                    ? "Empty"
-                    : creditsStatus.status === "low"
-                      ? "Low"
-                      : "Active"}
-                </Badge>
-              </div>
-            </div>
+      <CardContent className="flex flex-col gap-6">
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          <div className="flex flex-col gap-1">
+            <p className="text-muted-foreground">Available credits</p>
+            <p className="text-2xl leading-8 font-semibold tabular-nums">
+              {user.stripeCredits}
+            </p>
+            <p className="text-muted-foreground text-xs">{description}</p>
           </div>
-        </div>
-
-        <Separator />
-
-        <div className="space-y-4">
-          <h4 className="text-foreground text-sm font-medium">
-            Account Details
-          </h4>
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <div className="space-y-2">
-              <label className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
-                Customer ID
-              </label>
-              <div className="bg-muted/50 rounded-lg border p-3">
-                <div className="flex items-center gap-2">
-                  <CreditCard className="text-muted-foreground h-4 w-4" />
-                  <code className="text-foreground font-mono text-sm">
-                    {formatUserData(user.stripeCustomerId, "Not created")}
-                  </code>
-                </div>
-              </div>
-            </div>
-
-            <div className="space-y-2">
-              <label className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
-                Last Session
-              </label>
-              <div className="bg-muted/50 rounded-lg border p-3">
-                <div className="flex items-center gap-2">
-                  <CreditCard className="text-muted-foreground h-4 w-4" />
-                  <code className="text-foreground font-mono text-sm">
-                    {formatUserData(user.stripeCheckoutSessionId, "None")}
-                  </code>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <Separator />
-
-        <div className="flex flex-col gap-3 sm:flex-row">
-          <Link href="/pricing" className="flex-1">
-            <Button className="w-full" size="lg">
-              <Coins className="mr-2 h-4 w-4" />
-              Buy Credits
-            </Button>
-          </Link>
+          <Button asChild>
+            <Link href="/pricing">Buy credits</Link>
+          </Button>
         </div>
       </CardContent>
+      <CardFooter className="block">
+        <Collapsible className="border-border border-t pt-4">
+          <CollapsibleTrigger asChild>
+            <Button variant="ghost" className="group">
+              Billing details
+              <ChevronDown
+                className="size-4 group-data-[state=open]:rotate-180"
+                aria-hidden
+              />
+            </Button>
+          </CollapsibleTrigger>
+          <CollapsibleContent>
+            <dl className="mt-4 grid gap-4 pb-1 sm:grid-cols-2">
+              <div>
+                <dt className="text-muted-foreground text-xs">Customer ID</dt>
+                <dd className="mt-1 wrap-anywhere select-all">
+                  {user.stripeCustomerId || "Not created"}
+                </dd>
+              </div>
+              <div>
+                <dt className="text-muted-foreground text-xs">Last session</dt>
+                <dd className="mt-1 wrap-anywhere select-all">
+                  {user.stripeCheckoutSessionId || "None"}
+                </dd>
+              </div>
+            </dl>
+          </CollapsibleContent>
+        </Collapsible>
+      </CardFooter>
     </Card>
   );
 };
