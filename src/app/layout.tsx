@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { geistMono, literata, plexSans } from "@/lib/fonts";
 import "./globals.css";
 import type { ReactNode } from "react";
 import Script from "next/script";
@@ -9,16 +9,6 @@ import { Toaster } from "@/components/ui/sonner";
 import { Footer } from "@/components/footer/footer";
 import { Navbar } from "@/components/navbar/navbar";
 import { Providers } from "@/components/providers/providers";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
 const SITE_DESCRIPTION =
   "Get your next web application and Telegram bot up and running in minutes with our production-ready Next.js template. Includes authentication, payments, and modern UI components.";
@@ -30,6 +20,21 @@ export const metadata: Metadata = {
   title: "NextRun - Production-Ready Next.js Template & Telegram Bot",
   description: SITE_DESCRIPTION,
   applicationName: "NextRun",
+  openGraph: {
+    title: "NextRun",
+    description: SITE_DESCRIPTION,
+    siteName: "NextRun",
+    type: "website",
+    images: [
+      { url: "/opengraph-image", width: 1200, height: 630, alt: "NextRun" },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "NextRun",
+    description: SITE_DESCRIPTION,
+    images: [{ url: "/opengraph-image", alt: "NextRun" }],
+  },
   manifest: "/manifest.json",
   authors: [
     {
@@ -147,20 +152,19 @@ export default function RootLayout({
           }}
         />
         <link rel="dns-prefetch" href="//js.stripe.com" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin="anonymous"
-        />
       </head>
       <body
-        className={cn(geistSans.variable, geistMono.variable, "antialiased")}
+        className={cn(
+          plexSans.variable,
+          literata.variable,
+          geistMono.variable,
+          "flex min-h-[100dvh] flex-col antialiased",
+        )}
         suppressHydrationWarning
       >
         <Providers>
           <Navbar />
-          {children}
+          <div className="min-w-0 flex-1">{children}</div>
           <Footer />
           <Toaster />
         </Providers>

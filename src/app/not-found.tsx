@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ArrowLeft, Home, Search } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/brand/button";
 
 export default function NotFound() {
   const router = useRouter();
@@ -12,10 +12,10 @@ export default function NotFound() {
     history.length > 1 ? router.back() : router.push("/");
 
   return (
-    <div className="container mx-auto px-6 py-16">
+    <main className="site-container product-compact px-6 py-16">
       <div className="flex min-h-[60vh] flex-col items-center justify-center text-center">
         <div className="mb-8">
-          <h1 className="text-9xl font-bold tracking-tighter">404</h1>
+          <h1 className="text-9xl font-bold">404</h1>
         </div>
 
         <div className="mb-8 max-w-md">
@@ -53,17 +53,17 @@ export default function NotFound() {
         <div className="text-muted-foreground mt-12 text-sm">
           <p>
             Need help? Check out our{" "}
-            <Link href="/pricing" className="text-primary hover:underline">
+            <Link href="/pricing" className="brand-inline-link">
               pricing
             </Link>{" "}
             or{" "}
-            <Link href="/about" className="text-primary hover:underline">
+            <Link href="/about" className="brand-inline-link">
               about
             </Link>{" "}
             pages.
           </p>
         </div>
       </div>
-    </div>
+    </main>
   );
 }

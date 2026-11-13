@@ -1,429 +1,54 @@
 import { render, screen } from "@testing-library/react";
-import { describe, expect, it, vi } from "vitest";
-import { formatUserData, hasStripeData } from "@/lib/user.utils";
+import userEvent from "@testing-library/user-event";
+import { describe, expect, it } from "vitest";
 import { UserPaymentInformation } from "../user-payment-information";
 
-vi.mock("@/lib/user.utils", () => ({
-  formatUserData: vi.fn((data?: string | null, noData = "Not available") =>
-    data ? `${data.slice(0, 8)}…${data.slice(-4)}` : noData,
-  ),
-  getCreditsStatus: vi.fn((credits: number) => ({
-    status: credits === 0 ? "empty" : credits < 10 ? "low" : "good",
-    color: "text-foreground",
-    bg: "bg-muted/50",
-    border: "border-border",
-  })),
-  hasStripeData: vi.fn(
-    (user: unknown) =>
-      user !== null && typeof user === "object" && "stripeCredits" in user,
-  ),
-}));
+const user = {
+  stripeCredits: 25,
+  stripeCustomerId: "cus_synthetic_example",
+  stripeCheckoutSessionId: "cs_synthetic_example",
+};
 
 describe("UserPaymentInformation", () => {
-  describe("Conditional Rendering", () => {
-    it("renders when user has Stripe data", () => {
-      const user = {
-        stripeCredits: 50,
-        stripeCustomerId: "cus_1234567890",
-        stripeCheckoutSessionId: "cs_1234567890",
-      };
-
-      vi.mocked(hasStripeData).mockReturnValue(true);
-
-      render(<UserPaymentInformation user={user} />);
-
-      expect(screen.getByText("Payment Information")).toBeInTheDocument();
-      expect(
-        screen.getByText("Your Stripe account details and credit balance"),
-      ).toBeInTheDocument();
-    });
-
-    it("does not render when user has no Stripe data", () => {
-      const user = {};
-
-      vi.mocked(hasStripeData).mockReturnValue(false);
-
-      const { container } = render(<UserPaymentInformation user={user} />);
-
-      expect(container.firstChild).toBeNull();
-    });
-
-    it("does not render when user is null", () => {
-      vi.mocked(hasStripeData).mockReturnValue(false);
-
-      const { container } = render(
-        <UserPaymentInformation
-          user={
-            {} as {
-              stripeCredits?: number;
-              stripeCustomerId?: string | null;
-              stripeCheckoutSessionId?: string | null;
-            }
-          }
-        />,
-      );
-
-      expect(container.firstChild).toBeNull();
-    });
+  it("does not invent billing data for an account without it", () => {
+    const { container } = render(<UserPaymentInformation user={{}} />);
+    expect(container).toBeEmptyDOMElement();
   });
-
-  describe("Credits Display", () => {
-    it("renders credits with good status", () => {
-      const user = {
-        stripeCredits: 50,
-        stripeCustomerId: "cus_1234567890",
-        stripeCheckoutSessionId: "cs_1234567890",
-      };
-
-      vi.mocked(hasStripeData).mockReturnValue(true);
-
-      render(<UserPaymentInformation user={user} />);
-
-      expect(screen.getByText("Available Credits")).toBeInTheDocument();
-      expect(screen.getByText("50")).toBeInTheDocument();
-      expect(screen.getByText("Credits available for use")).toBeInTheDocument();
-      expect(screen.getByText("Active")).toBeInTheDocument();
-    });
-
-    it("renders credits with low status", () => {
-      const user = {
-        stripeCredits: 5,
-        stripeCustomerId: "cus_1234567890",
-        stripeCheckoutSessionId: "cs_1234567890",
-      };
-
-      vi.mocked(hasStripeData).mockReturnValue(true);
-
-      render(<UserPaymentInformation user={user} />);
-
-      expect(screen.getByText("5")).toBeInTheDocument();
-      expect(screen.getByText("Low credit balance")).toBeInTheDocument();
-      expect(screen.getByText("Low")).toBeInTheDocument();
-    });
-
-    it("renders credits with empty status", () => {
-      const user = {
-        stripeCredits: 0,
-        stripeCustomerId: "cus_1234567890",
-        stripeCheckoutSessionId: "cs_1234567890",
-      };
-
-      vi.mocked(hasStripeData).mockReturnValue(true);
-
-      render(<UserPaymentInformation user={user} />);
-
-      expect(screen.getByText("0")).toBeInTheDocument();
-      expect(screen.getByText("No credits remaining")).toBeInTheDocument();
-      expect(screen.getByText("Empty")).toBeInTheDocument();
-    });
+  it.each([
+    [25, "Credits available for use"],
+    [5, "Low credit balance"],
+    [0, "No credits remaining"],
+  ])("shows the supplied balance %s and its status", (credits, description) => {
+    render(
+      <UserPaymentInformation user={{ ...user, stripeCredits: credits }} />,
+    );
+    expect(screen.getByText(String(credits))).toBeInTheDocument();
+    expect(screen.getByText(description)).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Buy credits" })).toHaveAttribute(
+      "href",
+      "/pricing",
+    );
   });
-
-  describe("Credits Status Styling", () => {
-    it("uses monochrome foreground styling regardless of status", () => {
-      const user = {
-        stripeCredits: 50,
-        stripeCustomerId: "cus_1234567890",
-        stripeCheckoutSessionId: "cs_1234567890",
-      };
-
-      vi.mocked(hasStripeData).mockReturnValue(true);
-
-      render(<UserPaymentInformation user={user} />);
-
-      const creditsContainer = screen.getByText("50").closest("div");
-      expect(creditsContainer).toHaveClass("text-foreground");
-      expect(creditsContainer).not.toHaveClass("text-green-600");
-    });
+  it("keeps billing references behind an accessible disclosure", async () => {
+    const interaction = userEvent.setup();
+    render(<UserPaymentInformation user={user} />);
+    const trigger = screen.getByRole("button", { name: "Billing details" });
+    expect(trigger).toHaveAttribute("aria-expanded", "false");
+    expect(screen.queryByText(user.stripeCustomerId)).not.toBeInTheDocument();
+    await interaction.click(trigger);
+    expect(trigger).toHaveAttribute("aria-expanded", "true");
+    expect(screen.getByText(user.stripeCustomerId)).toBeInTheDocument();
+    expect(screen.getByText(user.stripeCheckoutSessionId)).toBeInTheDocument();
+    await interaction.click(trigger);
+    expect(trigger).toHaveAttribute("aria-expanded", "false");
   });
-
-  describe("Account Details", () => {
-    it("renders customer ID with formatting", () => {
-      const user = {
-        stripeCredits: 50,
-        stripeCustomerId: "cus_1234567890",
-        stripeCheckoutSessionId: "cs_1234567890",
-      };
-
-      vi.mocked(hasStripeData).mockReturnValue(true);
-      vi.mocked(formatUserData).mockImplementation(
-        (data, noData = "Not available") => {
-          if (data === "cus_1234567890") return "cus_1234…7890";
-          if (data === "cs_1234567890") return "cs_1234…7890";
-          return noData;
-        },
-      );
-
-      render(<UserPaymentInformation user={user} />);
-
-      expect(screen.getByText("Customer ID")).toBeInTheDocument();
-      expect(screen.getByText("cus_1234…7890")).toBeInTheDocument();
-    });
-
-    it("renders last session with formatting", () => {
-      const user = {
-        stripeCredits: 50,
-        stripeCustomerId: "cus_1234567890",
-        stripeCheckoutSessionId: "cs_1234567890",
-      };
-
-      vi.mocked(hasStripeData).mockReturnValue(true);
-      vi.mocked(formatUserData).mockImplementation(
-        (data, noData = "Not available") => {
-          if (data === "cus_1234567890") return "cus_1234…7890";
-          if (data === "cs_1234567890") return "cs_1234…7890";
-          return noData;
-        },
-      );
-
-      render(<UserPaymentInformation user={user} />);
-
-      expect(screen.getByText("Last Session")).toBeInTheDocument();
-      expect(screen.getByText("cs_1234…7890")).toBeInTheDocument();
-    });
-
-    it("renders fallback text for missing customer ID", () => {
-      const user = {
-        stripeCredits: 50,
-        stripeCustomerId: null,
-        stripeCheckoutSessionId: "cs_1234567890",
-      };
-
-      vi.mocked(hasStripeData).mockReturnValue(true);
-      vi.mocked(formatUserData).mockImplementation(
-        (data, noData = "Not available") => {
-          if (data === null) return "Not created";
-          if (data === "cs_1234567890") return "cs_1234…7890";
-          return noData;
-        },
-      );
-
-      render(<UserPaymentInformation user={user} />);
-
-      expect(screen.getByText("Not created")).toBeInTheDocument();
-    });
-
-    it("renders fallback text for missing session ID", () => {
-      const user = {
-        stripeCredits: 50,
-        stripeCustomerId: "cus_1234567890",
-        stripeCheckoutSessionId: null,
-      };
-
-      vi.mocked(hasStripeData).mockReturnValue(true);
-      vi.mocked(formatUserData).mockImplementation(
-        (data, noData = "Not available") => {
-          if (data === "cus_1234567890") return "cus_1234…7890";
-          if (data === null) return "None";
-          return noData;
-        },
-      );
-
-      render(<UserPaymentInformation user={user} />);
-
-      expect(screen.getByText("None")).toBeInTheDocument();
-    });
-  });
-
-  describe("Buy Credits Button", () => {
-    it("renders buy credits button", () => {
-      const user = {
-        stripeCredits: 50,
-        stripeCustomerId: "cus_1234567890",
-        stripeCheckoutSessionId: "cs_1234567890",
-      };
-
-      vi.mocked(hasStripeData).mockReturnValue(true);
-
-      render(<UserPaymentInformation user={user} />);
-
-      const buyButton = screen.getByRole("link", { name: /buy credits/i });
-      expect(buyButton).toBeInTheDocument();
-      expect(buyButton).toHaveAttribute("href", "/pricing");
-    });
-
-    it("renders buy credits button with correct styling", () => {
-      const user = {
-        stripeCredits: 50,
-        stripeCustomerId: "cus_1234567890",
-        stripeCheckoutSessionId: "cs_1234567890",
-      };
-
-      vi.mocked(hasStripeData).mockReturnValue(true);
-
-      render(<UserPaymentInformation user={user} />);
-
-      const buyButton = screen.getByRole("link", { name: /buy credits/i });
-      expect(buyButton).toHaveClass("flex-1");
-    });
-
-    it("renders coins icon in buy credits button", () => {
-      const user = {
-        stripeCredits: 50,
-        stripeCustomerId: "cus_1234567890",
-        stripeCheckoutSessionId: "cs_1234567890",
-      };
-
-      vi.mocked(hasStripeData).mockReturnValue(true);
-
-      render(<UserPaymentInformation user={user} />);
-
-      const buyButton = screen.getByRole("link", { name: /buy credits/i });
-      const coinsIcon = buyButton.querySelector("svg");
-      expect(coinsIcon).toBeInTheDocument();
-      expect(coinsIcon).toHaveClass("w-4", "h-4", "mr-2");
-    });
-  });
-
-  describe("Responsive Behavior", () => {
-    it("applies responsive grid classes", () => {
-      const user = {
-        stripeCredits: 50,
-        stripeCustomerId: "cus_1234567890",
-        stripeCheckoutSessionId: "cs_1234567890",
-      };
-
-      vi.mocked(hasStripeData).mockReturnValue(true);
-
-      render(<UserPaymentInformation user={user} />);
-
-      const gridContainer = screen.getByText("Customer ID").closest(".grid");
-      expect(gridContainer).toHaveClass(
-        "grid",
-        "grid-cols-1",
-        "sm:grid-cols-2",
-        "gap-4",
-      );
-    });
-
-    it("applies responsive flex classes for button container", () => {
-      const user = {
-        stripeCredits: 50,
-        stripeCustomerId: "cus_1234567890",
-        stripeCheckoutSessionId: "cs_1234567890",
-      };
-
-      vi.mocked(hasStripeData).mockReturnValue(true);
-
-      render(<UserPaymentInformation user={user} />);
-
-      const buttonContainer = screen
-        .getByRole("link", { name: /buy credits/i })
-        .closest(".flex");
-      expect(buttonContainer).toHaveClass(
-        "flex",
-        "flex-col",
-        "sm:flex-row",
-        "gap-3",
-      );
-    });
-  });
-
-  describe("Accessibility", () => {
-    it("has proper heading structure", () => {
-      const user = {
-        stripeCredits: 50,
-        stripeCustomerId: "cus_1234567890",
-        stripeCheckoutSessionId: "cs_1234567890",
-      };
-
-      vi.mocked(hasStripeData).mockReturnValue(true);
-
-      render(<UserPaymentInformation user={user} />);
-
-      const heading = screen.getByRole("heading", { level: 4 });
-      expect(heading).toHaveTextContent("Account Details");
-    });
-
-    it("has proper card structure", () => {
-      const user = {
-        stripeCredits: 50,
-        stripeCustomerId: "cus_1234567890",
-        stripeCheckoutSessionId: "cs_1234567890",
-      };
-
-      vi.mocked(hasStripeData).mockReturnValue(true);
-
-      render(<UserPaymentInformation user={user} />);
-
-      const card = screen
-        .getByText("Payment Information")
-        .closest(".overflow-hidden");
-      expect(card).toBeInTheDocument();
-    });
-
-    it("has proper labels for form elements", () => {
-      const user = {
-        stripeCredits: 50,
-        stripeCustomerId: "cus_1234567890",
-        stripeCheckoutSessionId: "cs_1234567890",
-      };
-
-      vi.mocked(hasStripeData).mockReturnValue(true);
-
-      render(<UserPaymentInformation user={user} />);
-
-      expect(screen.getByText("Customer ID")).toBeInTheDocument();
-      expect(screen.getByText("Last Session")).toBeInTheDocument();
-    });
-  });
-
-  describe("Edge Cases", () => {
-    it("handles undefined stripe properties", () => {
-      const user = {
-        stripeCredits: 0,
-        stripeCustomerId: undefined,
-        stripeCheckoutSessionId: undefined,
-      };
-
-      vi.mocked(hasStripeData).mockReturnValue(true);
-      vi.mocked(formatUserData).mockReturnValue("Not available");
-
-      render(<UserPaymentInformation user={user} />);
-
-      expect(screen.getAllByText("Not available")).toHaveLength(2);
-    });
-
-    it("handles null stripe properties", () => {
-      const user = {
-        stripeCredits: 0,
-        stripeCustomerId: null,
-        stripeCheckoutSessionId: null,
-      };
-
-      vi.mocked(hasStripeData).mockReturnValue(true);
-      vi.mocked(formatUserData).mockReturnValue("Not available");
-
-      render(<UserPaymentInformation user={user} />);
-
-      expect(screen.getAllByText("Not available")).toHaveLength(2);
-    });
-
-    it("handles very large credit numbers", () => {
-      const user = {
-        stripeCredits: 999999,
-        stripeCustomerId: "cus_1234567890",
-        stripeCheckoutSessionId: "cs_1234567890",
-      };
-
-      vi.mocked(hasStripeData).mockReturnValue(true);
-
-      render(<UserPaymentInformation user={user} />);
-
-      expect(screen.getByText("999999")).toBeInTheDocument();
-    });
-
-    it("handles negative credit numbers", () => {
-      const user = {
-        stripeCredits: -5,
-        stripeCustomerId: "cus_1234567890",
-        stripeCheckoutSessionId: "cs_1234567890",
-      };
-
-      vi.mocked(hasStripeData).mockReturnValue(true);
-
-      render(<UserPaymentInformation user={user} />);
-
-      expect(screen.getByText("-5")).toBeInTheDocument();
-    });
+  it("explains missing billing references without fake identifiers", async () => {
+    const interaction = userEvent.setup();
+    render(<UserPaymentInformation user={{ stripeCredits: 0 }} />);
+    await interaction.click(
+      screen.getByRole("button", { name: "Billing details" }),
+    );
+    expect(screen.getByText("Not created")).toBeInTheDocument();
+    expect(screen.getByText("None")).toBeInTheDocument();
   });
 });

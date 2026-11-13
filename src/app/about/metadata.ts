@@ -29,9 +29,18 @@ export const metadata: Metadata = {
     siteName: "NextRun",
     locale: "en_US",
     type: "website",
+    images: [
+      {
+        url: "/about/opengraph-image",
+        width: 1200,
+        height: 630,
+        alt: "NextRun - About",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
+    images: [{ url: "/about/opengraph-image", alt: "NextRun - About" }],
     title: "About NextRun - Modern Next.js Template with Telegram Bot",
     description:
       "Learn about NextRun's mission to accelerate web development with production-ready Next.js templates and Telegram bots.",

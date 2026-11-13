@@ -1,5 +1,10 @@
 import { sanitizeJsonLd } from "@/lib/sanitize";
-import { Badge } from "@/components/ui/badge";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import type { FaqProps } from "./faq.types";
 
 export const Faq = ({
@@ -7,54 +12,45 @@ export const Faq = ({
   heading = "Frequently Asked Questions",
   description = "Find answers to common questions.",
   faqs = [],
-}: FaqProps) => {
-  const faqStructuredData = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: faqs.map((faq) => ({
-      "@type": "Question",
-      name: faq.question,
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: faq.answer,
-      },
-    })),
-  };
-
-  return (
-    <section className="py-12" aria-labelledby="faq-heading">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: sanitizeJsonLd(faqStructuredData),
-        }}
-      />
-      <div className="container mx-auto">
-        <div className="text-center">
-          <Badge className="text-xs font-medium">{badge}</Badge>
-          <h2 id="faq-heading" className="mt-2 text-4xl font-semibold">
-            {heading}
-          </h2>
-          <p className="text-muted-foreground mt-4 font-medium">
-            {description}
-          </p>
-        </div>
-        <div className="mx-auto mt-12 max-w-xl">
-          <div className="space-y-6">
-            {faqs.map((faq, index) => (
-              <div key={faq.question} className="flex gap-4">
-                <span className="bg-secondary text-primary flex size-6 shrink-0 items-center justify-center rounded-sm font-mono text-xs">
-                  {index + 1}
-                </span>
-                <div className="flex-1">
-                  <h3 className="mb-2 font-medium">{faq.question}</h3>
-                  <p className="text-muted-foreground text-sm">{faq.answer}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
+}: FaqProps) => (
+  <section
+    className="py-12"
+    aria-label={
+      typeof heading === "string" ? heading : "Frequently asked questions"
+    }
+  >
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{
+        __html: sanitizeJsonLd({
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          mainEntity: faqs.map((faq) => ({
+            "@type": "Question",
+            name: faq.question,
+            acceptedAnswer: { "@type": "Answer", text: faq.answer },
+          })),
+        }),
+      }}
+    />
+    <div className="site-container grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] lg:gap-16">
+      <div>
+        <p className="text-muted-foreground mb-3 text-sm font-medium">
+          {badge}
+        </p>
+        <h2 className="text-3xl leading-9 font-semibold">{heading}</h2>
+        <p className="text-muted-foreground mt-4 text-base leading-7">
+          {description}
+        </p>
       </div>
-    </section>
-  );
-};
+      <Accordion type="multiple" className="brand-faq border-t">
+        {faqs.map((faq, index) => (
+          <AccordionItem key={faq.question} value={`question-${index}`}>
+            <AccordionTrigger>{faq.question}</AccordionTrigger>
+            <AccordionContent>{faq.answer}</AccordionContent>
+          </AccordionItem>
+        ))}
+      </Accordion>
+    </div>
+  </section>
+);

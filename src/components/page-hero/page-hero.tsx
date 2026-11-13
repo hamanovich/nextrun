@@ -21,26 +21,28 @@ export const PageHero = ({
 }: PageHeroProps) => (
   <section
     className={cn(
-      "container mx-auto px-6 pt-16 pb-12 md:pt-24",
+      "site-container px-6 pt-16 pb-12 md:pt-24",
       align === "center" && "text-center",
       className,
     )}
   >
     <div className={cn("max-w-2xl", align === "center" && "mx-auto max-w-3xl")}>
       {eyebrow && (
-        <FadeIn delay={0}>
+        <FadeIn>
           <p className="text-muted-foreground mb-5 text-sm font-medium">
             {eyebrow}
           </p>
         </FadeIn>
       )}
-      <FadeIn delay={eyebrow ? 0.08 : 0}>
-        <h1 className="text-4xl font-semibold tracking-tighter text-balance md:text-5xl lg:text-6xl">
+      <FadeIn>
+        <h1
+          className={cn("brand-public-title", align === "center" && "mx-auto")}
+        >
           {heading}
         </h1>
       </FadeIn>
       {description && (
-        <FadeIn delay={eyebrow ? 0.16 : 0.08}>
+        <FadeIn>
           <p
             className={cn(
               "text-muted-foreground mt-6 text-base leading-relaxed md:text-lg",

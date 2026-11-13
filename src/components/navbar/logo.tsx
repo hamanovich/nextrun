@@ -1,6 +1,6 @@
 export const Logo = ({
   size = 30,
-  alt = "NextRun.dev",
+  alt = "NextRun",
   className,
 }: {
   size?: number;

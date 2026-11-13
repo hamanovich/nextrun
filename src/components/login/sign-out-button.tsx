@@ -1,7 +1,7 @@
 "use client";
 
 import { useSignOut } from "@/hooks/use-sign-out";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/brand/button";
 
 export const SignOutButton = () => {
   const handleSignOut = useSignOut();

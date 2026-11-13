@@ -27,9 +27,18 @@ export const metadata: Metadata = {
     siteName: "NextRun",
     locale: "en_US",
     type: "website",
+    images: [
+      {
+        url: "/privacy/opengraph-image",
+        width: 1200,
+        height: 630,
+        alt: "NextRun - Privacy",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
+    images: [{ url: "/privacy/opengraph-image", alt: "NextRun - Privacy" }],
     title: "Privacy Policy - NextRun Data Protection",
     description:
       "Read NextRun's privacy policy to understand how we collect, use, and protect your personal information.",

@@ -4,7 +4,6 @@ import { getSessionUser } from "@/actions/user";
 import { Check, KeyRound } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -13,6 +12,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { SignInButton } from "@/components/auth/sign-in-button";
+import { Button } from "@/components/brand/button";
 import { FadeIn } from "@/components/motion/fade-in";
 import {
   FREE_TIER,
@@ -57,7 +57,7 @@ export const PricingContent = async ({
       <PricingHero currentCredits={sessionUser?.user.stripeCredits} />
 
       <section className="py-12">
-        <div className="container mx-auto px-4">
+        <div className="site-container px-4">
           <div
             className={cn(
               allPlans.length === 1
@@ -65,16 +65,15 @@ export const PricingContent = async ({
                 : "grid gap-8 md:grid-cols-3 md:gap-4 lg:gap-12",
             )}
           >
-            {allPlans.map((plan, index) => (
+            {allPlans.map((plan) => (
               <FadeIn
                 key={plan.name}
-                delay={index * 0.08}
                 className={allPlans.length === 1 ? "w-full max-w-sm" : ""}
               >
                 <Card
                   className={cn(
                     "relative h-full",
-                    plan.popular && "border-primary shadow-lg md:scale-105",
+                    plan.popular && "border-primary",
                   )}
                 >
                   {plan.popular && (

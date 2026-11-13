@@ -27,9 +27,18 @@ export const metadata: Metadata = {
     siteName: "NextRun",
     locale: "en_US",
     type: "website",
+    images: [
+      {
+        url: "/terms/opengraph-image",
+        width: 1200,
+        height: 630,
+        alt: "NextRun - Terms",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
+    images: [{ url: "/terms/opengraph-image", alt: "NextRun - Terms" }],
     title: "Terms and Conditions - NextRun Legal",
     description:
       "Read NextRun's terms and conditions to understand the license, usage rights, and legal terms.",

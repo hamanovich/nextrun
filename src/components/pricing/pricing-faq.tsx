@@ -36,7 +36,7 @@ const pricingFaqs = [
 
 export const PricingFaq = () => (
   <section className="py-6">
-    <div className="container mx-auto px-4">
+    <div className="w-full">
       <FadeIn>
         <Faq
           badge="Pricing FAQ"

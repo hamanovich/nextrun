@@ -1,45 +1,40 @@
-"use client";
+import { createHighlighterCoreSync } from "shiki/core";
+import { createJavaScriptRegexEngine } from "shiki/engine/javascript";
+import shell from "shiki/langs/shellscript.mjs";
+import dark from "shiki/themes/github-dark-high-contrast.mjs";
+import light from "shiki/themes/github-light-high-contrast.mjs";
+import { CodeCopyButton } from "./code-copy-button";
 
-import { useState } from "react";
-import { Check, Copy } from "lucide-react";
+const highlighter = createHighlighterCoreSync({
+  themes: [light, dark],
+  langs: [shell],
+  engine: createJavaScriptRegexEngine(),
+});
 
-type DocsCodeProps = {
-  code: string;
-  label?: string;
-};
-
-export const DocsCode = ({ code, label = "code" }: DocsCodeProps) => {
-  const [copied, setCopied] = useState(false);
-
-  const handleCopy = async () => {
-    await navigator.clipboard.writeText(code);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
-
+type DocsCodeProps = { code: string; label?: string; copyLabel?: string };
+export const DocsCode = ({
+  code,
+  label = "Text",
+  copyLabel,
+}: DocsCodeProps) => {
+  const lang = ["shell", "terminal", "bash"].includes(label.toLowerCase())
+    ? "shellscript"
+    : "text";
+  const html = highlighter.codeToHtml(code, {
+    lang,
+    tabindex: 0,
+    themes: {
+      light: "github-light-high-contrast",
+      dark: "github-dark-high-contrast",
+    },
+  });
   return (
-    <div className="bg-muted/40 overflow-hidden rounded-lg border">
-      <div className="flex items-center justify-between border-b px-4 py-2.5">
-        <span className="text-muted-foreground font-mono text-xs">{label}</span>
-        <button
-          type="button"
-          onClick={handleCopy}
-          aria-label="Copy to clipboard"
-          className="text-muted-foreground hover:text-foreground inline-flex cursor-pointer items-center gap-1.5 text-xs transition-colors"
-        >
-          {copied ? (
-            <Check className="size-3.5" />
-          ) : (
-            <Copy className="size-3.5" />
-          )}
-          {copied ? "Copied" : "Copy"}
-        </button>
+    <div className="brand-code">
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b px-4 py-2">
+        <span className="text-muted-foreground text-xs">{label}</span>
+        <CodeCopyButton code={code} label={copyLabel} />
       </div>
-      <pre className="overflow-x-auto px-4 py-4">
-        <code className="font-mono text-sm leading-relaxed whitespace-pre">
-          {code}
-        </code>
-      </pre>
+      <div dangerouslySetInnerHTML={{ __html: html }} />
     </div>
   );
 };

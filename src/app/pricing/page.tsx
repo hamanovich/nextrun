@@ -7,14 +7,16 @@ export const revalidate = 3600;
 
 export default function PricingPage() {
   return (
-    <Suspense
-      fallback={
-        <div className="flex min-h-[60vh] items-center justify-center">
-          <Loader2 className="text-muted-foreground size-6 animate-spin" />
-        </div>
-      }
-    >
-      <PricingContent />
-    </Suspense>
+    <main className="public-page">
+      <Suspense
+        fallback={
+          <div className="flex min-h-[60vh] items-center justify-center">
+            <Loader2 className="text-muted-foreground size-6 animate-spin" />
+          </div>
+        }
+      >
+        <PricingContent />
+      </Suspense>
+    </main>
   );
 }

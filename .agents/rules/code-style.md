@@ -46,4 +46,4 @@
 
 ## Design language
 
-- The UI is strict monochrome: only the neutral OKLch scale, with `--primary` as the single accent (near-black in light, near-white in dark). No gradient text, no colored status dots, no hardcoded brand colors (`bg-green-500`, `text-blue-600`, etc.); `text-destructive` is allowed only for genuine error states. Use `min-h-[100dvh]`/`min-h-[60vh]`, never `h-screen`.
+- Use Hamanovich Brand v1: Mono palette, Spacious public pages and Compact account interfaces. IBM Plex Sans is for interface/body/metadata, Literata for expressive public H1 and Geist Mono only for code. Preserve the existing NextRun mark. Use semantic tokens and the brand Button composition; do not edit generated primitives. Header controls stay Compact. Links keep their semantic roles; brand links never fade, inline prose links are underlined and standalone actions underline on hover/focus. Destructive controls have semantic red focus. No entrance movement, hiding header or button scaling/lift. See README’s Design and customization section for implementation entry points.

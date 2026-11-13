@@ -2,7 +2,6 @@ import { ReactNode } from "react";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -10,6 +9,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Button } from "@/components/brand/button";
 
 interface PaymentStatusCardProps {
   title: string;
@@ -39,7 +39,7 @@ export const PaymentStatusCard = ({
         <CardTitle
           className={cn("text-center", tone === "error" && "text-destructive")}
         >
-          {title}
+          <h1 className="text-3xl leading-9 font-semibold">{title}</h1>
         </CardTitle>
         <CardDescription className="text-center">{description}</CardDescription>
       </CardHeader>

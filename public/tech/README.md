@@ -1,0 +1,1 @@
+Technology logos previously loaded from Simple Icons 13 on jsDelivr, now served locally. Source: https://github.com/simple-icons/simple-icons/tree/13.0.0/icons . Simple Icons artwork is CC0; product names and marks belong to their respective owners. These are technology logos, not interface icons.

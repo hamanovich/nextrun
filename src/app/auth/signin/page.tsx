@@ -1,13 +1,13 @@
 import Link from "next/link";
 import { Home } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { AuthRedirectGuard } from "@/components/auth/auth-redirect-guard";
 import { SignInButton } from "@/components/auth/sign-in-button";
+import { Button } from "@/components/brand/button";
 
 export default function SignInPage() {
   return (
     <AuthRedirectGuard>
-      <div className="container mx-auto px-6 py-12">
+      <div className="site-container px-6 py-12">
         <div className="flex min-h-[60vh] flex-col items-center justify-center text-center">
           <h1 className="mb-4 text-3xl font-semibold">Sign In</h1>
           <p className="text-muted-foreground mb-8 text-lg">

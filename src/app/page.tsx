@@ -8,7 +8,7 @@ export { metadata } from "./metadata";
 
 export default function Home() {
   return (
-    <main>
+    <main className="public-page">
       <Hero />
       <Features />
       <TechStack />

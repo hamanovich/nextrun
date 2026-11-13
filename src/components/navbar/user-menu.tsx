@@ -10,7 +10,6 @@ import {
 } from "lucide-react";
 import { useSignOut } from "@/hooks/use-sign-out";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -19,6 +18,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Button } from "@/components/brand/button";
 
 interface UserMenuProps {
   session: {
@@ -41,36 +41,35 @@ export const UserMenu = ({ session, credits }: UserMenuProps) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button
-          variant="ghost"
-          className="hover:bg-accent hover:text-accent-foreground h-8 px-2 py-0"
-        >
+        <Button variant="ghost" className="brand-user-menu">
           {userAvatar ? (
             <Image
               alt={userName}
               src={userAvatar}
               width={32}
               height={32}
-              className="rounded-full object-cover"
+              className="size-8 shrink-0 rounded-full object-cover"
             />
           ) : (
             <div
               aria-hidden="true"
-              className="bg-accent mr-1 flex size-8 items-center justify-center rounded-full text-xs font-medium"
+              className="bg-accent flex size-8 items-center justify-center rounded-full text-xs font-medium"
             >
               {userName.charAt(0).toUpperCase()}
             </div>
           )}
-          <ChevronDownIcon className="ml-1 h-3 w-3" />
+          <ChevronDownIcon className="size-3" />
           <span className="sr-only">User menu</span>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-56">
         <DropdownMenuLabel>
           <div className="flex flex-col space-y-1">
-            <p className="text-sm leading-none font-medium">{userName}</p>
+            <p className="text-sm leading-5 font-medium wrap-anywhere">
+              {userName}
+            </p>
             <div className="flex flex-col items-start gap-2">
-              <p className="text-muted-foreground text-xs leading-none">
+              <p className="text-muted-foreground text-xs leading-4 wrap-anywhere">
                 {userEmail}
               </p>
               <Badge className="text-xs">

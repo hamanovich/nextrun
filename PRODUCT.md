@@ -224,11 +224,13 @@ than design from zero.
 - **An accessible component kit** built on battle-tested primitives, styled with a modern,
   utility-first CSS system and a crisp icon set.
 - **Dark mode out of the box.** Theme switching is wired in and respected across the app.
-- **A strict monochrome design language.** A neutral palette with a single accent keeps the
-  surface calm and professional — and makes it easy to rebrand by changing one accent rather
-  than untangling a rainbow.
-- **Subtle motion.** Tasteful fade-in animations give the marketing pages polish without
-  noise.
+- **Hamanovich Brand v1.** Mono on a shared neutral foundation, with spacious public pages
+  and compact account interfaces. IBM Plex Sans covers the interface, Literata the public
+  page headings, and monospaced text is reserved for code.
+- **Stable, quiet interactions.** Content is visible immediately, the header stays in place,
+  and controls do not lift or scale on hover. Keyboard focus stays visible in both themes.
+- **Readable documentation.** Code examples have theme-aware syntax highlighting, a language
+  label and a copy action with explicit success/error feedback.
 - **A real marketing surface.** Home, about, pricing, privacy, and terms pages ship ready to
   edit, with SEO metadata and social-share images already in place — including dynamically
   rendered Open Graph images.
@@ -244,9 +246,7 @@ NextRun isn't just code — it runs at **nextrun.hamanovich.com** as a live demo
 can see every integration working before you clone.
 
 - **A working sign-in** with Google.
-- **A real profile dashboard** for the signed-in user — their identity and avatar, their auth
-  provider, their account status, and a live **credit balance** that flags when it runs low or
-  empty, alongside their Stripe details and a direct path to buy more.
+- **A real profile dashboard** for the signed-in user — their identity and avatar, an account reference and a **credit balance** with low/empty guidance. Buying credits is next to the balance; technical Stripe references stay in an expandable billing section.
 - **A live pricing and checkout flow** you can click through end to end.
 - **The Telegram bot**, reachable and responding.
 

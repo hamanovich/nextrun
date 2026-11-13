@@ -1,6 +1,5 @@
 import { redirect } from "next/navigation";
 import { getSessionUser } from "@/actions/user";
-import { CallToAction } from "@/components/call-to-action/call-to-action";
 import { SignOutButton } from "@/components/login/sign-out-button";
 import { UserInformation } from "@/components/user/user-information";
 import { UserPaymentInformation } from "@/components/user/user-payment-information";
@@ -11,25 +10,21 @@ export const dynamic = "force-dynamic";
 
 export default async function UserPage() {
   const sessionUser = await getSessionUser();
-
   if (!sessionUser) redirect("/");
 
-  const { user } = sessionUser;
-
   return (
-    <div className="container mx-auto max-w-4xl px-4 py-8">
-      <div className="mb-8 flex items-center justify-between">
-        <h1 className="text-3xl font-bold">User Profile</h1>
+    <main className="site-container product-compact profile-page py-8">
+      <header className="border-border mb-6 flex flex-wrap items-start justify-between gap-4 border-b pb-6">
+        <div className="flex flex-col gap-2">
+          <h1 className="text-3xl leading-9 font-semibold">Profile</h1>
+          <p className="text-muted-foreground">Your account and credits.</p>
+        </div>
         <SignOutButton />
+      </header>
+      <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)]">
+        <UserInformation user={sessionUser.user} />
+        <UserPaymentInformation user={sessionUser.user} />
       </div>
-
-      <div className="grid gap-6">
-        <UserInformation user={user} />
-
-        {sessionUser && <UserPaymentInformation user={user} />}
-
-        <CallToAction />
-      </div>
-    </div>
+    </main>
   );
 }

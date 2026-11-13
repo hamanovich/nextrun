@@ -8,7 +8,7 @@ export const AuthLoading = ({
   message = "Please wait while we check your authentication status.",
 }: AuthLoadingProps) => (
   <div
-    className="container mx-auto px-6 py-12"
+    className="site-container px-6 py-12"
     role="status"
     aria-live="polite"
     aria-busy="true"

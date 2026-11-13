@@ -2,7 +2,7 @@ import Link from "next/link";
 import { getCheckoutSession } from "@/actions/stripe";
 import { getSessionUser } from "@/actions/user";
 import { logger } from "@/lib/logger";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/brand/button";
 import { PaymentStatusCard } from "./payment-status-card";
 import { PaymentSuccessCard } from "./payment-success-card";
 

@@ -128,7 +128,8 @@ export const scripts = [
   { command: "bun run build", description: "Create a production build." },
   {
     command: "bun run check",
-    description: "Run ts:check, lint, format and tests.",
+    description:
+      "Run TypeScript, ESLint, formatting, unused-code and test checks.",
   },
   {
     command: "bun run db:push",

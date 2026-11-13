@@ -4,7 +4,7 @@ import { type ReactNode } from "react";
 import { type VariantProps } from "class-variance-authority";
 import { authClient } from "@/lib/auth-client";
 import { cn } from "@/lib/utils";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/brand/button";
 
 interface SignInButtonProps {
   className?: string;

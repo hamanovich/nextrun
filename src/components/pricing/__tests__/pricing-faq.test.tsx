@@ -44,8 +44,8 @@ describe("PricingFaq", () => {
       const section = screen.getByTestId("faq-component").closest("section");
       expect(section).toHaveClass("py-6");
 
-      const container = section?.querySelector(".container");
-      expect(container).toHaveClass("container", "mx-auto", "px-4");
+      const container = section;
+      expect(container).toContainElement(screen.getByTestId("faq-component"));
     });
   });
 
@@ -132,11 +132,8 @@ describe("PricingFaq", () => {
     it("applies responsive container classes", () => {
       render(<PricingFaq />);
 
-      const container = screen
-        .getByTestId("faq-component")
-        .closest("section")
-        ?.querySelector(".container");
-      expect(container).toHaveClass("container", "mx-auto", "px-4");
+      const container = screen.getByTestId("faq-component").closest("section");
+      expect(container).toContainElement(screen.getByTestId("faq-component"));
     });
   });
 

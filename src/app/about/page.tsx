@@ -51,20 +51,18 @@ const values: Pillar[] = [
 
 export default function About() {
   return (
-    <main>
+    <main className="public-page">
       <PageHero
         eyebrow="About NextRun"
         heading="A starter that gets out of your way"
         description="NextRun removes the tedious setup. Authentication, payments, database, and a Telegram bot integration come configured, so you can focus on the product instead of the plumbing."
       />
 
-      <section className="container mx-auto px-6 py-12">
+      <section className="site-container px-6 py-12">
         <MosaicGrid className="grid-cols-1 md:grid-cols-2">
-          {purpose.map(({ icon: Icon, title, description }, index) => (
+          {purpose.map(({ icon: Icon, title, description }) => (
             <FadeIn
               key={title}
-              y={0}
-              delay={index * 0.1}
               className="bg-background flex flex-col gap-4 p-8"
             >
               <Icon
@@ -83,18 +81,14 @@ export default function About() {
         </MosaicGrid>
       </section>
 
-      <section className="container mx-auto px-6 py-12">
+      <section className="site-container px-6 py-12">
         <FadeIn>
-          <h2 className="text-2xl font-semibold tracking-tighter md:text-3xl">
-            What we value
-          </h2>
+          <h2 className="text-2xl font-semibold md:text-3xl">What we value</h2>
         </FadeIn>
         <MosaicGrid className="mt-8 grid-cols-1 sm:grid-cols-3">
-          {values.map(({ icon: Icon, title, description }, index) => (
+          {values.map(({ icon: Icon, title, description }) => (
             <FadeIn
               key={title}
-              y={0}
-              delay={index * 0.08}
               className="bg-background flex flex-col gap-4 p-8"
             >
               <Icon
