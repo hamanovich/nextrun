@@ -108,7 +108,7 @@ jobs:
       - name: Trigger Coolify deploy
         run: |
           curl --fail --silent --show-error \
-            --request GET "${{ secrets.COOLIFY_WEBHOOK_URL }}" \
+            --request POST "${{ secrets.COOLIFY_WEBHOOK_URL }}" \
             --header "Authorization: Bearer ${{ secrets.COOLIFY_API_TOKEN }}"
 
       - name: Prune old GHCR versions

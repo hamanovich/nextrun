@@ -335,7 +335,8 @@ The `deploy` job also prunes GHCR to the 5 most recent versions (`actions/delete
    `Authorization: Bearer <HEALTH_CHECK_SECRET>`** — either give Coolify a custom check command with the
    header, or treat 401 as the expected liveness signal. It probes the database and Stripe.
 6. **Deploy webhook:** copy the app's `…/api/v1/deploy?uuid=…` URL into the `COOLIFY_WEBHOOK_URL` secret and an
-   API token into `COOLIFY_API_TOKEN` (Part 3).
+   API token into `COOLIFY_API_TOKEN` (Part 3). The workflow calls this URL with `POST` and a Bearer
+   token; `GET` is rejected with HTTP 405 by current Coolify versions.
 
 **Deploy = push to `main`.** Watch the GitHub Actions run, then the Coolify deployment log.
 
